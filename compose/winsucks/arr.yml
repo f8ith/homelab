@@ -1,0 +1,95 @@
+services:
+  # Sonarr - TV Shows management
+  sonarr:
+    extends:
+      file: common.yml
+      service: app 
+    image: lscr.io/linuxserver/sonarr:develop
+    container_name: sonarr
+    networks:
+      - t3_proxy
+    volumes:
+      - $DOCKERDIR/appdata/sonarr:/config
+      - $DATADIR:/data
+      - "/etc/localtime:/etc/localtime:ro"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.sonarr-rtr.entrypoints=websecure"
+      - "traefik.http.routers.sonarr-rtr.rule=Host(`sonarr.$DOMAINNAME_1`)"
+      - "traefik.http.routers.sonarr-rtr.service=sonarr-svc"
+      - "traefik.http.services.sonarr-svc.loadbalancer.server.port=8989"
+
+  prowlarr: #indexer manager for Sonarr & Radarr
+    extends:
+      file: common.yml
+      service: app 
+    image: ghcr.io/linuxserver/prowlarr:develop
+    container_name: prowlarr
+    networks:
+      - t3_proxy
+    volumes:
+      - $DOCKERDIR/appdata/prowlarr:/config
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.prowlarr-rtr.entrypoints=websecure"
+      - "traefik.http.routers.prowlarr-rtr.rule=Host(`prowlarr.$DOMAINNAME_1`)"
+      - "traefik.http.routers.prowlarr-rtr.service=prowlarr-svc"
+      - "traefik.http.services.prowlarr-svc.loadbalancer.server.port=9696"
+
+  radarr: #movie search agent
+    extends:
+      file: common.yml
+      service: app 
+    image: ghcr.io/linuxserver/radarr
+    container_name: radarr
+    networks:
+      - t3_proxy
+    volumes:
+      - $DOCKERDIR/appdata/radarr:/config
+      - $DATADIR:/data
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.radarr-rtr.entrypoints=websecure"
+      - "traefik.http.routers.radarr-rtr.rule=Host(`radarr.$DOMAINNAME_1`)"
+      - "traefik.http.routers.radarr-rtr.service=prowlarr-svc"
+      - "traefik.http.services.radarr-svc.loadbalancer.server.port=7878"
+
+
+  jellyseerr:
+    extends:
+      file: common.yml
+      service: app
+    image: fallenbagel/jellyseerr:latest
+    container_name: jellyseerr
+    networks:
+      - t3_proxy
+    environment:
+      LOG_LEVEL: debug
+    volumes:
+      - $DOCKERDIR/appdata/jellyseerr:/app/config
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.jellyseerr-rtr.entrypoints=websecure"
+      - "traefik.http.routers.jellyseerr-rtr.rule=Host(`jellyseerr.$DOMAINNAME_1`)"
+      - "traefik.http.routers.jellyseerr-rtr.service=prowlarr-svc"
+      - "traefik.http.services.jellyseerr-svc.loadbalancer.server.port=5055"
+
+  # subtitles
+  bazarr:
+    extends:
+      file: common.yml
+      service: app
+    image: lscr.io/linuxserver/bazarr:latest
+    container_name: bazarr
+    networks:
+      - t3_proxy
+    volumes:
+      - $DOCKERDIR/appdata/bazarr:/config
+      - $DATADIR/media:/data/media
+      - $DATADIR/subtitles:/data/subtitles
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.bazarr-rtr.entrypoints=websecure"
+      - "traefik.http.routers.bazarr-rtr.rule=Host(`bazarr.$DOMAINNAME_1`)"
+      - "traefik.http.routers.bazarr-rtr.service=prowlarr-svc"
+      - "traefik.http.services.bazarr-svc.loadbalancer.server.port=6767"

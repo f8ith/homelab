@@ -1,0 +1,9 @@
+services:
+  recyclarr:
+    extends:
+      file: common.yml
+      service: app
+    image: ghcr.io/recyclarr/recyclarr
+    container_name: recyclarr
+    volumes:
+      - $DOCKERDIR/appdata/recyclarr/config:/config

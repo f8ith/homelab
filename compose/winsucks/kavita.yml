@@ -1,0 +1,21 @@
+services:
+  kavita:
+    extends:
+      file: common.yml
+      service: app
+    image: jvmilazz0/kavita:latest
+    container_name: kavita
+    networks:
+      - t3_proxy
+    volumes:
+      - $DATADIR/manga:/manga
+      - $DATADIR/books:/books
+      - $DOCKERDIR/appdata/kavita:/kavita/config
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.kavita-rtr.entrypoints=websecure"
+      - "traefik.http.routers.kavita-rtr.rule=Host(`kavita.$DOMAINNAME_1`)"
+      - "traefik.http.routers.kavita-rtr.service=kavita-svc"
+      - "traefik.http.services.kavita-svc.loadbalancer.server.port=5000"
+
+

@@ -1,0 +1,39 @@
+services:
+  # Jellyfin - Media Server
+  jellyfin:
+    extends:
+      file: common.yml
+      service: app
+    image: jellyfin/jellyfin:latest
+    container_name: jellyfin
+    restart: unless-stopped
+
+    networks:
+      - t3_proxy
+    #  ipvlan:
+    #    ipv4_address: 192.168.1.22
+    #  t3_proxy: {}
+    ports:
+      - "8096:8096" # HTTP Port
+    #  - "1900:1900/udp"
+    ## - "8920:8920" # Requires valid certificates.
+
+    volumes:
+      - $DOCKERDIR/appdata/jellyfin:/config
+      - $DATADIR/media:/data/media
+    #     - /dev/shm:/data/transcode # Offload transcoding to RAM if you have enough RAM
+    runtime: nvidia
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.jellyfin-rtr.entrypoints=websecure"
+      - "traefik.http.routers.jellyfin-rtr.rule=Host(`jellyfin.$DOMAINNAME_1`)"
+      - "traefik.http.routers.jellyfin-rtr.service=jellyfin-svc"
+      - "traefik.http.services.jellyfin-svc.loadbalancer.server.port=8096"
+

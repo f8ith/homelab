@@ -1,0 +1,20 @@
+services:
+  qbittorrent:
+    extends:
+      file: common.yml
+      service: app
+    container_name: qbittorrent
+    image: ghcr.io/hotio/qbittorrent
+    networks:
+      - t3_proxy
+    volumes:
+      - $DOCKERDIR/appdata/qbittorrent/config:/config
+      - $DATADIR:/data
+      - /mnt:/mnt
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.qbittorrent-rtr.entrypoints=websecure"
+      - "traefik.http.routers.qbittorrent-rtr.rule=Host(`torrent.$DOMAINNAME_1`)"
+      - "traefik.http.routers.qbittorrent-rtr.service=qbittorrent-svc"
+      - "traefik.http.services.qbittorrent-svc.loadbalancer.server.port=8080"
+
