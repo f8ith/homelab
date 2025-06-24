@@ -1,5 +1,5 @@
 plugins: fetchart embedart convert scrub replaygain lastgenre chroma web
-directory: /music
+directory: /data/music
 library: /config/musiclibrary.blb
 art_filename: albumart
 threaded: yes
@@ -21,8 +21,9 @@ paths:
         
 import:
     write: yes
-    copy: yes
-    move: no
+    copy: no
+    move: no 
+    hardlink: yes
     resume: ask
     incremental: yes
     quiet_fallback: skip
@@ -56,6 +57,8 @@ replace:
     '[\xF8]': o
     '\.$': _
     '\s+$': ''
+    'Jyocho': 'JYOCHO'
+    'Miyuna': 'みゆな'
 
 web:
     host: 0.0.0.0

@@ -1,0 +1,23 @@
+services:
+  gonic:
+    extends:
+      file: common.yml
+      service: app
+    image: sentriz/gonic:latest
+    container_name: gonic
+    environment:
+      - TZ
+    networks:
+      - t3_proxy
+    volumes:
+      - $DOCKERDIR/appdata/gonic/data:/data # gonic db etc
+      - $DATADIR/music:/music:ro # your music
+      - $DATADIR/music/playlists:/playlists # your playlists
+      - $DOCKERDIR/appdata/gonic/cache:/cache # transcode / covers / etc cache dir
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.gonic-rtr.entrypoints=websecure"
+      - "traefik.http.routers.gonic-rtr.rule=Host(`gonic.$DOMAINNAME_1`)"
+      - "traefik.http.routers.gonic-rtr.service=gonic-svc"
+      - "traefik.http.services.gonic-svc.loadbalancer.server.port=80"
+

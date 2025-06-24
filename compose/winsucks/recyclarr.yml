@@ -5,5 +5,7 @@ services:
       service: app
     image: ghcr.io/recyclarr/recyclarr
     container_name: recyclarr
+    networks:
+      - t3_proxy
     volumes:
       - $DOCKERDIR/appdata/recyclarr/config:/config

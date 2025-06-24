@@ -17,12 +17,12 @@ include:
   - compose/winsucks/jellyfin.yml
   - compose/winsucks/arr.yml
   - compose/winsucks/immich.yml
-  - compose/winsucks/navidrome.yml
   - compose/winsucks/qbittorrent.yml
   - compose/winsucks/recyclarr.yml
   - compose/winsucks/kavita.yml
   - compose/winsucks/tachidesk.yml
   - compose/winsucks/beets.yml
+  - compose/winsucks/slskd.yml
+  - compose/winsucks/betanin.yml
+  - compose/winsucks/gonic.yml
 
-volumes:
-  model-cache:

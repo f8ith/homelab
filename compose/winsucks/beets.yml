@@ -5,15 +5,11 @@ services:
       service: app 
     image: lscr.io/linuxserver/beets:latest
     container_name: beets
+    environment:
+      - PUID=1000
+      - PGID=1000
     networks:
       - t3_proxy
     volumes:
       - $DOCKERDIR/appdata/beets/config:/config
-      - $DATADIR/music:/music
-      - $DATADIR/ingest/music:/downloads
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.beets-rtr.entrypoints=websecure"
-      - "traefik.http.routers.beets-rtr.rule=Host(`beets.$DOMAINNAME_1`)"
-      - "traefik.http.routers.beets-rtr.service=beets-svc"
-      - "traefik.http.services.beets-svc.loadbalancer.server.port=8337"
+      - $DATADIR:/data

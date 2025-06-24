@@ -13,10 +13,10 @@ services:
     #  ipvlan:
     #    ipv4_address: 192.168.1.22
     #  t3_proxy: {}
-    ports:
-      - "8096:8096" # HTTP Port
+    #ports:
+    #  - "8096:8096" # HTTP Port
     #  - "1900:1900/udp"
-    ## - "8920:8920" # Requires valid certificates.
+    #  - "8920:8920" # Requires valid certificates.
 
     volumes:
       - $DOCKERDIR/appdata/jellyfin:/config

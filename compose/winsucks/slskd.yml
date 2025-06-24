@@ -1,0 +1,25 @@
+services:
+  slskd:
+    extends:
+      file: common.yml
+      service: app
+    image: slskd/slskd
+    container_name: slskd
+    networks:
+      - t3_proxy
+    ports:
+      - "50300:50300"
+    environment:
+      - SLSKD_REMOTE_CONFIGURATION=true
+    volumes:
+      - $DOCKERDIR/appdata/slskd:/app
+      - $DATADIR/ingest/music:/downloads
+      - $DATADIR/music:/music
+    restart: always
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.slskd-rtr.entrypoints=websecure"
+      - "traefik.http.routers.slskd-rtr.rule=Host(`slskd.$DOMAINNAME_1`)"
+      - "traefik.http.routers.slskd-rtr.service=slskd-svc"
+      - "traefik.http.services.slskd-svc.loadbalancer.server.port=5030"
+

@@ -2,12 +2,12 @@ services:
   app:
     security_opt:
       - no-new-privileges:true
-    restart: unless-stopped
+    restart: on-failure:3
     env_file:
       - $DOCKERDIR/.env
   core:
     security_opt:
       - no-new-privileges:true
-    restart: always
+    restart: unless-stopped
     env_file:
       - $DOCKERDIR/.env
