@@ -21,6 +21,8 @@ services:
     volumes:
       - $DOCKERDIR/appdata/jellyfin:/config
       - $DATADIR/media:/data/media
+      - $DATADIR/music:/music
+      - $DATADIR/playlists:/playlists
     #     - /dev/shm:/data/transcode # Offload transcoding to RAM if you have enough RAM
     runtime: nvidia
     deploy:

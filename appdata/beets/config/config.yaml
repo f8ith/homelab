@@ -7,11 +7,14 @@ original_date: no
 per_disc_numbering: no
 
 convert:
-    auto: no
-    ffmpeg: /usr/bin/ffmpeg
-    opts: -ab 320k -ac 2 -ar 48000
-    max_bitrate: 320
-    threads: 1
+    copy_album_art: yes
+    embed: no
+    never_convert_lossy_files: yes
+    format: flac 
+    formats:
+        flac:
+              command: ffmpeg -i $source -y -acodec flac $dest
+              extension: flac
     
 paths:
     default: $albumartist/$album%aunique{}/$track - $title

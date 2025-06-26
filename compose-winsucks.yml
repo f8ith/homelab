@@ -21,8 +21,8 @@ include:
   - compose/winsucks/recyclarr.yml
   - compose/winsucks/kavita.yml
   - compose/winsucks/tachidesk.yml
-  - compose/winsucks/beets.yml
   - compose/winsucks/slskd.yml
   - compose/winsucks/betanin.yml
   - compose/winsucks/gonic.yml
+  - compose/winsucks/lms.yml
 
