@@ -6,8 +6,22 @@ services:
       - $DOCKERDIR/appdata/syncyomi/config:/config
     networks:
       - caddy-net
+    restart: unless-stopped
     labels:
       caddy_1: syncyomi.jamietong.com
       caddy_1.reverse_proxy: "{{upstreams 8282}}"
+
+  syncyomi-two:
+   container_name: syncyomi-two
+   image: ghcr.io/syncyomi/syncyomi:latest
+   volumes:
+     - $DOCKERDIR/appdata/syncyomi-two/config:/config
+   networks:
+     - caddy-net
+   restart: unless-stopped
+   labels:
+     caddy_1: syncyomi-two.jamietong.com
+     caddy_1.reverse_proxy: "{{upstreams 8282}}"
+  
   
   
