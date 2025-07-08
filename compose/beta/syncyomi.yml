@@ -1,13 +1,13 @@
 services:
   syncyomi:
-    <<: *common-keys-apps
     container_name: syncyomi
     image: ghcr.io/syncyomi/syncyomi:latest
-    environment:
-      - VIRTUAL_HOST=syncyomi.jamietong.com
+    networks:
+      - caddy-net
     volumes:
       - $DOCKERDIR/appdata/syncyomi/config:/config
-    expose:
-    - "8282"
+    labels:
+      caddy_1: syncyomi.jamietong.com
+      caddy_1.reverse_proxy: "{{upstreams 8282}}"
 
 

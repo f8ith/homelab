@@ -1,0 +1,41 @@
+ services:
+  rcon-web:
+    image: itzg/rcon
+    container_name: rcon-web
+    networks:
+      - caddy-net
+    env_file: 
+      - $DOCKERDIR/.env
+      - $DOCKERDIR/minecraft.env
+    ports:
+     - "4326:4326"
+     - "4327:4327"
+    restart: unless-stopped
+    security_opt:
+      - no-new-privileges:false
+    labels:
+      caddy: rcon-web.jamietong.com
+      #caddy.reverse_proxy: "{{upstreams 4326}}"
+      caddy.@ws.0_header: "Connection *Upgrade*"
+      caddy.@ws.1_header: "Upgrade websocket"
+      caddy.0_reverse_proxy: "@ws {{upstreams 4327}}"
+      caddy.1_reverse_proxy: "{{upstreams 4326}}"
+      caddy.tls: "/data/caddy/certificates/jamietong.com-certificate.pem /data/caddy/certificates/jamietong.com-key.pem"
+  smp:
+    image: itzg/minecraft-server:java21-alpine
+    tty: true
+    container_name: mc-smp
+    stdin_open: true
+    networks:
+      - caddy-net
+    env_file: 
+      - $DOCKERDIR/.env
+      - $DOCKERDIR/minecraft.env
+    ports:
+      - "25565:25565"
+    restart: unless-stopped
+    security_opt:
+      - no-new-privileges:false
+    volumes:
+     # attach the relative directory 'data' to tsdfhe container's /data path
+     - $DOCKERDIR/data/minecraft/instances/smp:/data

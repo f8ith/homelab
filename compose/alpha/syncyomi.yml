@@ -1,5 +1,4 @@
 syncyomi:
-  <<: *common-keys-apps
   container_name: syncyomi
   image: ghcr.io/syncyomi/syncyomi:latest
   volumes:
