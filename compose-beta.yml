@@ -10,4 +10,4 @@ networks:
 include:
    - compose/beta/caddy.yml
    - compose/beta/minecraft.yml
-   - compose/beta/syncyomi.yml
+#   - compose/beta/syncyomi.yml

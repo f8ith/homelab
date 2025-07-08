@@ -20,7 +20,7 @@
       caddy.@ws.1_header: "Upgrade websocket"
       caddy.0_reverse_proxy: "@ws {{upstreams 4327}}"
       caddy.1_reverse_proxy: "{{upstreams 4326}}"
-      caddy.tls: "/data/caddy/certificates/jamietong.com-certificate.pem /data/caddy/certificates/jamietong.com-key.pem"
+#      caddy.tls: "/data/caddy/certificates/jamietong.com-certificate.pem /data/caddy/certificates/jamietong.com-key.pem"
   smp:
     image: itzg/minecraft-server:java21-alpine
     tty: true

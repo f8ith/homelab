@@ -19,7 +19,11 @@ services:
       - $DOCKERDIR/appdata/dms/mail-state/:/var/mail-state/
       - $DOCKERDIR/appdata/dms/mail-logs/:/var/log/mail/
       - $DOCKERDIR/appdata/dms/config/:/tmp/docker-mailserver/
-      - $DOCKERDIR/appdata/certbot/certs/:/etc/letsencrypt
+      # - $DOCKERDIR/appdata/certbot/certs/:/etc/letsencrypt
+      # Caddy:
+      - $DOCKERDIR/appdata/caddy/certificates/acme-v02.api.letsencrypt.org-directory/mail.jamietong.com/mail.jamietong.com.crt:/etc/letsencrypt/live/mail.jamietong.com/fullchain.pem
+      - $DOCKERDIR/appdata/caddy/certificates/acme-v02.api.letsencrypt.org-directory/mail.jamietong.com/mail.jamietong.com.key:/etc/letsencrypt/live/mail.jamietong.com/privkey.pem
+
       - /etc/localtime:/etc/localtime:ro
     restart: always
     stop_grace_period: 1m
@@ -30,3 +34,8 @@ services:
       test: "ss --listening --tcp | grep -P 'LISTEN.+:smtp' || exit 1"
       timeout: 3s
       retries: 0
+    labels:
+      # Set your DMS FQDN here to add the site-address into the generated Caddyfile:
+      caddy_0: mail.jamietong.com
+      # Adding a dummy directive is required:
+      caddy_0.respond: "Hello DMS"
