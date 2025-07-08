@@ -1,10 +1,13 @@
-syncyomi:
-  container_name: syncyomi
-  image: ghcr.io/syncyomi/syncyomi:latest
-  volumes:
-    - $DOCKERDIR/appdata/syncyomi/config:/config
-  labels:
-    caddy_1: syncyomi.jamietong.com
-    caddy_1.reverse_proxy: "{{upstreams 8282}}"
-
-
+services:
+  syncyomi:
+    container_name: syncyomi
+    image: ghcr.io/syncyomi/syncyomi:latest
+    volumes:
+      - $DOCKERDIR/appdata/syncyomi/config:/config
+    networks:
+      - caddy-net
+    labels:
+      caddy_1: syncyomi.jamietong.com
+      caddy_1.reverse_proxy: "{{upstreams 8282}}"
+  
+  
