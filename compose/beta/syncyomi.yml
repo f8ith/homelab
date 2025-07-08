@@ -1,0 +1,13 @@
+services:
+  syncyomi:
+    <<: *common-keys-apps
+    container_name: syncyomi
+    image: ghcr.io/syncyomi/syncyomi:latest
+    environment:
+      - VIRTUAL_HOST=syncyomi.jamietong.com
+    volumes:
+      - $DOCKERDIR/appdata/syncyomi/config:/config
+    expose:
+    - "8282"
+
+

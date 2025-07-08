@@ -1,0 +1,49 @@
+services:
+  reverse-proxy:
+    <<: *common-keys-core
+    image: nginxproxy/nginx-proxy
+    container_name: nginx-proxy
+    networks:
+      - nginx-proxy
+    restart: always
+    ports:
+      # Port  80: Required for HTTP-01 challenges to `acme-companion`.
+      # Port 443: Only required for containers that need access over HTTPS. TLS-ALPN-01 challenge not supported.
+      - "80:80"
+      - "443:443"
+    environment:
+      - TZ=$TZ
+      - CF_DNS_API_TOKEN_FILE=/run/secrets/cf_dns_api_token    
+      #- HTPASSWD_FILE=/run/secrets/basic_auth_credentials
+    secrets:
+      - cf_dns_api_token
+    volumes:
+      # `certs/`:      Managed by the `acme-companion` container (_read-only_).
+      # `docker.sock`: Required to interact with containers via the Docker API.
+      - $DOCKERDIR/appdata/nginx-proxy/html/:/usr/share/nginx/html/
+      - $DOCKERDIR/appdata/nginx-proxy/vhost.d/:/etc/nginx/vhost.d/
+      - $DOCKERDIR/appdata/acme-companion/certs/:/etc/nginx/certs/:ro
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+
+  acme-companion:
+    <<: *common-keys-core
+    image: nginxproxy/acme-companion
+    container_name: nginx-proxy-acme
+    restart: always
+    networks:
+      - nginx-proxy
+    environment:
+      # When `volumes_from: [nginx-proxy]` is not supported,
+      # reference the _reverse-proxy_ `container_name` here:
+      - NGINX_PROXY_CONTAINER=nginx-proxy
+    volumes:
+      # `html/`:       Write ACME HTTP-01 challenge files that `nginx-proxy` will serve.
+      # `vhost.d/`:    To enable web access via `nginx-proxy` to HTTP-01 challenge files.
+      # `certs/`:      To store certificates and private keys.
+      # `acme-state/`: To persist config and state for the ACME provisioner (`acme.sh`).
+      # `docker.sock`: Required to interact with containers via the Docker API.
+      - $DOCKERDIR/appdata/nginx-proxy/html/:/usr/share/nginx/html/
+      - $DOCKERDIR/appdata/nginx-proxy/vhost.d/:/etc/nginx/vhost.d/
+      - $DOCKERDIR/appdata/acme-companion/certs/:/etc/nginx/certs/:rw
+      - $DOCKERDIR/appdata/acme-companion/acme-state/:/etc/acme.sh/
+      - /var/run/docker.sock:/var/run/docker.sock:ro

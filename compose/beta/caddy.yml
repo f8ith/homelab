@@ -1,0 +1,31 @@
+services:
+  caddy:
+    image: lucaslorentz/caddy-docker-proxy:ci-alpine
+    container_name: caddy
+    ports:
+      - 80:80
+      - 443:443
+    networks:
+      - caddy-net
+    environment:
+      - CADDY_INGRESS_NETWORKS=caddy-net
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./appdata/caddy:/data
+    restart: unless-stopped
+    labels:
+      caddy.email: jamienibtong@gmail.com
+      caddy.auto_https: "ignore_loaded_certs"
+    deploy:
+      placement:
+        constraints:
+          - node.role == manager
+      replicas: 1
+      restart_policy:
+        condition: any
+      resources:
+        reservations:
+          cpus: "0.1"
+          memory: 200M
+
+

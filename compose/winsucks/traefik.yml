@@ -7,6 +7,8 @@ services:
     image: traefik:3.0
     networks:
       - t3_proxy
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     command: # CLI arguments
       - --global.checkNewVersion=true
       - --global.sendAnonymousUsage=true
