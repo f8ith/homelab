@@ -13,6 +13,7 @@ secrets:
 
 ########################### SERVICES
 include:
+  - compose/common/socket-proxy.yml
   - compose/winsucks/traefik.yml
   - compose/winsucks/jellyfin.yml
   - compose/winsucks/arr.yml

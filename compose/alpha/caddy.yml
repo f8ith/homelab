@@ -7,10 +7,11 @@ services:
       - 443:443
     networks:
       - caddy-net
+      - socket_proxy
     environment:
+      - DOCKER_HOST=tcp://socket:2375
       - CADDY_INGRESS_NETWORKS=caddy-net
     volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
       - $DOCKERDIR/appdata/caddy:/data
     restart: unless-stopped
     labels:

@@ -8,6 +8,7 @@ networks:
     driver: bridge
 
 include:
+   - compose/common/socket-proxy.yml
    - compose/beta/caddy.yml
    - compose/beta/minecraft.yml
 #   - compose/beta/syncyomi.yml
