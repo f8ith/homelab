@@ -6,7 +6,7 @@ networks:
 services:
   socket-proxy:
     container_name: socket-proxy
-    image: fluencelabs/docker-socket-proxy
+    image: tecnativa/docker-socket-proxy
     restart: always
     networks:
       - socket_proxy
