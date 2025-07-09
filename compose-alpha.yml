@@ -3,15 +3,8 @@
 # Docker Compose version 3.5 or higher required to define networks this way.
 
 networks:
-  caddy-net:
-    name: caddy-net
-    driver: bridge
-  mailserver-proxy:
-    name: mailserver-proxy
-    driver: bridge
-    ipam:
-      config:
-        - subnet: 11.0.0.0/16
+  web:
+    external: true
 
 include:
    - compose/common/socket-proxy.yml

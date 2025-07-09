@@ -5,7 +5,8 @@ services:
     volumes:
       - $DOCKERDIR/appdata/syncyomi/config:/config
     networks:
-      - caddy-net
+      web:
+        ipv4_address: 10.10.0.4
     restart: unless-stopped
     labels:
       caddy_1: syncyomi.jamietong.com
@@ -17,7 +18,8 @@ services:
    volumes:
      - $DOCKERDIR/appdata/syncyomi-two/config:/config
    networks:
-     - caddy-net
+      web:
+       ipv4_address: 10.10.0.5
    restart: unless-stopped
    labels:
      caddy_1: syncyomi-two.jamietong.com

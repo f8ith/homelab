@@ -7,8 +7,8 @@ services:
     # More information about the mail-server ports:
     # https://docker-mailserver.github.io/docker-mailserver/latest/config/security/understanding-the-ports/
     networks:
-      - caddy-net
-      - mailserver-proxy
+      web:
+        ipv4_address: 10.10.0.3
     ports:
       - "25:25"    # SMTP  (explicit TLS => STARTTLS, Authentication is DISABLED => use port 465/587 instead)
       - "143:143"  # IMAP4 (explicit TLS => STARTTLS)

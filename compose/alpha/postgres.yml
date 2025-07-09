@@ -3,7 +3,7 @@ services:
     container_name: resolve-db
     image: postgres
     networks:
-      - caddy-net 
+      - web
     ports:
       - 5432:5432
     env_file: $DOCKERDIR/.env

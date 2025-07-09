@@ -3,14 +3,15 @@ services:
     image: lucaslorentz/caddy-docker-proxy:ci-alpine
     container_name: caddy
     ports:
-      - 80:80
-      - 443:443
+      - "80:80"
+      - "443:443"
     networks:
-      - caddy-net
-      - socket_proxy
+      socket_proxy:
+      web:
+        ipv4_address: 10.10.0.2
     environment:
       - DOCKER_HOST=tcp://socket:2375
-      - CADDY_INGRESS_NETWORKS=caddy-net
+      - CADDY_INGRESS_NETWORKS=web
     volumes:
       - $DOCKERDIR/appdata/caddy:/data
     restart: unless-stopped
