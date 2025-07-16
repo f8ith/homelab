@@ -1,0 +1,19 @@
+services:
+  beets-flask:
+    extends:
+      file: common.yml
+      service: app
+    image: pspitzner/beets-flask:stable
+    container_name: beets-flask
+    networks:
+      - t3_proxy
+    volumes:
+        - $DOCKERDIR/appdata/beets-flask/:/config/
+        - $DATADIR/music:/music/
+        - $DATADIR/ingest/music/:/downloads
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.beetsflask-rtr.entrypoints=websecure"
+      - "traefik.http.routers.beetsflask-rtr.rule=Host(`beetsflask.$DOMAINNAME_1`)"
+      - "traefik.http.routers.beetsflask-rtr.service=beetsflask-svc"
+      - "traefik.http.services.beetsflask-svc.loadbalancer.server.port=5001"

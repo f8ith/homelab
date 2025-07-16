@@ -1,0 +1,4 @@
+beets[convert]
+beets[chroma]
+beets[replaygain]
+beets[embyupdate]

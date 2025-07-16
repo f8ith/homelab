@@ -1,0 +1,35 @@
+# ------------------------------------------------------------------------------------ #
+#                                   BEETS GUI CONFIG                                   #
+# ------------------------------------------------------------------------------------ #
+# Example file, this file was automatically copied to /config/beets-flask/config.yaml.
+# Feel free to edit this file to customize the gui configuration.
+# Especially the `folders` section in the `inbox` section are important to set up your inbox
+# folders. You can add as many folders as you like, but don't forget to volume-map them in
+# your docker-compose.yml.
+
+gui:
+    num_preview_workers: 4 # how many previews to generate in parallel
+
+    library:
+        readonly: no
+
+    terminal:
+        start_path: "/downloads" # the directory where to start new terminal sessions
+
+    inbox:
+        folders:
+            # --------------------------------- README -------------------------------- #
+            # Before using the inbox feature, you need to create the folders
+            # and decide on an inbox type. Have a look at the examples below.
+
+            Inbox1:
+                name: "slskd"
+                path: "/downloads/complete"
+                autotag: "auto"
+                auto_threshold: null
+        
+            Inbox2:
+                name: "gamdl"
+                path: "/downloads/gamdl"
+                autotag: "auto"
+                auto_threshold: null
