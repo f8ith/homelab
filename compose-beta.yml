@@ -3,12 +3,13 @@
 # Docker Compose version 3.5 or higher required to define networks this way.
 
 networks:
-  caddy-net:
-    name: caddy-net
+  web:
+    name: web
     driver: bridge
 
 include:
-   - compose/common/socket-proxy.yml
-   - compose/beta/caddy.yml
-   - compose/beta/minecraft.yml
+  - compose/common/socket-proxy.yml
+  - compose/beta/alloy.yml
+  - compose/beta/caddy.yml
+  - compose/beta/minecraft.yml
 #   - compose/beta/syncyomi.yml

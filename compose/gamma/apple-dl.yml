@@ -1,0 +1,19 @@
+services:
+  apple-dl:
+    extends:
+      file: common.yml
+      service: app
+    container_name: apple-dl
+    image: f8ith/apple-dl:stable
+    networks:
+      - web
+    volumes:
+      - $DATADIR/appdata/apple-dl/:/config
+      - /mnt/media-server/ingest/music:/downloads
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.appledl-rtr.entrypoints=websecure"
+      - "traefik.http.routers.appledl-rtr.rule=Host(`appledl.$DOMAINNAME_1`)"
+      - "traefik.http.routers.appledl-rtr.service=appledl-svc"
+      - "traefik.http.routers.appledl-rtr.tls=true"
+      - "traefik.http.services.appledl-svc.loadbalancer.server.port=6887"

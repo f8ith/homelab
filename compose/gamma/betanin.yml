@@ -1,0 +1,22 @@
+services:
+  betanin:
+    extends:
+      file: common.yml
+      service: app
+    image: sentriz/betanin
+    container_name: betanin
+    networks:
+      - web
+    volumes:
+      - ${DATADIR}/appdata/betanin/data:/b/.local/share/betanin/
+      - ${DATADIR}/appdata/betanin/config:/b/.config/betanin/
+      - ${DATADIR}/appdata/betanin/beets:/b/.config/beets/
+      - ${DATADIR}/appdata/betanin/beets:/config
+      - ${MEDIADIR}/music:/music/
+      - ${MEDIADIR}/ingest/music:/downloads/
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.betanin-rtr.entrypoints=websecure"
+      - "traefik.http.routers.betanin-rtr.rule=Host(`betanin.$DOMAINNAME_1`)"
+      - "traefik.http.routers.betanin-rtr.service=betanin-svc"
+      - "traefik.http.services.betanin-svc.loadbalancer.server.port=9393"

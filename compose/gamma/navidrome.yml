@@ -1,0 +1,23 @@
+services:
+  navidrome:
+    extends:
+      file: common.yml
+      service: app
+    image: deluan/navidrome:latest
+    container_name: navidrome
+    restart: unless-stopped
+    networks:
+      - web
+    volumes:
+      - "$DATADIR/appdata/navidrome:/data"
+      - "$MEDIADIR/music:/music:ro"
+      - "/tmp/snapfifo:/tmp/snapfifo"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.navidrome-rtr.entrypoints=websecure"
+      - "traefik.http.routers.navidrome-rtr.rule=Host(`navidrome.$DOMAINNAME_1`)"
+      - "traefik.http.routers.navidrome-rtr.service=navidrome-svc"
+      - "traefik.http.services.navidrome-svc.loadbalancer.server.port=4533"
+      - "logging=alloy"
+      - "logging_jobname=containerlogs"
+

@@ -1,0 +1,68 @@
+services:
+  loki:
+    container_name: loki
+    image: grafana/loki:main
+    networks:
+      - web
+      - grafana_monitoring
+    volumes:
+      - $DATADIR/appdata/grafana-monitoring/loki:/etc/loki
+      - $CONFIGDIR/config/grafana-monitoring/loki/loki-config.yml:/etc/loki/loki-config.yml
+    ports:
+      - "3100:3100"
+    restart: unless-stopped
+    command: -config.file=/etc/loki/loki-config.yml
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.loki-rtr.entrypoints=websecure"
+      - "traefik.http.routers.loki-rtr.rule=Host(`loki.$DOMAINNAME_1`)"
+      - "traefik.http.routers.loki-rtr.service=loki-svc"
+      - "traefik.http.routers.loki-rtr.tls=true"
+      - "traefik.http.services.loki-svc.loadbalancer.server.port=3100"
+  grafana:
+    container_name: grafana
+    image: grafana/grafana-oss:main-ubuntu
+    user: "0"
+    networks:
+      - web
+      - grafana_monitoring
+    volumes:
+    - $DATADIR/appdata/grafana-monitoring/grafana/data:/var/lib/grafana
+    - $CONFIGDIR/config/grafana-monitoring/grafana/datasources.yaml:/etc/grafana/provisioning/datasources/datasources.yaml
+    restart: unless-stopped
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.grafana-rtr.entrypoints=websecure"
+      - "traefik.http.routers.grafana-rtr.rule=Host(`grafana.$DOMAINNAME_1`)"
+      - "traefik.http.routers.grafana-rtr.service=grafana-svc"
+      - "traefik.http.routers.grafana-rtr.tls=true"
+      - "traefik.http.services.grafana-svc.loadbalancer.server.port=3000"
+  #prometheus:
+  #  image: prom/prometheus
+  #  container_name: prometheus
+  #  restart: unless-stopped
+  #  ports:
+  #    - 9090:9090
+  #  volumes:
+  #    - $DATADIR/grafana-monitoring/prometheus/config/prometheus.yml:/etc/prometheus/prometheus.yml
+  #  networks:
+  #    - grafana-monitoring
+  #promtail:
+  #  container_name: promtail
+  #  image: grafana/promtail:main
+  #  networks:
+  #    - grafana_monitoring
+  #    - socket_proxy
+  #  volumes:
+  #    - /var/log:/var/log
+  #    - $CONFIGDIR/config/grafana-monitoring/promtail/${DOCKER_HOST_NAME}/promtail-config.yml:/etc/promtail/promtail-config.yml
+  #    - $DATADIR/appdata/grafana-monitoring/promtail:/etc/promtail
+  #  restart: unless-stopped
+  #  command: -config.file=/etc/promtail/promtail-config.yml -client.external-labels=hostname=$${HOSTNAME}
+  #  depends_on:
+  #    - loki
+
+networks:
+  grafana_monitoring:
+    name: grafana_monitoring
+    driver: bridge

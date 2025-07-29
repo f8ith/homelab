@@ -13,8 +13,11 @@ services:
       - DOCKER_HOST=tcp://socket-proxy:2375
       - CADDY_INGRESS_NETWORKS=web
     volumes:
-      - $DOCKERDIR/appdata/caddy:/data
+      - $DATADIR/appdata/caddy:/data
     restart: unless-stopped
     labels:
       caddy.email: jamienibtong@gmail.com
       caddy.auto_https: "ignore_loaded_certs"
+      logging: alloy
+      logging_jobname: containerlogs
+

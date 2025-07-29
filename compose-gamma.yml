@@ -1,0 +1,30 @@
+########################### NETWORKS
+networks:
+  web:
+    name: web
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 192.168.90.0/24
+
+secrets: 
+  cf_dns_api_token:
+    file: $DATADIR/secrets/cf_dns_api_token
+
+########################### SERVICES
+include:
+  - compose/common/socket-proxy.yml
+  - compose/gamma/alloy.yml
+  - compose/gamma/traefik.yml
+  - compose/gamma/jellyfin.yml
+  - compose/gamma/arr.yml
+  - compose/gamma/immich.yml
+  - compose/gamma/qbittorrent.yml
+  - compose/gamma/recyclarr.yml
+  - compose/gamma/kavita.yml
+  - compose/gamma/tachidesk.yml
+  - compose/gamma/slskd.yml
+  - compose/gamma/beets-flask.yml
+  - compose/gamma/lms.yml
+  - compose/gamma/apple-dl.yml
+  - compose/gamma/grafana-monitoring.yml

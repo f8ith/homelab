@@ -1,12 +1,13 @@
- services:
+services:
   rcon-web:
     image: itzg/rcon
     container_name: rcon-web
     networks:
-      - caddy-net
+      - web
+      - minecraft
     env_file: 
-      - $DOCKERDIR/.env
-      - $DOCKERDIR/minecraft.env
+      - $CONFIGDIR/.env
+      - $CONFIGDIR/minecraft.env
     ports:
      - "4326:4326"
      - "4327:4327"
@@ -21,21 +22,33 @@
       caddy.0_reverse_proxy: "@ws {{upstreams 4327}}"
       caddy.1_reverse_proxy: "{{upstreams 4326}}"
 #      caddy.tls: "/data/caddy/certificates/jamietong.com-certificate.pem /data/caddy/certificates/jamietong.com-key.pem"
+      logging: alloy
+      logging_jobname: containerlogs
+
+
   smp:
     image: itzg/minecraft-server:java21-alpine
     tty: true
     container_name: mc-smp
     stdin_open: true
     networks:
-      - caddy-net
+      - minecraft
     env_file: 
-      - $DOCKERDIR/.env
-      - $DOCKERDIR/minecraft.env
+      - $CONFIGDIR/.env
+      - $CONFIGDIR/minecraft.env
     ports:
       - "25565:25565"
     restart: unless-stopped
     security_opt:
       - no-new-privileges:false
     volumes:
-     # attach the relative directory 'data' to tsdfhe container's /data path
-     - $DOCKERDIR/data/minecraft/instances/smp:/data
+      # attach the relative directory 'data' to tsdfhe container's /data path
+      - $DATADIR/data/minecraft/instances/smp:/data
+    labels:
+      logging: alloy
+      logging_jobname: containerlogs
+
+networks:
+  minecraft:
+    name: minecraft
+    driver: bridge

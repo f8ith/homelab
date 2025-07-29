@@ -1,0 +1,27 @@
+services:
+  beets-flask:
+    extends:
+      file: common.yml
+      service: app
+    image: pspitzner/beets-flask:stable
+    container_name: beets-flask
+    networks:
+      - web
+    volumes:
+        - $CONFIGDIR/config/beets-flask/requirements.txt:/config/requirements.txt:ro
+        - $CONFIGDIR/config/beets-flask/startup.sh:/config/startup.sh:ro
+        - $CONFIGDIR/config/beets-flask/beets-flask-config.yaml:/config/beets-flask/config.yaml:ro
+        - $CONFIGDIR/config/beets-flask/beets-config.yaml:/config/beets/config.yaml:ro
+        - $DATADIR/appdata/beets-flask/beets/:/config/beets/
+        - $DATADIR/appdata/beets-flask/beets-flask/:/config/beets-flask/
+        - $DATADIR/secrets/beets-secrets.yaml:/config/beets/secrets.yaml
+        - $MEDIADIR/music:/music/
+        - $MEDIADIR/ingest/music/:/downloads
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.beetsflask-rtr.entrypoints=websecure"
+      - "traefik.http.routers.beetsflask-rtr.rule=Host(`beetsflask.$DOMAINNAME_1`)"
+      - "traefik.http.routers.beetsflask-rtr.service=beetsflask-svc"
+      - "traefik.http.services.beetsflask-svc.loadbalancer.server.port=5001"
+      - "logging=alloy"
+      - "logging_jobname=containerlogs"

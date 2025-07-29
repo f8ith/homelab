@@ -3,7 +3,7 @@ services:
     image: ghcr.io/docker-mailserver/docker-mailserver:latest
     container_name: mailserver
     hostname: mail.jamietong.com
-    env_file: $DOCKERDIR/mailserver.env
+    env_file: $DATADIR/mailserver.env
     # More information about the mail-server ports:
     # https://docker-mailserver.github.io/docker-mailserver/latest/config/security/understanding-the-ports/
     networks:
@@ -16,14 +16,14 @@ services:
       - "587:587"  # ESMTP (explicit TLS => STARTTLS)
       - "993:993"  # IMAP4 (implicit TLS)
     volumes:
-      - $DOCKERDIR/appdata/dms/mail-data/:/var/mail/
-      - $DOCKERDIR/appdata/dms/mail-state/:/var/mail-state/
-      - $DOCKERDIR/appdata/dms/mail-logs/:/var/log/mail/
-      - $DOCKERDIR/appdata/dms/config/:/tmp/docker-mailserver/
-      # - $DOCKERDIR/appdata/certbot/certs/:/etc/letsencrypt
+      - $DATADIR/appdata/dms/mail-data/:/var/mail/
+      - $DATADIR/appdata/dms/mail-state/:/var/mail-state/
+      - $DATADIR/appdata/dms/mail-logs/:/var/log/mail/
+      - $DATADIR/appdata/dms/config/:/tmp/docker-mailserver/
+      # - $DATADIR/appdata/certbot/certs/:/etc/letsencrypt
       # Caddy:
-      - $DOCKERDIR/appdata/caddy/caddy/certificates/acme-v02.api.letsencrypt.org-directory/mail.jamietong.com/mail.jamietong.com.crt:/etc/letsencrypt/live/mail.jamietong.com/fullchain.pem
-      - $DOCKERDIR/appdata/caddy/caddy/certificates/acme-v02.api.letsencrypt.org-directory/mail.jamietong.com/mail.jamietong.com.key:/etc/letsencrypt/live/mail.jamietong.com/privkey.pem
+      - $DATADIR/appdata/caddy/caddy/certificates/acme-v02.api.letsencrypt.org-directory/mail.jamietong.com/mail.jamietong.com.crt:/etc/letsencrypt/live/mail.jamietong.com/fullchain.pem
+      - $DATADIR/appdata/caddy/caddy/certificates/acme-v02.api.letsencrypt.org-directory/mail.jamietong.com/mail.jamietong.com.key:/etc/letsencrypt/live/mail.jamietong.com/privkey.pem
 
       - /etc/localtime:/etc/localtime:ro
     restart: always
@@ -40,3 +40,6 @@ services:
       caddy_0: mail.jamietong.com
       # Adding a dummy directive is required:
       caddy_0.respond: "Hello DMS"
+      logging: alloy
+      logging_jobname: containerlogs
+

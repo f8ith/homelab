@@ -3,7 +3,7 @@ services:
     container_name: syncyomi
     image: ghcr.io/syncyomi/syncyomi:latest
     volumes:
-      - $DOCKERDIR/appdata/syncyomi/config:/config
+      - $DATADIR/appdata/syncyomi/config:/config
     networks:
       web:
         ipv4_address: 10.10.0.4
@@ -16,7 +16,7 @@ services:
    container_name: syncyomi-two
    image: ghcr.io/syncyomi/syncyomi:latest
    volumes:
-     - $DOCKERDIR/appdata/syncyomi-two/config:/config
+     - $DATADIR/appdata/syncyomi-two/config:/config
    networks:
       web:
        ipv4_address: 10.10.0.5
@@ -24,6 +24,8 @@ services:
    labels:
      caddy_1: syncyomi-two.jamietong.com
      caddy_1.reverse_proxy: "{{upstreams 8282}}"
+     logging: alloy
+     logging_jobname: containerlogs
   
   
   

@@ -6,14 +6,16 @@ services:
       - 80:80
       - 443:443
     networks:
-      - caddy-net
+      - web
       - socket_proxy
     environment:
       - DOCKER_HOST=tcp://socket-proxy:2375
-      - CADDY_INGRESS_NETWORKS=caddy-net
+      - CADDY_INGRESS_NETWORKS=web
     volumes:
-      - $DOCKERDIR/appdata/caddy:/data
+      - $DATADIR/appdata/caddy:/data
     restart: unless-stopped
     labels:
       caddy.email: jamienibtong@gmail.com
       caddy.auto_https: "ignore_loaded_certs"
+      logging: alloy
+      logging_jobname: containerlogs

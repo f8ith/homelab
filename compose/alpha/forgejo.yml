@@ -1,0 +1,20 @@
+services:
+  forgejo:
+    image: codeberg.org/forgejo/forgejo:11
+    container_name: forgejo
+    environment:
+      - USER_UID=1000
+      - USER_GID=1000
+    restart: unless-stopped
+    networks:
+      web:
+        ipv4_address: 10.10.0.6
+    volumes:
+      - $DATADIR/appdata/forgejo:/data
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+    labels:
+      caddy_1: forgejo.jamietong.com
+      caddy_1.reverse_proxy: "{{upstreams 3000}}"
+      logging: alloy
+      logging_jobname: containerlogs

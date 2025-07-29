@@ -1,0 +1,35 @@
+services:
+  lms:
+    extends:
+     file: common.yml
+     service: app
+    container_name: lms
+    image: lmscommunity/lyrionmusicserver
+#    networks:
+#      - web
+    network_mode: host
+    volumes:
+      - $DATADIR/appdata/lms:/config:rw
+      - $MEDIADIR/music:/music:ro
+      - $MEDIADIR/playlists:/playlist:rw
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone:/etc/timezone:ro
+   # ports:
+   #   - 9000:9000/tcp
+   #   - 9090:9090/tcp
+   #   - 3483:3483/tcp
+   #   - 3483:3483/udp
+   #   - 319:319/udp
+   #   - 320:320/udp 
+   #   - "58787-59000:58787-59000"
+    environment:
+      - HTTP_PORT=9000
+    labels:
+      - "logging=alloy"
+      - "logging_jobname=containerlogs"
+   #   - "traefik.enable=true"
+   #   - "traefik.http.routers.lms-rtr.entrypoints=websecure"
+   #   - "traefik.http.routers.lms-rtr.rule=Host(`lms.$DOMAINNAME_1`)"
+   #   - "traefik.http.routers.lms-rtr.service=lms-svc"
+   #   - "traefik.http.services.lms-svc.loadbalancer.server.port=9000"
+

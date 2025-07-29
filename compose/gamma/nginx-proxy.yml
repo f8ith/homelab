@@ -1,9 +1,12 @@
 services:
   reverse-proxy:
+    extends: 
+      file: common.yml
+      service: core
     image: nginxproxy/nginx-proxy
     container_name: nginx-proxy
     networks:
-      - web
+      - nginx_proxy
     restart: always
     ports:
       # Port  80: Required for HTTP-01 challenges to `acme-companion`.
@@ -29,11 +32,11 @@ services:
     container_name: nginx-proxy-acme
     restart: always
     networks:
-      - web
+      - nginx_proxy
     environment:
       # When `volumes_from: [nginx-proxy]` is not supported,
       # reference the _reverse-proxy_ `container_name` here:
-      - NGINX_PROXY_CONTAINER=web
+      - NGINX_PROXY_CONTAINER=nginx-proxy
     volumes:
       # `html/`:       Write ACME HTTP-01 challenge files that `nginx-proxy` will serve.
       # `vhost.d/`:    To enable web access via `nginx-proxy` to HTTP-01 challenge files.
