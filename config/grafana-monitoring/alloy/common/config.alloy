@@ -1,3 +1,18 @@
+loki.write "default" {
+	endpoint {
+		url = "https://loki.jamietong.com/loki/api/v1/push"
+	}
+	external_labels = {
+		hostname = sys.env("DOCKER_HOST_NAME"),
+	}
+}
+
+prometheus.remote_write "default" {
+  endpoint {
+    url = "https://prometheus.jamietong.com/api/v1/write"
+  }
+}
+
 local.file_match "system" {
 	path_targets = [{
 		__address__ = "localhost",
@@ -10,6 +25,21 @@ loki.source.file "system" {
 	targets               = local.file_match.system.targets
 	forward_to            = [loki.write.default.receiver]
 	legacy_positions_file = "/tmp/positions.yaml"
+}
+
+loki.relabel "journal" {
+  forward_to = []
+
+  rule {
+    source_labels = ["__journal__systemd_unit"]
+    target_label  = "unit"
+  }
+}
+
+loki.source.journal "read"  {
+  forward_to    = [loki.write.default.receiver]
+  relabel_rules = loki.relabel.journal.rules
+  labels        = {component = "loki.source.journal"}
 }
 
 discovery.docker "containers" {
@@ -50,11 +80,37 @@ loki.source.docker "containers" {
 	refresh_interval = "5s"
 }
 
-loki.write "default" {
-	endpoint {
-		url = "https://loki.jamietong.com/loki/api/v1/push"
-	}
-	external_labels = {
-		hostname = sys.env("DOCKER_HOST_NAME"),
-	}
+prometheus.scrape "containers" {
+  targets    = prometheus.exporter.cadvisor.containers.targets
+  forward_to = [prometheus.remote_write.default.receiver]
+}
+
+prometheus.scrape "system" {
+  targets    = prometheus.exporter.unix.system.targets
+  forward_to = [prometheus.remote_write.default.receiver]
+}
+
+prometheus.exporter.unix "system" {
+  disable_collectors = ["ipvs", "infiniband", "xfs", "zfs"]
+  enable_collectors = ["meminfo", "btrfs"]
+
+  filesystem {
+    fs_types_exclude     = "^(autofs|binfmt_misc|bpf|cgroup2?|configfs|debugfs|devpts|devtmpfs|tmpfs|fusectl|hugetlbfs|iso9660|mqueue|nsfs|overlay|proc|procfs|pstore|rpc_pipefs|securityfs|selinuxfs|squashfs|sysfs|tracefs)$"
+    mount_points_exclude = "^/(dev|proc|run/credentials/.+|sys|var/lib/docker/.+)($|/)"
+    mount_timeout        = "5s"
+  }
+
+  netclass {
+    ignored_devices = "^(veth.*|cali.*|[a-f0-9]{15})$"
+  }
+
+  netdev {
+    device_exclude = "^(veth.*|cali.*|[a-f0-9]{15})$"
+  }
+}
+
+prometheus.exporter.cadvisor "containers" {
+  docker_host = "tcp://socket-proxy:2375"
+
+  storage_duration = "5m"
 }

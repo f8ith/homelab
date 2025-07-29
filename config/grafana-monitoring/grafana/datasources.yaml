@@ -8,3 +8,8 @@ datasources:
     jsonData:
       timeout: 60
       maxLines: 1000
+  - name: Prometheus
+    type: prometheus
+    url: http://prometheus:9090
+    access: proxy
+    isDefault: true
