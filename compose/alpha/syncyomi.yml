@@ -9,23 +9,28 @@ services:
         ipv4_address: 10.10.0.4
     restart: unless-stopped
     labels:
-      caddy_1: syncyomi.jamietong.com
-      caddy_1.reverse_proxy: "{{upstreams 8282}}"
+      - "traefik.enable=true"
+      - "traefik.http.routers.syncyomi-rtr.entrypoints=websecure"
+      - "traefik.http.routers.syncyomi-rtr.rule=Host(`syncyomi.$DOMAINNAME_1`)"
+      - "traefik.http.routers.syncyomi-rtr.service=syncyomi-svc"
+      - "traefik.http.services.syncyomi-svc.loadbalancer.server.port=8282"
+      - "logging=alloy"
+      - "logging_jobname=containerlogs"
 
   syncyomi-two:
-   container_name: syncyomi-two
-   image: ghcr.io/syncyomi/syncyomi:latest
-   volumes:
-     - $DATADIR/appdata/syncyomi-two/config:/config
-   networks:
+    container_name: syncyomi-two
+    image: ghcr.io/syncyomi/syncyomi:latest
+    volumes:
+      - $DATADIR/appdata/syncyomi-two/config:/config
+    networks:
       web:
-       ipv4_address: 10.10.0.5
-   restart: unless-stopped
-   labels:
-     caddy_1: syncyomi-two.jamietong.com
-     caddy_1.reverse_proxy: "{{upstreams 8282}}"
-     logging: alloy
-     logging_jobname: containerlogs
-  
-  
-  
+        ipv4_address: 10.10.0.5
+    restart: unless-stopped
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.syncyomi-two-rtr.entrypoints=websecure"
+      - "traefik.http.routers.syncyomi-two-rtr.rule=Host(`syncyomi-two.$DOMAINNAME_1`)"
+      - "traefik.http.routers.syncyomi-two-rtr.service=syncyomi-two-svc"
+      - "traefik.http.services.syncyomi-two-svc.loadbalancer.server.port=8282"
+      - "logging=alloy"
+      - "logging_jobname=containerlogs"

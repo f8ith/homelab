@@ -5,26 +5,24 @@ services:
     networks:
       - web
       - minecraft
-    env_file: 
+    env_file:
       - $CONFIGDIR/.env
       - $CONFIGDIR/minecraft.env
-    ports:
-     - "4326:4326"
-     - "4327:4327"
     restart: unless-stopped
     security_opt:
       - no-new-privileges:false
     labels:
-      caddy: rcon-web.jamietong.com
-      #caddy.reverse_proxy: "{{upstreams 4326}}"
-      caddy.@ws.0_header: "Connection *Upgrade*"
-      caddy.@ws.1_header: "Upgrade websocket"
-      caddy.0_reverse_proxy: "@ws {{upstreams 4327}}"
-      caddy.1_reverse_proxy: "{{upstreams 4326}}"
-#      caddy.tls: "/data/caddy/certificates/jamietong.com-certificate.pem /data/caddy/certificates/jamietong.com-key.pem"
-      logging: alloy
-      logging_jobname: containerlogs
-
+      - "traefik.enable=true"
+      - "traefik.http.routers.rcon-web-rtr.entrypoints=websecure"
+      - "traefik.http.routers.rcon-web-rtr.rule=Host(`rcon-web.$DOMAINNAME_1`)"
+      - "traefik.http.routers.rcon-web-rtr.service=rcon-web-svc"
+      - "traefik.http.services.rcon-web-svc.loadbalancer.server.port=4326"
+      - "traefik.http.routers.rcon-web-wss-rtr.entrypoints=websecure"
+      - "traefik.http.routers.rcon-web-wss-rtr.rule=Host(`rcon-web.$DOMAINNAME_1`) && Header(`Connection`, `Upgrade`) && Header(`Upgrade`, `websocket`)"
+      - "traefik.http.routers.rcon-web-wss-rtr.service=rcon-web-wss-svc"
+      - "traefik.http.services.rcon-web-wss-svc.loadbalancer.server.port=4327"
+      - "logging=alloy"
+      - "logging_jobname=containerlogs"
 
   smp:
     image: itzg/minecraft-server:java21-alpine
@@ -33,7 +31,7 @@ services:
     stdin_open: true
     networks:
       - minecraft
-    env_file: 
+    env_file:
       - $CONFIGDIR/.env
       - $CONFIGDIR/minecraft.env
     ports:

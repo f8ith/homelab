@@ -7,10 +7,10 @@ networks:
     external: true
 
 include:
-   - compose/common/socket-proxy.yml
-   - compose/alpha/alloy.yml
-   - compose/alpha/caddy.yml
-   - compose/alpha/mailserver.yml
-   - compose/alpha/syncyomi.yml
-   - compose/alpha/forgejo.yml
-   #   - compose/alpha/postgres.yml
+  - compose/common/socket-proxy.yml
+  - compose/alpha/alloy.yml
+  - compose/alpha/traefik.yml
+  - compose/alpha/mailserver.yml
+  - compose/alpha/syncyomi.yml
+  - compose/alpha/forgejo.yml
+  #   - compose/alpha/postgres.yml

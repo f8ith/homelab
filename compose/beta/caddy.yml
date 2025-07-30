@@ -16,6 +16,5 @@ services:
     restart: unless-stopped
     labels:
       caddy.email: jamienibtong@gmail.com
-      caddy.auto_https: "ignore_loaded_certs"
       logging: alloy
       logging_jobname: containerlogs

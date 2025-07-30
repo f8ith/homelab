@@ -14,7 +14,10 @@ services:
       - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro
     labels:
-      caddy_1: forgejo.jamietong.com
-      caddy_1.reverse_proxy: "{{upstreams 3000}}"
-      logging: alloy
-      logging_jobname: containerlogs
+      - "traefik.enable=true"
+      - "traefik.http.routers.forgejo-rtr.entrypoints=websecure"
+      - "traefik.http.routers.forgejo-rtr.rule=Host(`forgejo.$DOMAINNAME_1`)"
+      - "traefik.http.routers.forgejo-rtr.service=forgejo-svc"
+      - "traefik.http.services.forgejo-svc.loadbalancer.server.port=3000"
+      - "logging=alloy"
+      - "logging_jobname=containerlogs"

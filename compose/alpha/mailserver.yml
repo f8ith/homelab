@@ -10,21 +10,17 @@ services:
       web:
         ipv4_address: 10.10.0.3
     ports:
-      - "25:25"    # SMTP  (explicit TLS => STARTTLS, Authentication is DISABLED => use port 465/587 instead)
-      - "143:143"  # IMAP4 (explicit TLS => STARTTLS)
-      - "465:465"  # ESMTP (implicit TLS)
-      - "587:587"  # ESMTP (explicit TLS => STARTTLS)
-      - "993:993"  # IMAP4 (implicit TLS)
+      - "25:25" # SMTP  (explicit TLS => STARTTLS, Authentication is DISABLED => use port 465/587 instead)
+      - "143:143" # IMAP4 (explicit TLS => STARTTLS)
+      - "465:465" # ESMTP (implicit TLS)
+      - "587:587" # ESMTP (explicit TLS => STARTTLS)
+      - "993:993" # IMAP4 (implicit TLS)
     volumes:
       - $DATADIR/appdata/dms/mail-data/:/var/mail/
       - $DATADIR/appdata/dms/mail-state/:/var/mail-state/
       - $DATADIR/appdata/dms/mail-logs/:/var/log/mail/
       - $DATADIR/appdata/dms/config/:/tmp/docker-mailserver/
-      # - $DATADIR/appdata/certbot/certs/:/etc/letsencrypt
-      # Caddy:
-      - $DATADIR/appdata/caddy/caddy/certificates/acme-v02.api.letsencrypt.org-directory/mail.jamietong.com/mail.jamietong.com.crt:/etc/letsencrypt/live/mail.jamietong.com/fullchain.pem
-      - $DATADIR/appdata/caddy/caddy/certificates/acme-v02.api.letsencrypt.org-directory/mail.jamietong.com/mail.jamietong.com.key:/etc/letsencrypt/live/mail.jamietong.com/privkey.pem
-
+      - $DATADIR/appdata/traefik3/acme/acme.json:/etc/letsencrypt/acme.json:ro # Certs File
       - /etc/localtime:/etc/localtime:ro
     restart: always
     stop_grace_period: 1m
@@ -34,12 +30,8 @@ services:
     healthcheck:
       test: "ss --listening --tcp | grep -P 'LISTEN.+:smtp' || exit 1"
       timeout: 3s
-      retries: 0
-    labels:
-      # Set your DMS FQDN here to add the site-address into the generated Caddyfile:
-      caddy_0: mail.jamietong.com
-      # Adding a dummy directive is required:
-      caddy_0.respond: "Hello DMS"
-      logging: alloy
-      logging_jobname: containerlogs
 
+  whoami:
+    image: docker.io/traefik/whoami:latest
+    labels:
+      - "traefik.http.routers.whoami.rule=Host(`mail.jamietong.com`)"

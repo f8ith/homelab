@@ -12,5 +12,8 @@ services:
         ipv4_address: 10.10.0.7
       socket_proxy:
     labels:
-      caddy_1: alloy.alpha.jamietong.com
-      caddy_1.reverse_proxy: "{{upstreams 12345}}"
+      - "traefik.enable=true"
+      - "traefik.http.routers.alloy-rtr.entrypoints=websecure"
+      - "traefik.http.routers.alloy-rtr.rule=Host(`alloy.${DOCKER_HOST_NAME}.$DOMAINNAME_1`)"
+      - "traefik.http.routers.alloy-rtr.service=alloy-svc"
+      - "traefik.http.services.alloy-svc.loadbalancer.server.port=12345"
