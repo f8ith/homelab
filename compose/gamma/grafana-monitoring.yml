@@ -1,3 +1,11 @@
+configs:
+  datasources.yaml:
+    file: $CONFIGDIR/config/grafana-monitoring/grafana/datasources.yaml
+  prometheus.yml:
+    file: $CONFIGDIR/config/grafana-monitoring/prometheus/prometheus.yml
+  loki-config.yml:
+    file: $CONFIGDIR/config/grafana-monitoring/loki/loki-config.yml
+
 services:
   loki:
     container_name: loki
@@ -7,7 +15,9 @@ services:
       - grafana_monitoring
     volumes:
       - $DATADIR/appdata/grafana-monitoring/loki:/etc/loki
-      - $CONFIGDIR/config/grafana-monitoring/loki/loki-config.yml:/etc/loki/loki-config.yml
+    configs:
+      - source: loki-config.yml
+        target: /etc/loki/loki-config.yml
     ports:
       - "3100:3100"
     restart: unless-stopped
@@ -28,7 +38,9 @@ services:
       - grafana_monitoring
     volumes:
       - $DATADIR/appdata/grafana-monitoring/grafana/data:/var/lib/grafana
-      - $CONFIGDIR/config/grafana-monitoring/grafana/datasources.yaml:/etc/grafana/provisioning/datasources/datasources.yaml
+    configs:
+      - source: datasources.yaml
+        target: /etc/grafana/provisioning/datasources/datasources.yaml
     restart: unless-stopped
     labels:
       - "traefik.enable=true"
@@ -41,12 +53,13 @@ services:
     container_name: prometheus
     image: prom/prometheus
     restart: unless-stopped
-    volumes:
-      - $CONFIGDIR/config/grafana-monitoring/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+    configs:
+      - source: prometheus.yml
+        target: /etc/prometheus/prometheus.yml
     networks:
       - web
       - grafana_monitoring
-    command: --web.enable-remote-write-receiver
+    command: --config.file=/etc/prometheus/prometheus.yml --web.enable-remote-write-receiver
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.prometheus-rtr.entrypoints=websecure"

@@ -1,3 +1,7 @@
+configs:
+  config.alloy:
+    file: $CONFIGDIR/config/grafana-monitoring/alloy/common/config.alloy
+
 services:
   alloy:
     extends:
