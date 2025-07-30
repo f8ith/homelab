@@ -3,13 +3,16 @@ loki.write "default" {
 		url = "https://loki.jamietong.com/loki/api/v1/push"
 	}
 	external_labels = {
-		hostname = sys.env("DOCKER_HOST_NAME"),
+	  	hostname = sys.env("DOCKER_HOST_NAME"),
 	}
 }
 
 prometheus.remote_write "default" {
   endpoint {
-    url = "https://prometheus.jamietong.com/api/v1/write"
+    	url = "https://prometheus.jamietong.com/api/v1/write"
+  }
+  external_labels = {
+		hostname = sys.env("DOCKER_HOST_NAME"),
   }
 }
 
@@ -28,18 +31,18 @@ loki.source.file "system" {
 }
 
 loki.relabel "journal" {
-  forward_to = []
+	forward_to = []
 
-  rule {
-    source_labels = ["__journal__systemd_unit"]
-    target_label  = "unit"
-  }
+	rule {
+		source_labels = ["__journal__systemd_unit"]
+		target_label  = "unit"
+	}
 }
 
 loki.source.journal "read"  {
-  forward_to    = [loki.write.default.receiver]
-  relabel_rules = loki.relabel.journal.rules
-  labels        = {component = "loki.source.journal"}
+	forward_to    = [loki.write.default.receiver]
+	relabel_rules = loki.relabel.journal.rules
+	labels        = {component = "loki.source.journal"}
 }
 
 discovery.docker "containers" {
