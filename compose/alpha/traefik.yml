@@ -78,7 +78,7 @@ services:
       - "traefik.enable=true"
       # HTTP Routers
       - "traefik.http.routers.traefik-rtr.entrypoints=websecure"
-      - "traefik.http.routers.traefik-rtr.rule=Host(`traefik.alpha.$DOMAINNAME_1`)"
+      - "traefik.http.routers.traefik-rtr.rule=Host(`traefik.${DOCKER_HOST_NAME}.$DOMAINNAME_1`)"
       # Services - API
       - "traefik.http.routers.traefik-rtr.service=api@internal"
       # Healthcheck/ping

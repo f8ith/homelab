@@ -1,10 +1,10 @@
-########################### NETWORKS
-# You may customize the network subnet (192.168.89.0/24) below as you please.
-# Docker Compose version 3.5 or higher required to define networks this way.
-
 networks:
   web:
     external: true
+
+secrets:
+  cf_dns_api_token:
+    file: $DATADIR/secrets/cf_dns_api_token
 
 include:
   - compose/common/socket-proxy.yml
