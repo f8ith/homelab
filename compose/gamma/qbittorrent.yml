@@ -7,18 +7,15 @@ services:
     image: ghcr.io/hotio/qbittorrent
     networks:
       - web
-    ports:
-      - 8080:8080
     volumes:
       - $DATADIR/appdata/qbittorrent/config:/config
       - $MEDIADIR:/data
       - /mnt:/mnt
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.qbittorrent-rtr.entrypoints=websecure"
-      - "traefik.http.routers.qbittorrent-rtr.rule=Host(`qbittorrent.$DOMAINNAME_1`)"
+      - "traefik.http.routers.qbittorrent-rtr.entrypoints=websecure,internalsecure,internalsecure"
+      - "traefik.http.routers.qbittorrent-rtr.rule=Host(`qbittorrent.${DOCKER_HOST_NAME}.i.$DOMAINNAME_1`) || Host(`qbittorrent.$DOMAINNAME_1`)"
       - "traefik.http.routers.qbittorrent-rtr.service=qbittorrent-svc"
       - "traefik.http.services.qbittorrent-svc.loadbalancer.server.port=8080"
       - "logging=alloy"
       - "logging_jobname=containerlogs"
-

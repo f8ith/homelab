@@ -12,7 +12,7 @@ services:
       - $DATADIR/appdata/tachidesk:/home/suwayomi/.local/share/Tachidesk
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.tachidesk-rtr.entrypoints=websecure"
+      - "traefik.http.routers.tachidesk-rtr.entrypoints=websecure,internalsecure"
       - "traefik.http.routers.tachidesk-rtr.rule=Host(`tachidesk.$DOMAINNAME_1`)"
       - "traefik.http.routers.tachidesk-rtr.service=tachidesk-svc"
       - "traefik.http.services.tachidesk-svc.loadbalancer.server.port=4567"

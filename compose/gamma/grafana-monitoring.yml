@@ -10,8 +10,10 @@ services:
   loki:
     container_name: loki
     image: grafana/loki:main
+    security_opt:
+      - no-new-privileges:true
     networks:
-      - web
+      - internal
       - grafana_monitoring
     volumes:
       - $DATADIR/appdata/grafana-monitoring/loki:/etc/loki
@@ -24,17 +26,20 @@ services:
     command: -config.file=/etc/loki/loki-config.yml
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.loki-rtr.entrypoints=websecure"
-      - "traefik.http.routers.loki-rtr.rule=Host(`loki.$DOMAINNAME_1`)"
+      - "traefik.http.routers.loki-rtr.entrypoints=internalsecure"
+      - "traefik.http.routers.loki-rtr.rule=Host(`loki.${DOCKER_HOST_NAME}.i.$DOMAINNAME_1`) || Host(`loki.$DOMAINNAME_1`)"
       - "traefik.http.routers.loki-rtr.service=loki-svc"
       - "traefik.http.routers.loki-rtr.tls=true"
       - "traefik.http.services.loki-svc.loadbalancer.server.port=3100"
+      - "traefik.docker.network=internal"
   grafana:
     container_name: grafana
     image: grafana/grafana-oss:main-ubuntu
+    security_opt:
+      - no-new-privileges:true
     user: "0"
     networks:
-      - web
+      - internal
       - grafana_monitoring
     volumes:
       - $DATADIR/appdata/grafana-monitoring/grafana/data:/var/lib/grafana
@@ -44,29 +49,33 @@ services:
     restart: unless-stopped
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.grafana-rtr.entrypoints=websecure"
-      - "traefik.http.routers.grafana-rtr.rule=Host(`grafana.$DOMAINNAME_1`)"
+      - "traefik.http.routers.grafana-rtr.entrypoints=internalsecure"
+      - "traefik.http.routers.grafana-rtr.rule=Host(`grafana.${DOCKER_HOST_NAME}.i.$DOMAINNAME_1`) || Host(`grafana.$DOMAINNAME_1`)"
       - "traefik.http.routers.grafana-rtr.service=grafana-svc"
       - "traefik.http.routers.grafana-rtr.tls=true"
       - "traefik.http.services.grafana-svc.loadbalancer.server.port=3000"
+      - "traefik.docker.network=internal"
   prometheus:
     container_name: prometheus
     image: prom/prometheus
+    security_opt:
+      - no-new-privileges:true
     restart: unless-stopped
     configs:
       - source: prometheus.yml
         target: /etc/prometheus/prometheus.yml
     networks:
-      - web
+      - internal
       - grafana_monitoring
     command: --config.file=/etc/prometheus/prometheus.yml --web.enable-remote-write-receiver
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.prometheus-rtr.entrypoints=websecure"
-      - "traefik.http.routers.prometheus-rtr.rule=Host(`prometheus.$DOMAINNAME_1`)"
+      - "traefik.http.routers.prometheus-rtr.entrypoints=internalsecure"
+      - "traefik.http.routers.prometheus-rtr.rule=Host(`prometheus.${DOCKER_HOST_NAME}.i.$DOMAINNAME_1`) || Host(`prometheus.$DOMAINNAME_1`)"
       - "traefik.http.routers.prometheus-rtr.service=prometheus-svc"
       - "traefik.http.routers.prometheus-rtr.tls=true"
       - "traefik.http.services.prometheus-svc.loadbalancer.server.port=9090"
+      - "traefik.docker.network=internal"
   #promtail:
   #  container_name: promtail
   #  image: grafana/promtail:main

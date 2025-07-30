@@ -6,6 +6,6 @@ services:
     image: ghcr.io/recyclarr/recyclarr
     container_name: recyclarr
     networks:
-      - web
+      - arr
     volumes:
       - $DATADIR/appdata/recyclarr/config:/config

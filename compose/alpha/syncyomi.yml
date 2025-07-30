@@ -10,7 +10,7 @@ services:
     restart: unless-stopped
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.syncyomi-rtr.entrypoints=websecure"
+      - "traefik.http.routers.syncyomi-rtr.entrypoints=websecure,internalsecure"
       - "traefik.http.routers.syncyomi-rtr.rule=Host(`syncyomi.$DOMAINNAME_1`)"
       - "traefik.http.routers.syncyomi-rtr.service=syncyomi-svc"
       - "traefik.http.services.syncyomi-svc.loadbalancer.server.port=8282"
@@ -28,7 +28,7 @@ services:
     restart: unless-stopped
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.syncyomi-two-rtr.entrypoints=websecure"
+      - "traefik.http.routers.syncyomi-two-rtr.entrypoints=websecure,internalsecure"
       - "traefik.http.routers.syncyomi-two-rtr.rule=Host(`syncyomi-two.$DOMAINNAME_1`)"
       - "traefik.http.routers.syncyomi-two-rtr.service=syncyomi-two-svc"
       - "traefik.http.services.syncyomi-two-svc.loadbalancer.server.port=8282"

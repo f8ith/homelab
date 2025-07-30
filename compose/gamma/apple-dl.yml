@@ -6,14 +6,15 @@ services:
     container_name: apple-dl
     image: f8ith/apple-dl:stable
     networks:
-      - web
+      - internal
     volumes:
       - $DATADIR/appdata/apple-dl/:/config
       - /mnt/media-server/ingest/music:/downloads
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.appledl-rtr.entrypoints=websecure"
-      - "traefik.http.routers.appledl-rtr.rule=Host(`appledl.$DOMAINNAME_1`)"
+      - "traefik.http.routers.appledl-rtr.entrypoints=internalsecure"
+      - "traefik.http.routers.appledl-rtr.rule=Host(`appledl.${DOCKER_HOST_NAME}.i.$DOMAINNAME_1`) || Host(`appledl.$DOMAINNAME_1`)"
       - "traefik.http.routers.appledl-rtr.service=appledl-svc"
-      - "traefik.http.routers.appledl-rtr.tls=true"
       - "traefik.http.services.appledl-svc.loadbalancer.server.port=6887"
+      - "traefik.docker.network=internal"
+

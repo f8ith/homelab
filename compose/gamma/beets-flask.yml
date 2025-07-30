@@ -16,7 +16,8 @@ services:
     image: pspitzner/beets-flask:stable
     container_name: beets-flask
     networks:
-      - web
+      - internal
+      - arr
     volumes:
       - $DATADIR/appdata/beets-flask/beets/:/config/beets/
       - $DATADIR/appdata/beets-flask/beets-flask/:/config/beets-flask/
@@ -28,16 +29,16 @@ services:
         target: /config/requirements.txt
       - source: startup.sh
         target: /config/startup.sh
-        mode: 0744
       - source: beets-flask.config.yaml
         target: /config/beets-flask/config.yaml
       - source: beets-config.yaml
         target: /config/beets/config.yaml
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.beetsflask-rtr.entrypoints=websecure"
-      - "traefik.http.routers.beetsflask-rtr.rule=Host(`beetsflask.$DOMAINNAME_1`)"
+      - "traefik.http.routers.beetsflask-rtr.entrypoints=internalsecure"
+      - "traefik.http.routers.beetsflask-rtr.rule=Host(`beetsflask.${DOCKER_HOST_NAME}.i.$DOMAINNAME_1`) || Host(`beetsflask.$DOMAINNAME_1`)"
       - "traefik.http.routers.beetsflask-rtr.service=beetsflask-svc"
       - "traefik.http.services.beetsflask-svc.loadbalancer.server.port=5001"
+      - "traefik.docker.network=internal"
       - "logging=alloy"
       - "logging_jobname=containerlogs"

@@ -5,6 +5,12 @@ networks:
     ipam:
       config:
         - subnet: 192.168.90.0/24
+  internal:
+    name: internal
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 192.168.91.0/24
 
 secrets:
   cf_dns_api_token:
@@ -12,17 +18,17 @@ secrets:
 
 include:
   - compose/common/socket-proxy.yml
-  - compose/gamma/alloy.yml
-  - compose/gamma/traefik.yml
-  - compose/gamma/jellyfin.yml
-  - compose/gamma/arr.yml
-  - compose/gamma/immich.yml
-  - compose/gamma/qbittorrent.yml
-  - compose/gamma/recyclarr.yml
-  - compose/gamma/kavita.yml
-  - compose/gamma/tachidesk.yml
-  - compose/gamma/slskd.yml
-  - compose/gamma/beets-flask.yml
-  - compose/gamma/lms.yml
-  - compose/gamma/apple-dl.yml
-  - compose/gamma/grafana-monitoring.yml
+  - compose/${DOCKER_HOST_NAME}/alloy.yml
+  - compose/${DOCKER_HOST_NAME}/traefik.yml
+  - compose/${DOCKER_HOST_NAME}/jellyfin.yml
+  - compose/${DOCKER_HOST_NAME}/arr.yml
+  - compose/${DOCKER_HOST_NAME}/immich.yml
+  - compose/${DOCKER_HOST_NAME}/qbittorrent.yml
+  - compose/${DOCKER_HOST_NAME}/recyclarr.yml
+  - compose/${DOCKER_HOST_NAME}/kavita.yml
+  - compose/${DOCKER_HOST_NAME}/tachidesk.yml
+  - compose/${DOCKER_HOST_NAME}/slskd.yml
+  - compose/${DOCKER_HOST_NAME}/beets-flask.yml
+  - compose/${DOCKER_HOST_NAME}/lms.yml
+  - compose/${DOCKER_HOST_NAME}/apple-dl.yml
+  - compose/${DOCKER_HOST_NAME}/grafana-monitoring.yml

@@ -16,8 +16,7 @@ services:
       - $DATADIR/appdata/gonic/cache:/cache # transcode / covers / etc cache dir
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.gonic-rtr.entrypoints=websecure"
+      - "traefik.http.routers.gonic-rtr.entrypoints=websecure,internalsecure"
       - "traefik.http.routers.gonic-rtr.rule=Host(`gonic.$DOMAINNAME_1`)"
       - "traefik.http.routers.gonic-rtr.service=gonic-svc"
       - "traefik.http.services.gonic-svc.loadbalancer.server.port=80"
-

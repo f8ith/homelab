@@ -2,6 +2,15 @@ networks:
   web:
     name: web
     driver: bridge
+    ipam:
+      config:
+        - subnet: 192.168.90.0/24
+  internal:
+    name: internal
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 192.168.91.0/24
 
 secrets:
   cf_dns_api_token:
@@ -9,7 +18,7 @@ secrets:
 
 include:
   - compose/common/socket-proxy.yml
-  - compose/beta/alloy.yml
-  - compose/beta/traefik.yml
-  - compose/beta/minecraft.yml
-#   - compose/beta/syncyomi.yml
+  - compose/${DOCKER_HOST_NAME}/alloy.yml
+  - compose/${DOCKER_HOST_NAME}/traefik.yml
+  - compose/${DOCKER_HOST_NAME}/minecraft.yml
+#   - compose/${DOCKER_HOST_NAME}/syncyomi.yml

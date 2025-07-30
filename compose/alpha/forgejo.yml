@@ -15,7 +15,7 @@ services:
       - /etc/localtime:/etc/localtime:ro
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.forgejo-rtr.entrypoints=websecure"
+      - "traefik.http.routers.forgejo-rtr.entrypoints=websecure,internalsecure"
       - "traefik.http.routers.forgejo-rtr.rule=Host(`forgejo.$DOMAINNAME_1`)"
       - "traefik.http.routers.forgejo-rtr.service=forgejo-svc"
       - "traefik.http.services.forgejo-svc.loadbalancer.server.port=3000"

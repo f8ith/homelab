@@ -3,63 +3,68 @@ services:
   sonarr:
     extends:
       file: common.yml
-      service: app 
+      service: app
     image: lscr.io/linuxserver/sonarr:develop
     container_name: sonarr
     networks:
-      - web
+      - arr
+      - internal
     volumes:
       - $DATADIR/appdata/sonarr:/config
       - $MEDIADIR:/data
       - "/etc/localtime:/etc/localtime:ro"
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.sonarr-rtr.entrypoints=websecure"
-      - "traefik.http.routers.sonarr-rtr.rule=Host(`sonarr.$DOMAINNAME_1`)"
+      - "traefik.http.routers.sonarr-rtr.entrypoints=internalsecure"
+      - "traefik.http.routers.sonarr-rtr.rule=Host(`sonarr.${DOCKER_HOST_NAME}.i.$DOMAINNAME_1`) || Host(`sonarr.$DOMAINNAME_1`)"
       - "traefik.http.routers.sonarr-rtr.service=sonarr-svc"
       - "traefik.http.services.sonarr-svc.loadbalancer.server.port=8989"
+      - "traefik.docker.network=internal"
       - "logging=alloy"
       - "logging_jobname=containerlogs"
 
   prowlarr: #indexer manager for Sonarr & Radarr
     extends:
       file: common.yml
-      service: app 
+      service: app
     image: ghcr.io/linuxserver/prowlarr:develop
     container_name: prowlarr
     networks:
-      - web
+      - arr
+      - internal
     volumes:
       - $DATADIR/appdata/prowlarr:/config
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.prowlarr-rtr.entrypoints=websecure"
-      - "traefik.http.routers.prowlarr-rtr.rule=Host(`prowlarr.$DOMAINNAME_1`)"
+      - "traefik.http.routers.prowlarr-rtr.entrypoints=internalsecure"
+      - "traefik.http.routers.prowlarr-rtr.rule=Host(`prowlarr.${DOCKER_HOST_NAME}.i.$DOMAINNAME_1`) || Host(`prowlarr.$DOMAINNAME_1`)"
       - "traefik.http.routers.prowlarr-rtr.service=prowlarr-svc"
       - "traefik.http.services.prowlarr-svc.loadbalancer.server.port=9696"
+      - "traefik.docker.network=internal"
       - "logging=alloy"
       - "logging_jobname=containerlogs"
 
   radarr: #movie search agent
     extends:
       file: common.yml
-      service: app 
+      service: app
     image: ghcr.io/linuxserver/radarr
     container_name: radarr
     networks:
-      - web
+      - arr
+      - internal
     volumes:
       - $DATADIR/appdata/radarr:/config
       - $MEDIADIR:/data
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.radarr-rtr.entrypoints=websecure"
-      - "traefik.http.routers.radarr-rtr.rule=Host(`radarr.$DOMAINNAME_1`)"
+      - "traefik.http.routers.radarr-rtr.entrypoints=internalsecure"
+      - "traefik.http.routers.radarr-rtr.rule=Host(`radarr.${DOCKER_HOST_NAME}.i.$DOMAINNAME_1`) || Host(`radarr.$DOMAINNAME_1`)"
       - "traefik.http.routers.radarr-rtr.service=radarr-svc"
       - "traefik.http.services.radarr-svc.loadbalancer.server.port=7878"
+      - "traefik.docker.network=internal"
       - "logging=alloy"
       - "logging_jobname=containerlogs"
-
 
   jellyseerr:
     extends:
@@ -68,6 +73,7 @@ services:
     image: fallenbagel/jellyseerr:latest
     container_name: jellyseerr
     networks:
+      - arr
       - web
     environment:
       LOG_LEVEL: debug
@@ -75,7 +81,7 @@ services:
       - $DATADIR/appdata/jellyseerr:/app/config
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.jellyseerr-rtr.entrypoints=websecure"
+      - "traefik.http.routers.jellyseerr-rtr.entrypoints=websecure,internalsecure"
       - "traefik.http.routers.jellyseerr-rtr.rule=Host(`jellyseerr.$DOMAINNAME_1`)"
       - "traefik.http.routers.jellyseerr-rtr.service=jellyseerr-svc"
       - "traefik.http.services.jellyseerr-svc.loadbalancer.server.port=5055"
@@ -90,16 +96,26 @@ services:
     image: lscr.io/linuxserver/bazarr:latest
     container_name: bazarr
     networks:
-      - web
+      - arr
+      - internal
     volumes:
       - $DATADIR/appdata/bazarr:/config
       - $MEDIADIR/media:/data/media
       - $MEDIADIR/subtitles:/data/subtitles
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.bazarr-rtr.entrypoints=websecure"
-      - "traefik.http.routers.bazarr-rtr.rule=Host(`bazarr.$DOMAINNAME_1`)"
+      - "traefik.http.routers.bazarr-rtr.entrypoints=internalsecure"
+      - "traefik.http.routers.bazarr-rtr.rule=Host(`bazarr.${DOCKER_HOST_NAME}.i.$DOMAINNAME_1`) || Host(`bazarr.$DOMAINNAME_1`)"
       - "traefik.http.routers.bazarr-rtr.service=bazarr-svc"
       - "traefik.http.services.bazarr-svc.loadbalancer.server.port=6767"
+      - "traefik.docker.network=internal"
       - "logging=alloy"
       - "logging_jobname=containerlogs"
+
+networks:
+  arr:
+    name: arr
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 192.168.92.0/24

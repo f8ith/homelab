@@ -1,6 +1,12 @@
 networks:
   web:
     external: true
+  internal:
+    name: internal
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 192.168.91.0/24
 
 secrets:
   cf_dns_api_token:
@@ -8,9 +14,9 @@ secrets:
 
 include:
   - compose/common/socket-proxy.yml
-  - compose/alpha/alloy.yml
-  - compose/alpha/traefik.yml
-  - compose/alpha/mailserver.yml
-  - compose/alpha/syncyomi.yml
-  - compose/alpha/forgejo.yml
-  #   - compose/alpha/postgres.yml
+  - compose/${DOCKER_HOST_NAME}/alloy.yml
+  - compose/${DOCKER_HOST_NAME}/traefik.yml
+  - compose/${DOCKER_HOST_NAME}/mailserver.yml
+  - compose/${DOCKER_HOST_NAME}/syncyomi.yml
+  - compose/${DOCKER_HOST_NAME}/forgejo.yml
+  #   - compose/${DOCKER_HOST_NAME}/postgres.yml

@@ -13,7 +13,7 @@ services:
       - $DATADIR/appdata/kavita:/kavita/config
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.kavita-rtr.entrypoints=websecure"
+      - "traefik.http.routers.kavita-rtr.entrypoints=websecure,internalsecure"
       - "traefik.http.routers.kavita-rtr.rule=Host(`kavita.$DOMAINNAME_1`)"
       - "traefik.http.routers.kavita-rtr.service=kavita-svc"
       - "traefik.http.services.kavita-svc.loadbalancer.server.port=5000"

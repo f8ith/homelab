@@ -14,7 +14,7 @@ services:
       - "/tmp/snapfifo:/tmp/snapfifo"
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.navidrome-rtr.entrypoints=websecure"
+      - "traefik.http.routers.navidrome-rtr.entrypoints=websecure,internalsecure"
       - "traefik.http.routers.navidrome-rtr.rule=Host(`navidrome.$DOMAINNAME_1`)"
       - "traefik.http.routers.navidrome-rtr.service=navidrome-svc"
       - "traefik.http.services.navidrome-svc.loadbalancer.server.port=4533"

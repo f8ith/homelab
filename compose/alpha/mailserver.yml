@@ -41,4 +41,6 @@ services:
       web:
         ipv4_address: 10.10.0.200
     labels:
-      - "traefik.http.routers.whoami.rule=Host(`mail.jamietong.com`)"
+      - "traefik.enable=true"
+      - "traefik.http.routers.whoami-rtr.entrypoints=websecure"
+      - "traefik.http.routers.whoami-rtr.rule=Host(`mail.jamietong.com`)"

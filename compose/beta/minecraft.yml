@@ -3,7 +3,7 @@ services:
     image: itzg/rcon
     container_name: rcon-web
     networks:
-      - web
+      - internal
       - minecraft
     env_file:
       - $CONFIGDIR/.env
@@ -13,14 +13,15 @@ services:
       - no-new-privileges:false
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.rcon-web-rtr.entrypoints=websecure"
-      - "traefik.http.routers.rcon-web-rtr.rule=Host(`rcon-web.$DOMAINNAME_1`)"
+      - "traefik.http.routers.rcon-web-rtr.entrypoints=internalsecure"
+      - "traefik.http.routers.rcon-web-rtr.rule=Host(`rcon-web.${DOCKER_HOST_NAME}.i.$DOMAINNAME_1`)"
       - "traefik.http.routers.rcon-web-rtr.service=rcon-web-svc"
       - "traefik.http.services.rcon-web-svc.loadbalancer.server.port=4326"
-      - "traefik.http.routers.rcon-web-wss-rtr.entrypoints=websecure"
-      - "traefik.http.routers.rcon-web-wss-rtr.rule=Host(`rcon-web.$DOMAINNAME_1`) && Header(`Connection`, `Upgrade`) && Header(`Upgrade`, `websocket`)"
+      - "traefik.http.routers.rcon-web-wss-rtr.entrypoints=internalsecure"
+      - "traefik.http.routers.rcon-web-wss-rtr.rule=Host(`rcon-web.${DOCKER_HOST_NAME}.i.$DOMAINNAME_1`) && Header(`Connection`, `Upgrade`) && Header(`Upgrade`, `websocket`)"
       - "traefik.http.routers.rcon-web-wss-rtr.service=rcon-web-wss-svc"
       - "traefik.http.services.rcon-web-wss-svc.loadbalancer.server.port=4327"
+      - "traefik.docker.network=internal"
       - "logging=alloy"
       - "logging_jobname=containerlogs"
 
