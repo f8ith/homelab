@@ -114,6 +114,7 @@ prometheus.exporter.unix "system" {
 
 prometheus.exporter.cadvisor "containers" {
   docker_host = "tcp://socket-proxy:2375"
-
+  docker_only = true
   storage_duration = "5m"
+  store_container_labels = true
 }
