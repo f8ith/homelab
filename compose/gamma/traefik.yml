@@ -55,9 +55,7 @@ services:
       - --entrypoints.internalsecure.http.tls.options=tls-opts@file
       - --entrypoints.internalsecure.http.tls.certresolver=dns-cloudflare
       - --entrypoints.internalsecure.http.tls.domains[0].main=$DOMAINNAME_1
-      - --entrypoints.internalsecure.http.tls.domains[0].sans=*.$DOMAINNAME_1
-      - --entrypoints.internalsecure.http.tls.domains[1].main=${DOCKER_HOST_NAME}.i.$DOMAINNAME_1
-      - --entrypoints.internalsecure.http.tls.domains[1].sans=*.${DOCKER_HOST_NAME}.i.$DOMAINNAME_1
+      - --entrypoints.internalsecure.http.tls.domains[0].sans=*.$DOMAINNAME_1,*.${DOCKER_HOST_NAME}.i.$DOMAINNAME_1
 
       - --providers.file.directory=/rules # Load dynamic configuration from one or more .toml or .yml files in a directory
       - --providers.file.watch=true # Only works on top level files in the rules folder
