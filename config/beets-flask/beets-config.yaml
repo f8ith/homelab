@@ -1,7 +1,7 @@
 include:
   - secrets.yaml
 
-plugins: fetchart embedart convert scrub replaygain lastgenre chroma web
+plugins: fetchart embedart convert scrub replaygain lastgenre web lyrics
 directory: /music
 library: /config/beets/library.db
 art_filename: albumart
@@ -70,9 +70,12 @@ web:
 
 subsonic:
     url: http://gonic:80
-    auth: token
+
 
 emby:
     host: jellyfin
     port: 8096
 
+lyrics:
+    auto: yes
+    synced: yes
