@@ -114,6 +114,7 @@ services:
       - CF_DNS_API_TOKEN_FILE=/run/secrets/cf_dns_api_token
       #- HTPASSWD_FILE=/run/secrets/basic_auth_credentials
       - DOMAINNAME_1
+      - EXTERNAL_IP
     secrets:
       - cf_dns_api_token
       #- basic_auth_credentials

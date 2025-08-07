@@ -1,0 +1,13 @@
+http:
+  routers:
+    lms-rtr:
+      entryPoints:
+        - websecure
+        - internalsecure
+      rule: "Host(`lms.{{env "DOMAINNAME_1"}}`)"
+      service: lms-svc
+  services:
+    lms-svc:
+      loadBalancer:
+        servers:
+          - url: "http://{{env `EXTERNAL_IP`}}:9000"
