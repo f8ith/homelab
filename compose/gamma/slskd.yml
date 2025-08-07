@@ -20,8 +20,8 @@ services:
     user: "1000:1000"
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.slskd-rtr.entrypoints=websecure,internalsecure"
-      - "traefik.http.routers.slskd-rtr.rule=Host(`slskd.$DOMAINNAME_1`)"
+      - "traefik.http.routers.slskd-rtr.entrypoints=internalsecure"
+      - "traefik.http.routers.slskd-rtr.rule=Host(`slskd.$DOMAINNAME_1`) || Host(`slskd.${DOCKER_HOST_NAME}.i.$DOMAINNAME_1`)"
       - "traefik.http.routers.slskd-rtr.service=slskd-svc"
       - "traefik.http.services.slskd-svc.loadbalancer.server.port=5030"
       - "logging=alloy"
