@@ -100,7 +100,7 @@ services:
       - internal
     volumes:
       - $DATADIR/appdata/bazarr:/config
-      - $MEDIADIR/media:/data/media
+      - $MEDIADIR/@media:/data/media
       - $MEDIADIR/subtitles:/data/subtitles
     labels:
       - "traefik.enable=true"

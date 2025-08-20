@@ -20,7 +20,7 @@ services:
     
     volumes:
       - $DATADIR/appdata/jellyfin:/config
-      - $MEDIADIR/media:/data/media
+      - $MEDIADIR/@media:/data/media
       - $MEDIADIR/music:/music
       - $MEDIADIR/playlists:/playlists
     #     - /dev/shm:/data/transcode # Offload transcoding to RAM if you have enough RAM
