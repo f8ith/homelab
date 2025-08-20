@@ -39,10 +39,11 @@ loki.relabel "journal" {
 	}
 }
 
-loki.source.journal "read"  {
+loki.source.journal "journaldlogs"  {
 	forward_to    = [loki.write.default.receiver]
 	relabel_rules = loki.relabel.journal.rules
-	labels        = {component = "loki.source.journal"}
+	labels        = {component = "loki.source.journal", job = "journaldlogs"}
+    path 		  = "/var/log/journal"
 }
 
 discovery.docker "containers" {
