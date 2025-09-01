@@ -21,4 +21,5 @@ include:
   - compose/${DOCKER_HOST_NAME}/alloy.yml
   - compose/${DOCKER_HOST_NAME}/traefik.yml
   - compose/${DOCKER_HOST_NAME}/minecraft.yml
+  - compose/${DOCKER_HOST_NAME}/apple-dl.yml
 #   - compose/${DOCKER_HOST_NAME}/syncyomi.yml

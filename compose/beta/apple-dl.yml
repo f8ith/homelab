@@ -1,0 +1,44 @@
+services:
+  apple-dl-ui:
+    container_name: apple-dl-ui
+    image: f8ith/apple-dl-ui:git
+    networks:
+      - web
+      - apple-dl
+    restart: unless-stopped
+    security_opt:
+      - no-new-privileges:false
+    env_file:
+      - $CONFIGDIR/apple-dl.env
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.apple-dl-rtr.entrypoints=websecure"
+      - "traefik.http.routers.apple-dl-rtr.rule=Host(`apple-dl.$DOMAINNAME_1`)"
+      - "traefik.http.routers.apple-dl-rtr.service=apple-dl-svc"
+      - "traefik.http.services.apple-dl-svc.loadbalancer.server.port=6887"
+      - "logging=alloy"
+      - "logging_jobname=containerlogs"
+    depends_on:
+      - apple-dl-server
+
+  apple-dl-server:
+    container_name: apple-dl-server
+    image: f8ith/apple-dl-server:git
+    networks:
+      - apple-dl
+    restart: unless-stopped
+    security_opt:
+      - no-new-privileges:false
+    env_file:
+      - $CONFIGDIR/apple-dl.env
+    volumes:
+      - $DATADIR/appdata/apple-dl/:/config
+      - $DATADIR/data/music:/downloads
+    labels:
+      - "logging=alloy"
+      - "logging_jobname=containerlogs"
+
+networks:
+  apple-dl:
+    name: apple-dl
+    driver: bridge
