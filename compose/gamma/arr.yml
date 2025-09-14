@@ -12,6 +12,7 @@ services:
     volumes:
       - $DATADIR/appdata/sonarr:/config
       - $MEDIADIR:/data
+      - $MEDIADIR/@media:/data/media
       - "/etc/localtime:/etc/localtime:ro"
     labels:
       - "traefik.enable=true"
@@ -56,6 +57,7 @@ services:
     volumes:
       - $DATADIR/appdata/radarr:/config
       - $MEDIADIR:/data
+      - $MEDIADIR/@media:/data/media
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.radarr-rtr.entrypoints=internalsecure"

@@ -10,6 +10,7 @@ services:
     volumes:
       - $DATADIR/appdata/qbittorrent/config:/config
       - $MEDIADIR:/data
+      - $MEDIADIR/@media:/data/media
       - /mnt:/mnt
     labels:
       - "traefik.enable=true"
