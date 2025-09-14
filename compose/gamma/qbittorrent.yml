@@ -6,7 +6,8 @@ services:
     container_name: qbittorrent
     image: ghcr.io/hotio/qbittorrent
     networks:
-      - web
+      - internal
+      - qbittorrent
     volumes:
       - $DATADIR/appdata/qbittorrent/config:/config
       - $MEDIADIR:/data
@@ -18,5 +19,15 @@ services:
       - "traefik.http.routers.qbittorrent-rtr.rule=Host(`qbittorrent.${DOCKER_HOST_NAME}.i.$DOMAINNAME_1`) || Host(`qbittorrent.$DOMAINNAME_1`)"
       - "traefik.http.routers.qbittorrent-rtr.service=qbittorrent-svc"
       - "traefik.http.services.qbittorrent-svc.loadbalancer.server.port=8080"
+      - "traefik.docker.network=internal"
       - "logging=alloy"
       - "logging_jobname=containerlogs"
+
+
+networks:
+  qbittorrent:
+    name: qbittorrent
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 192.168.93.0/24

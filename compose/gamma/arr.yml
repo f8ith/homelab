@@ -9,6 +9,7 @@ services:
     networks:
       - arr
       - internal
+      - qbittorrent
     volumes:
       - $DATADIR/appdata/sonarr:/config
       - $MEDIADIR:/data
@@ -54,6 +55,7 @@ services:
     networks:
       - arr
       - internal
+      - qbittorrent
     volumes:
       - $DATADIR/appdata/radarr:/config
       - $MEDIADIR:/data
@@ -77,6 +79,7 @@ services:
     networks:
       - arr
       - web
+      - qbittorrent
     environment:
       LOG_LEVEL: debug
     volumes:
