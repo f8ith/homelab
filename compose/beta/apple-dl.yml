@@ -1,7 +1,7 @@
 services:
   apple-dl-ui:
     container_name: apple-dl-ui
-    image: f8ith/apple-dl-ui:git
+    image: ghcr.io/f8ith/apple-dl-ui:main
     networks:
       - web
       - apple-dl
@@ -23,7 +23,7 @@ services:
 
   apple-dl-server:
     container_name: apple-dl-server
-    image: f8ith/apple-dl-server:git
+    image: ghcr.io/f8ith/apple-dl-server:main
     networks:
       - apple-dl
     restart: unless-stopped
