@@ -1,6 +1,7 @@
 networks:
   authelia:
-    external: true
+    external:
+      name: authelia
 
 services:
   traefik:
