@@ -1,0 +1,26 @@
+networks:
+  authelia:
+    name: authelia
+    driver: bridge
+
+services:
+  authelia:
+    container_name: 'authelia'
+    image: 'docker.io/authelia/authelia:latest'
+    restart: 'unless-stopped'
+    networks:
+      authelia: {}
+    volumes:
+      - '$CONFIGDIR/authelia/secrets:/secrets:ro'
+      - '$CONFIGDIR/config/authelia/beta-config/configuration.yml:/config/configuration.yml:ro'
+      - '$DATADIR/config/authelia/config:/config'
+      - '$DATADIR/appdata/authelia/logs:/var/log/authelia/'
+    labels:
+      traefik.enable: 'true'
+      traefik.http.routers.authelia.rule: 'Host(`authelia.jamietong.com`)'
+      traefik.http.routers.authelia.entryPoints: 'https'
+      traefik.http.routers.authelia.tls: 'true'
+      traefik.http.middlewares.authelia.forwardAuth.address: 'http://authelia:9091/api/authz/forward-auth'
+      traefik.http.middlewares.authelia.forwardAuth.trustForwardHeader: 'true'
+      traefik.http.middlewares.authelia.forwardAuth.authResponseHeaders: 'Remote-User,Remote-Groups,Remote-Email,Remote-Name'
+

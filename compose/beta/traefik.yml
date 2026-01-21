@@ -1,3 +1,7 @@
+networks:
+  authelia:
+    external: true
+
 services:
   traefik:
     container_name: traefik
@@ -6,6 +10,7 @@ services:
       - web
       - internal
       - socket_proxy
+      - authelia
     command: # CLI arguments
       - --global.checkNewVersion=true
       - --global.sendAnonymousUsage=true
@@ -85,17 +90,14 @@ services:
         host_ip: ${INTERNAL_IP}
     volumes:
       - $CONFIGDIR/config/traefik3/rules/${DOCKER_HOST_NAME}:/rules # Dynamic File Provider directory
-      # - /var/run/docker.sock:/var/run/docker.sock:ro # Enable if not using Socket Proxy
       - $DATADIR/appdata/traefik3/acme/acme.json:/acme.json # Certs File
       - $DATADIR/logs/${DOCKER_HOST_NAME}/traefik:/logs # Traefik logs
     environment:
       - TZ=$TZ
       - CF_DNS_API_TOKEN_FILE=/run/secrets/cf_dns_api_token
-      #- HTPASSWD_FILE=/run/secrets/basic_auth_credentials
       - DOMAINNAME_1
     secrets:
       - cf_dns_api_token
-      #- basic_auth_credentials
     labels:
       #- "autoheal=true"
       - "traefik.enable=true"
@@ -110,8 +112,5 @@ services:
       #- "traefik.http.routers.ping.service=ping@internal"
       # Middlewares
       - "traefik.http.routers.traefik-rtr.middlewares=chain-no-auth@file" # For No Authentication
-      #- "traefik.http.routers.traefik-rtr.middlewares=chain-basic-auth@file" # For Basic HTTP Authentication
-      #- "traefik.http.routers.traefik-rtr.middlewares=chain-oauth@file" # For Google OAuth
-      #- "traefik.http.routers.traefik-rtr.middlewares=chain-authelia@file" # For Authelia Authentication
       - "logging=alloy"
       - "logging_jobname=containerlogs"
