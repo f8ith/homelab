@@ -30,5 +30,4 @@ include:
   - compose/${DOCKER_HOST_NAME}/slskd.yml
   - compose/${DOCKER_HOST_NAME}/beets-flask.yml
   - compose/${DOCKER_HOST_NAME}/lms.yml
-  - compose/${DOCKER_HOST_NAME}/apple-dl.yml
   - compose/${DOCKER_HOST_NAME}/grafana-monitoring.yml
