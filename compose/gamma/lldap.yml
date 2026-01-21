@@ -1,0 +1,30 @@
+secrets:
+  lldap_jwt_secret:
+    file: $DATADIR/secrets/lldap_jwt_secret
+  lldap_user_pass:
+    file: $DATADIR/secrets/lldap_user_pass
+
+services:
+  lldap:
+    image: nitnelave/lldap:stable
+    networks:
+      - internal
+    ports:
+      - "$INTERNAL_IP:3890:3890"
+    volumes:
+      - "$DATADIR/data/lldap:/data"
+    environment:
+      - UID=1000
+      - GID=1000
+      - LLDAP_JWT_SECRET_FILE=/run/secrets/lldap_jwt_secret
+      - LLDAP_LDAP_USER_PASS_FILE=/run/secrets/lldap_user_pass
+      - LLDAP_LDAP_BASE_DN=dc=jamietong,dc=com  
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.lldap-rtr.entrypoints=internalsecure"
+      - "traefik.http.routers.lldap-rtr.rule=Host(`lldap.${DOCKER_HOST_NAME}.i.$DOMAINNAME_1`) || Host(`lldap.$DOMAINNAME_1`)"
+      - "traefik.http.routers.lldap-rtr.service=lldap-svc"
+      - "traefik.http.services.lldap-svc.loadbalancer.server.port=17170"
+      - "traefik.docker.network=internal"
+      - "logging=alloy"
+      - "logging_jobname=containerlogs"
