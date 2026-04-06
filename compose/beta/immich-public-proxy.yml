@@ -1,0 +1,22 @@
+services:
+  immich-public-proxy:
+    image: alangrainger/immich-public-proxy:latest
+    container_name: immich-public-proxy
+    restart: always
+    networks:
+      - web
+    environment:
+      PUBLIC_BASE_URL: https://immich-proxy.jamietong.com
+      IMMICH_URL: https://immich.jamietong.com
+    healthcheck:
+      test: curl -s http://localhost:3000/share/healthcheck -o /dev/null || exit 1
+      start_period: 10s
+      timeout: 5s
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.immich-proxy-rtr.entrypoints=websecure"
+      - "traefik.http.routers.immich-proxy-rtr.rule=Host(`immich-proxy.$DOMAINNAME_1`)"
+      - "traefik.http.routers.immich-proxy-rtr.service=immich-proxy-svc"
+      - "traefik.http.services.immich-proxy-svc.loadbalancer.server.port=3000"
+      - "logging=alloy"
+      - "logging_jobname=containerlogs"
