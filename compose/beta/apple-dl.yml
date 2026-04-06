@@ -13,7 +13,7 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.apple-dl-rtr.entrypoints=websecure"
-      - "traefik.http.routers.apple-dl-rtr.rule=Host(`apple-dl.$DOMAINNAME_1`)"
+      - "traefik.http.routers.apple-dl-rtr.rule=host(`apple-dl.$domainname_1`)"
       - "traefik.http.routers.apple-dl-rtr.service=apple-dl-svc"
       - "traefik.http.services.apple-dl-svc.loadbalancer.server.port=6887"
       - "logging=alloy"

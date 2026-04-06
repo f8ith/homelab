@@ -6,8 +6,8 @@ services:
     networks:
       - web
     environment:
-      PUBLIC_BASE_URL: https://immich-proxy.jamietong.com
-      IMMICH_URL: https://immich.jamietong.com
+      PUBLIC_BASE_URL: https://immich-proxy.$DOMAINNAME_1
+      IMMICH_URL: https://immich.gamma.i.$DOMAINNAME_1
     healthcheck:
       test: curl -s http://localhost:3000/share/healthcheck -o /dev/null || exit 1
       start_period: 10s
