@@ -24,4 +24,11 @@ services:
     networks:
       amdl: {}
     volumes:
-      - $DATADIR/wrapper/rootfs/data:/app/rootfs/data
+      - /home/faith/git/wrapper/rootfs/data:/app/rootfs/data
+  apple-music-wrapper-login:
+    extends: apple-music-wrapper
+    restart: on-failure:3
+    profiles:
+      - wrapper-login
+    entrypoint: ["./wrapper"]
+    command: ["-L", "${AM_USERNAME}:${AM_PASSWORD}", "-H", "127.0.0.1"]
