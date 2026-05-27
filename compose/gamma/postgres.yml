@@ -1,0 +1,12 @@
+services:
+  postgres:
+    container_name: postgres
+    image: postgres
+    networks:
+      - internal
+    ports:
+      - 5432:5432
+    env_file: $CONFIGDIR/.env
+    restart: always
+    volumes:
+      - $DATADIR/postgresql/data:/var/lib/postgresql/data

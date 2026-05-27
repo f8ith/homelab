@@ -1,0 +1,21 @@
+services:
+  homepage:
+    image: ghcr.io/gethomepage/homepage:latest
+    container_name: homepage
+    restart: unless-stopped
+    networks:
+      web: {}
+    volumes:
+      - $CONFIGDIR/config/homepage/config:/app/config
+    environment:
+      HOMEPAGE_ALLOWED_HOSTS: homepage.jamietong.com
+      PUID: 1000
+      PGID: 1000
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.homepage-rtr.entrypoints=websecure,internalsecure"
+      - "traefik.http.routers.homepage-rtr.rule=host(`homepage.$domainname_1`)"
+      - "traefik.http.routers.homepage-rtr.service=homepage-svc"
+      - "traefik.http.services.homepage-svc.loadbalancer.server.port=3000"
+      - "logging=alloy"
+      - "logging_jobname=containerlogs"

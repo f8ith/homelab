@@ -1,0 +1,21 @@
+services:
+  audiobookshelf:
+    extends:
+      file: common.yml
+      service: app
+    image: ghcr.io/advplyr/audiobookshelf:latest
+    container_name: audiobookshelf
+    networks:
+      - web
+    volumes:
+      - $DATADIR/appdata/audiobookshelf/config:/config
+      - $DATADIR/appdata/audiobookshelf/metadata:/metadata
+      - $MEDIADIR/audiobooks:/audiobooks
+      - $MEDIADIR/books:/books
+      - $MEDIADIR/podcasts:/podcasts
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.audiobookshelf-rtr.entrypoints=websecure,internalsecure"
+      - "traefik.http.routers.audiobookshelf-rtr.rule=Host(`audiobookshelf.$DOMAINNAME_1`)"
+      - "traefik.http.routers.audiobookshelf-rtr.service=audiobookshelf-svc"
+      - "traefik.http.services.audiobookshelf-svc.loadbalancer.server.port=80"

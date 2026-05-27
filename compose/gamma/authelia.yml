@@ -1,0 +1,42 @@
+networks:
+  authelia:
+    name: authelia
+    external: true
+
+services:
+  authelia:
+    container_name: "authelia"
+    image: "docker.io/authelia/authelia:latest"
+    restart: "unless-stopped"
+    networks:
+      web: {}
+      authelia: {}
+    environment:
+      X_AUTHELIA_CONFIG_FILTERS: "template"
+    volumes:
+      - "$DATADIR/secrets/authelia:/secrets:ro"
+      - "$DATADIR/appdata/authelia/config:/config"
+      - "$DATADIR/appdata/authelia/logs:/var/log/authelia/"
+    labels:
+      traefik.enable: "true"
+      traefik.http.routers.authelia-rtr.rule: "Host(`authelia.$DOMAINNAME_1`)"
+      traefik.http.routers.authelia-rtr.entryPoints: "websecure"
+      traefik.http.routers.authelia-rtr.tls: "true"
+      traefik.http.routers.authelia-rtr.service: authelia-svc
+      traefik.http.services.authelia-svc.loadbalancer.server.port: "9091"
+      traefik.http.middlewares.authelia.forwardAuth.address: "http://authelia:9091/api/authz/forward-auth"
+      traefik.http.middlewares.authelia.forwardAuth.trustForwardHeader: "true"
+      traefik.http.middlewares.authelia.forwardAuth.authResponseHeaders: "Remote-User,Remote-Groups,Remote-Email,Remote-Name"
+
+  authelia-redis:
+    container_name: authelia-redis
+    hostname: authelia-redis
+    image: redis:latest
+    restart: unless-stopped
+    expose:
+      - 6379
+    volumes:
+      - autheliaredisdata:/data
+
+volumes:
+  - autheliaredisdata

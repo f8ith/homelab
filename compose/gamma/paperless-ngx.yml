@@ -1,0 +1,31 @@
+services:
+  paperless-ngx-redis:
+    image: docker.io/library/redis:8
+    restart: unless-stopped
+    volumes:
+      - paperlessredisdata:/data
+  paperless-ngx:
+    extends:
+      file: common.yml
+      service: app
+    image: ghcr.io/paperless-ngx/paperless-ngx:latest
+    depends_on:
+      - paperless-ngx-redis
+    networks:
+      - web
+    volumes:
+      - $MEDIADIR/paperless/data:/usr/src/paperless/data
+      - $MEDIADIR/paperless/media:/usr/src/paperless/media
+      - $MEDIADIR/paperless/export:/usr/src/paperless/export
+      - $MEDIADIR/paperless/consume:/usr/src/paperless/consume
+    environment:
+      PAPERLESS_REDIS: redis://paperless-ngx-redis:6379
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.paperlessngx-rtr.entrypoints=websecure,internalsecure"
+      - "traefik.http.routers.paperlessngx-rtr.rule=Host(`paperlessngx.$DOMAINNAME_1`)"
+      - "traefik.http.routers.paperlessngx-rtr.service=paperlessngx-svc"
+      - "traefik.http.services.paperlessngx-svc.loadbalancer.server.port=8000"
+
+volumes:
+  - paperlessredisdata

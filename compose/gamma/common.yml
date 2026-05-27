@@ -2,7 +2,7 @@ services:
   app:
     security_opt:
       - no-new-privileges:true
-    restart: on-failure:3
+    restart: unless-stopped
     env_file:
       - $CONFIGDIR/.env
   core:
