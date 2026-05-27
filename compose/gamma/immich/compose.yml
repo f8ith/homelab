@@ -10,6 +10,8 @@ services:
       service: app
     container_name: immich-server
     image: ghcr.io/immich-app/immich-server:${IMMICH_VERSION:-release}
+    env_file:
+      - immich.env
     networks:
       - web
       - internal

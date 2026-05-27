@@ -17,12 +17,11 @@ secrets:
     file: $DATADIR/secrets/cf_dns_api_token
 
 include:
-  - compose/common/socket-proxy.yml
-  - compose/${DOCKER_HOST_NAME}/alloy.yml
-  - compose/${DOCKER_HOST_NAME}/authelia.yml
-  - compose/${DOCKER_HOST_NAME}/traefik.yml
-  - compose/${DOCKER_HOST_NAME}/minecraft.yml
-  - compose/${DOCKER_HOST_NAME}/immich-public-proxy.yml
-  - compose/${DOCKER_HOST_NAME}/syncyomi.yml
-  - compose/${DOCKER_HOST_NAME}/homepage.yml
-#  - compose/${DOCKER_HOST_NAME}/apple-dl.yml
+  - compose/common/socket-proxy/compose.yml
+  - compose/${DOCKER_HOST_NAME}/alloy/compose.yml
+  - compose/${DOCKER_HOST_NAME}/authelia/compose.yml
+  - compose/${DOCKER_HOST_NAME}/traefik/compose.yml
+  - compose/${DOCKER_HOST_NAME}/minecraft/compose.yml
+  - compose/${DOCKER_HOST_NAME}/immich-public-proxy/compose.yml
+  - compose/${DOCKER_HOST_NAME}/syncyomi/compose.yml
+  - compose/${DOCKER_HOST_NAME}/homepage/compose.yml

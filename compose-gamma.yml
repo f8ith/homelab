@@ -17,19 +17,19 @@ secrets:
     file: $DATADIR/secrets/cf_dns_api_token
 
 include:
-  - compose/common/socket-proxy.yml
-  - compose/${DOCKER_HOST_NAME}/alloy.yml
-  - compose/${DOCKER_HOST_NAME}/traefik.yml
-  - compose/${DOCKER_HOST_NAME}/jellyfin.yml
-  - compose/${DOCKER_HOST_NAME}/arr.yml
-  - compose/${DOCKER_HOST_NAME}/immich.yml
-  - compose/${DOCKER_HOST_NAME}/qbittorrent.yml
-  - compose/${DOCKER_HOST_NAME}/recyclarr.yml
-  - compose/${DOCKER_HOST_NAME}/kavita.yml
-  - compose/${DOCKER_HOST_NAME}/tachidesk.yml
-  - compose/${DOCKER_HOST_NAME}/slskd.yml
-  - compose/${DOCKER_HOST_NAME}/beets-flask.yml
-  - compose/${DOCKER_HOST_NAME}/lms.yml
-  - compose/${DOCKER_HOST_NAME}/grafana-monitoring.yml
-  - compose/${DOCKER_HOST_NAME}/audiobookshelf.yml
-  - compose/${DOCKER_HOST_NAME}/paperless-ngx.yml
+  - compose/common/socket-proxy/compose.yml
+  - compose/${DOCKER_HOST_NAME}/alloy/compose.yml
+  - compose/${DOCKER_HOST_NAME}/traefik/compose.yml
+  - compose/${DOCKER_HOST_NAME}/jellyfin/compose.yml
+  - compose/${DOCKER_HOST_NAME}/arr/compose.yml
+  - compose/${DOCKER_HOST_NAME}/immich/compose.yml
+  - compose/${DOCKER_HOST_NAME}/qbittorrent/compose.yml
+  - compose/${DOCKER_HOST_NAME}/recyclarr/compose.yml
+  - compose/${DOCKER_HOST_NAME}/kavita/compose.yml
+  - compose/${DOCKER_HOST_NAME}/tachidesk/compose.yml
+  - compose/${DOCKER_HOST_NAME}/slskd/compose.yml
+  - compose/${DOCKER_HOST_NAME}/beets-flask/compose.yml
+  - compose/${DOCKER_HOST_NAME}/lms/compose.yml
+  - compose/${DOCKER_HOST_NAME}/grafana-monitoring/compose.yml
+  - compose/${DOCKER_HOST_NAME}/audiobookshelf/compose.yml
+  - compose/${DOCKER_HOST_NAME}/paperless-ngx/compose.yml
