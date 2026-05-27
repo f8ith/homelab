@@ -12,6 +12,7 @@ services:
     image: ghcr.io/immich-app/immich-server:${IMMICH_VERSION:-release}
     networks:
       - web
+      - internal
       - immich_net
     # extends:
     #   file: hwaccel.transcoding.yml
@@ -27,10 +28,13 @@ services:
     labels:
       - "traefik.enable=true"
       # HTTP Routers
-      - "traefik.http.routers.immich-rtr.entrypoints=websecure,internalsecure"
+      - "traefik.http.routers.immich-rtr.entrypoints=websecure"
       - "traefik.http.routers.immich-rtr.rule=Host(`immich.$DOMAINNAME_1`)"
+      - "traefik.http.routers.immich-i-rtr.entrypoints=internalsecure"
+      - "traefik.http.routers.immich-i-rtr.rule=Host(`immich.${DOCKER_HOST_NAME}.i.$DOMAINNAME_1`)"
       # HTTP Services
       - "traefik.http.routers.immich-rtr.service=immich-svc"
+      - "traefik.http.routers.immich-i-rtr.service=immich-svc"
       - "traefik.http.services.immich-svc.loadbalancer.server.port=2283"
       - "logging=alloy"
       - "logging_jobname=containerlogs"

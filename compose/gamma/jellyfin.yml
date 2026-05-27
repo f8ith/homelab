@@ -13,10 +13,10 @@ services:
     #  ipvlan:
     #    ipv4_address: 192.168.1.22
     #  web: {}
-    #ports:
-    #  - "8096:8096" # HTTP Port
-    #  - "1900:1900/udp"
-    #  - "8920:8920" # Requires valid certificates.
+    
+    ports:
+      - "$INTERNAL_IP:8096:8096" # HTTP Port
+      - "$INTERNAL_IP:1900:1900/udp"
     
     volumes:
       - $DATADIR/appdata/jellyfin:/config
@@ -40,7 +40,7 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.jellyfin-rtr.entrypoints=websecure,internalsecure"
-      - "traefik.http.routers.jellyfin-rtr.rule=Host(`jellyfin.$DOMAINNAME_1`) || Host(`jellyfin.${DOCKER_HOST_NAME}.i.$DOMAINNAME_1)"
+      - "traefik.http.routers.jellyfin-rtr.rule=Host(`jellyfin.$DOMAINNAME_1`)"
       - "traefik.http.routers.jellyfin-rtr.service=jellyfin-svc"
       - 'traefik.http.routers.jellyfin-rtr.middlewares=jellyfin-mw'
       - "traefik.http.services.jellyfin-svc.loadbalancer.server.port=8096"
