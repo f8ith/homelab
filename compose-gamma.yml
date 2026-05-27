@@ -31,3 +31,5 @@ include:
   - compose/${DOCKER_HOST_NAME}/beets-flask.yml
   - compose/${DOCKER_HOST_NAME}/lms.yml
   - compose/${DOCKER_HOST_NAME}/grafana-monitoring.yml
+  - compose/${DOCKER_HOST_NAME}/audiobookshelf.yml
+  - compose/${DOCKER_HOST_NAME}/paperless-ngx.yml

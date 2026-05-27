@@ -23,5 +23,6 @@ include:
   - compose/${DOCKER_HOST_NAME}/traefik.yml
   - compose/${DOCKER_HOST_NAME}/minecraft.yml
   - compose/${DOCKER_HOST_NAME}/immich-public-proxy.yml
+  - compose/${DOCKER_HOST_NAME}/syncyomi.yml
+  - compose/${DOCKER_HOST_NAME}/homepage.yml
 #  - compose/${DOCKER_HOST_NAME}/apple-dl.yml
-#  - compose/${DOCKER_HOST_NAME}/syncyomi.yml

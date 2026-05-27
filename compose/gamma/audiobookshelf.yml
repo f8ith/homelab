@@ -15,7 +15,7 @@ services:
       - $MEDIADIR/podcasts:/podcasts
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.audiobookshelf-rtr.entrypoints=websecure,internalsecure"
+      - "traefik.http.routers.audiobookshelf-rtr.entrypoints=websecure"
       - "traefik.http.routers.audiobookshelf-rtr.rule=Host(`audiobookshelf.$DOMAINNAME_1`)"
       - "traefik.http.routers.audiobookshelf-rtr.service=audiobookshelf-svc"
       - "traefik.http.services.audiobookshelf-svc.loadbalancer.server.port=80"
