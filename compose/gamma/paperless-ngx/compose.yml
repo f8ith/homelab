@@ -34,7 +34,7 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.paperlessngx-rtr.entrypoints=websecure"
-      - "traefik.http.routers.paperlessngx-rtr.rule=Host(`paperlessngx.$DOMAINNAME_1`)"
+      - "traefik.http.routers.paperlessngx-rtr.rule=Host(`paperless.$DOMAINNAME_1`)"
       - "traefik.http.routers.paperlessngx-rtr.service=paperlessngx-svc"
       - "traefik.http.services.paperlessngx-svc.loadbalancer.server.port=8000"
 
