@@ -1,8 +1,14 @@
+networks:
+  paperless-ngx:
+    driver: bridge
+
 services:
   paperless-ngx-redis:
     image: docker.io/library/redis:8
     container_name: paperless-ngx-redis
     restart: unless-stopped
+    networks:
+      - paperless-ngx
     volumes:
       - paperlessredisdata:/data
   paperless-ngx:
@@ -14,6 +20,7 @@ services:
     depends_on:
       - paperless-ngx-redis
     networks:
+      - paperless-ngx
       - web
     volumes:
       - $MEDIADIR/paperless/data:/usr/src/paperless/data
