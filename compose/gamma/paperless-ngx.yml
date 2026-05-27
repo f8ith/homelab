@@ -1,6 +1,7 @@
 services:
   paperless-ngx-redis:
     image: docker.io/library/redis:8
+    container_name: paperless-ngx-redis
     restart: unless-stopped
     volumes:
       - paperlessredisdata:/data
@@ -9,6 +10,7 @@ services:
       file: common.yml
       service: app
     image: ghcr.io/paperless-ngx/paperless-ngx:latest
+    container_name: paperless-ngx
     depends_on:
       - paperless-ngx-redis
     networks:
