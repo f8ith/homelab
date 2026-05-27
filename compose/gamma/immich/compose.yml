@@ -25,6 +25,8 @@ services:
       - redis
       - immich-postgres
     restart: always
+    environment:
+      DB_HOSTNAME: ${DB_HOSTNAME}
     labels:
       - "traefik.enable=true"
       # HTTP Routers
@@ -75,7 +77,6 @@ services:
     networks:
       - immich_net
     environment:
-      DB_HOSTNAME: ${DB_HOSTNAME}
       POSTGRES_PASSWORD: ${DB_PASSWORD}
       POSTGRES_USER: ${DB_USERNAME}
       POSTGRES_DB: ${DB_DATABASE_NAME}
