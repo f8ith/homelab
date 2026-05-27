@@ -2,7 +2,7 @@ services:
   # Jellyfin - Media Server 
   jellyfin:
     extends:
-        file: common.yml
+        file: ../common.yml
         service: app
     image: jellyfin/jellyfin:latest
     container_name: jellyfin

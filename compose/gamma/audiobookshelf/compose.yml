@@ -1,7 +1,7 @@
 services:
   audiobookshelf:
     extends:
-      file: common.yml
+      file: ../common.yml
       service: app
     image: ghcr.io/advplyr/audiobookshelf:latest
     container_name: audiobookshelf

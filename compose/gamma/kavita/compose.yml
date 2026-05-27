@@ -1,7 +1,7 @@
 services:
   kavita:
     extends:
-      file: common.yml
+      file: ../common.yml
       service: app
     image: jvmilazz0/kavita:latest
     container_name: kavita

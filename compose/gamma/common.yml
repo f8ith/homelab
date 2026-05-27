@@ -5,6 +5,9 @@ services:
     restart: unless-stopped
     env_file:
       - $CONFIGDIR/.env
+    labels:
+      - "logging=alloy"
+      - "logging_jobname=containerlogs"
   core:
     security_opt:
       - no-new-privileges:true

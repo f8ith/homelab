@@ -11,7 +11,7 @@ configs:
 services:
   beets-flask:
     extends:
-      file: common.yml
+      file: ../common.yml
       service: app
     image: pspitzner/beets-flask:stable
     container_name: beets-flask

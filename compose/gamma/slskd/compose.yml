@@ -1,7 +1,7 @@
 services:
   slskd:
     extends:
-      file: common.yml
+      file: ../common.yml
       service: app
     image: slskd/slskd
     container_name: slskd

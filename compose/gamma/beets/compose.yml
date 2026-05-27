@@ -1,7 +1,7 @@
 services:
   beets:
     extends:
-      file: common.yml
+      file: ../common.yml
       service: app 
     image: lscr.io/linuxserver/beets:latest
     container_name: beets

@@ -1,7 +1,7 @@
 services:
   gonic:
     extends:
-      file: common.yml
+      file: ../common.yml
       service: app
     image: sentriz/gonic:latest
     container_name: gonic

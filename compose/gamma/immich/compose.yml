@@ -6,7 +6,7 @@ networks:
 services:
   immich-server:
     extends:
-      file: common.yml
+      file: ../common.yml
       service: app
     container_name: immich-server
     image: ghcr.io/immich-app/immich-server:${IMMICH_VERSION:-release}
@@ -38,12 +38,10 @@ services:
       - "traefik.http.routers.immich-rtr.service=immich-svc"
       - "traefik.http.routers.immich-i-rtr.service=immich-svc"
       - "traefik.http.services.immich-svc.loadbalancer.server.port=2283"
-      - "logging=alloy"
-      - "logging_jobname=containerlogs"
 
   immich-machine-learning:
     extends:
-      file: common.yml
+      file: ../common.yml
       service: app
     container_name: immich-machine-learning
     networks:
@@ -60,7 +58,7 @@ services:
 
   redis:
     extends:
-      file: common.yml
+      file: ../common.yml
       service: app
     container_name: immich-redis
     image: docker.io/redis:6.2-alpine@sha256:328fe6a5822256d065debb36617a8169dbfbd77b797c525288e465f56c1d392b
@@ -72,7 +70,7 @@ services:
 
   immich-postgres:
     extends:
-      file: common.yml
+      file: ../common.yml
       service: app
     container_name: immich-postgres
     image: docker.io/tensorchord/pgvecto-rs:pg14-v0.2.0@sha256:90724186f0a3517cf6914295b5ab410db9ce23190a2d9d0b9dd6463e3fa298f0

@@ -13,7 +13,7 @@ services:
       - paperlessredisdata:/data
   paperless-ngx:
     extends:
-      file: common.yml
+      file: ../common.yml
       service: app
     image: ghcr.io/paperless-ngx/paperless-ngx:latest
     container_name: paperless-ngx

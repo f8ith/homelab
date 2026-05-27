@@ -1,7 +1,7 @@
 services:
   recyclarr:
     extends:
-      file: common.yml
+      file: ../common.yml
       service: app
     image: ghcr.io/recyclarr/recyclarr
     container_name: recyclarr

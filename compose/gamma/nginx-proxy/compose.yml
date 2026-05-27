@@ -1,7 +1,7 @@
 services:
   reverse-proxy:
     extends: 
-      file: common.yml
+      file: ../common.yml
       service: core
     image: nginxproxy/nginx-proxy
     container_name: nginx-proxy

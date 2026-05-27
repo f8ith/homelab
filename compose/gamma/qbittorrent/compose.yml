@@ -1,7 +1,7 @@
 services:
   qbittorrent:
     extends:
-      file: common.yml
+      file: ../common.yml
       service: app
     container_name: qbittorrent
     image: ghcr.io/hotio/qbittorrent

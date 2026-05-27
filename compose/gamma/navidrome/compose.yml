@@ -1,7 +1,7 @@
 services:
   navidrome:
     extends:
-      file: common.yml
+      file: ../common.yml
       service: app
     image: deluan/navidrome:latest
     container_name: navidrome

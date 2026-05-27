@@ -1,7 +1,7 @@
 services:
   tachidesk:
     extends:
-      file: common.yml
+      file: ../common.yml
       service: app 
     image: ghcr.io/suwayomi/tachidesk:stable
     container_name: tachidesk
