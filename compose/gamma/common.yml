@@ -3,8 +3,12 @@ services:
     security_opt:
       - no-new-privileges:true
     restart: unless-stopped
-    env_file:
-      - $CONFIGDIR/.env
+    environment:
+      PUID: ${PUID}
+      PGID: ${PGID}
+      UID: ${UID}
+      GID: ${GID}
+      TZ: ${TZ}
     labels:
       - "logging=alloy"
       - "logging_jobname=containerlogs"
@@ -12,5 +16,12 @@ services:
     security_opt:
       - no-new-privileges:true
     restart: unless-stopped
-    env_file:
-      - $CONFIGDIR/.env
+    environment:
+      PUID: ${PUID}
+      PGID: ${PGID}
+      UID: ${UID}
+      GID: ${GID}
+      TZ: ${TZ}
+    labels:
+      - "logging=alloy"
+      - "logging_jobname=containerlogs"
