@@ -5,7 +5,7 @@ configs:
 services:
   alloy:
     extends:
-      file: ../common/alloy/compose.yml
+      file: ../../common/alloy/compose.yml
       service: alloy
     labels:
       - "traefik.enable=true"
