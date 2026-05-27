@@ -1,0 +1,27 @@
+networks:
+  amdl:
+    driver: bridge
+
+services:
+  apple-music-downloader: 
+    extends:
+      file: ../common.yml
+      service: app
+    image: ghcr.io/zhaarey/apple-music-downloader
+    container_name: apple-music-downloader
+    networks:
+      amdl: {}
+    volumes:
+      - $MEDIADIR/music:/music/
+      - $MEDIADIR/ingest/music/:/downloads
+  apple-music-wrapper: 
+    extends:
+      file: ../common.yml
+      service: app
+    image: ghcr.io/worldobservationlog/wrapper:local
+    container_name: apple-music-wrapper
+    privileged: true
+    networks:
+      amdl: {}
+    volumes:
+      - $DATADIR/wrapper/rootfs/data:/app/rootfs/data
