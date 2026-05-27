@@ -5,8 +5,7 @@ services:
     volumes:
       - $DATADIR/appdata/syncyomi/config:/config
     networks:
-      web:
-        ipv4_address: 10.10.0.4
+      web: {}
     restart: unless-stopped
     labels:
       - "traefik.enable=true"
@@ -23,8 +22,7 @@ services:
     volumes:
       - $DATADIR/appdata/syncyomi-two/config:/config
     networks:
-      web:
-        ipv4_address: 10.10.0.5
+      web: {}
     restart: unless-stopped
     labels:
       - "traefik.enable=true"
