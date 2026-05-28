@@ -1,0 +1,30 @@
+services:
+  wrapper-v2:
+    extends:
+      file: ../common.yml
+      service: app
+    image: wrapper-v2:latest
+    container_name: wrapper-v2
+    cap_add:
+      - SYS_ADMIN
+      - SYS_CHROOT
+      - SYS_PTRACE
+    security_opt:
+      - apparmor:unconfined
+    environment:
+      WRAPPER_USERNAME: ${WRAPPER_USERNAME:-}
+      WRAPPER_PASSWORD: ${WRAPPER_PASSWORD:-}
+      WRAPPER_APPLE_INIT: ${WRAPPER_APPLE_INIT:-}
+      WRAPPER_RUNTIME_TRACE: ${WRAPPER_RUNTIME_TRACE:-}
+    volumes:
+      # Persist Apple state at the same path shape as the Android app sandbox.
+      - $DATADIR/appdata/wrapper-v2/data:/app/rootfs/data/data/com.apple.android.music/files
+    labels:
+      - "traefik.enable=true"
+      # HTTP Routers
+      - "traefik.http.routers.wrapperv2-i-rtr.entrypoints=internalsecure"
+      - "traefik.http.routers.wrapperv2-i-rtr.rule=Host(`wrapperv2.${DOCKER_HOST_NAME}.i.$DOMAINNAME_1`)"
+      # HTTP Services
+      - "traefik.http.routers.wrapperv2-i-rtr.service=wrapperv2-svc"
+      - "traefik.http.services.wrapperv2-svc.loadbalancer.server.port=80"
+
