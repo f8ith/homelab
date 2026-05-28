@@ -1,3 +1,7 @@
+networks:
+  internal:
+    external: true
+
 services:
   wrapper-v2:
     extends:
@@ -5,6 +9,8 @@ services:
       service: app
     image: wrapper-v2:latest
     container_name: wrapper-v2
+    networks:
+      internal: {}
     cap_add:
       - SYS_ADMIN
       - SYS_CHROOT
@@ -27,4 +33,3 @@ services:
       # HTTP Services
       - "traefik.http.routers.wrapperv2-i-rtr.service=wrapperv2-svc"
       - "traefik.http.services.wrapperv2-svc.loadbalancer.server.port=80"
-
