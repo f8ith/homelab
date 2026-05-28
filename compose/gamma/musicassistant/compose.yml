@@ -1,0 +1,19 @@
+services:
+  music-assistant-server:
+    extends:
+      file: ../common.yml
+      service: app
+    image: ghcr.io/music-assistant/server:latest
+    container_name: music-assistant-server
+    restart: unless-stopped
+    network_mode: host
+    volumes:
+      - $DATADIR/appdata/music-assistant-server/data:/data/
+      - $MEDIADIR/music:/music:ro
+    cap_add:
+      - SYS_ADMIN
+      - DAC_READ_SEARCH
+    security_opt:
+      - apparmor:unconfined
+    environment:
+      - LOG_LEVEL=info
