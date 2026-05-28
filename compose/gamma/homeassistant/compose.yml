@@ -1,0 +1,14 @@
+services:
+  homeassistant:
+    extends:
+      file: ../common.yml
+      service: core
+    container_name: homeassistant
+    image: "ghcr.io/home-assistant/home-assistant:stable"
+    volumes:
+      - $DATADIR/appdata/homeassistant/config:/config
+      - $MEDIADIR/music:/music:ro
+      - /etc/localtime:/etc/localtime:ro
+      - /run/dbus:/run/dbus:ro
+    privileged: true
+    network_mode: host
