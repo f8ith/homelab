@@ -29,9 +29,9 @@ include:
   - compose/${DOCKER_HOST_NAME}/tachidesk/compose.yml
   - compose/${DOCKER_HOST_NAME}/slskd/compose.yml
   - compose/${DOCKER_HOST_NAME}/beets-flask/compose.yml
-  - compose/${DOCKER_HOST_NAME}/lms/compose.yml
   - compose/${DOCKER_HOST_NAME}/grafana-monitoring/compose.yml
   - compose/${DOCKER_HOST_NAME}/audiobookshelf/compose.yml
   - compose/${DOCKER_HOST_NAME}/paperless-ngx/compose.yml
   - compose/${DOCKER_HOST_NAME}/navidrome/compose.yml
   - compose/${DOCKER_HOST_NAME}/homeassistant/compose.yml
+  - compose/${DOCKER_HOST_NAME}/musicassistant/compose.yml
