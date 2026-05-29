@@ -18,6 +18,7 @@ secrets:
 
 include:
   - compose/common/socket-proxy/compose.yml
+  - compose/${DOCKER_HOST_NAME}/komodo/compose.yml
   - compose/${DOCKER_HOST_NAME}/alloy/compose.yml
   - compose/${DOCKER_HOST_NAME}/traefik/compose.yml
   - compose/${DOCKER_HOST_NAME}/jellyfin/compose.yml
