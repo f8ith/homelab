@@ -20,4 +20,5 @@ services:
       - "traefik.http.services.navidrome-svc.loadbalancer.server.port=4533"
       - "logging=alloy"
       - "logging_jobname=containerlogs"
-
+    environment:
+      ND_PID_ALBUM: "albumartistid,album"

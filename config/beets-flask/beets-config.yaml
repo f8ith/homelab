@@ -1,7 +1,7 @@
 include:
   - secrets.yaml
 
-plugins: fetchart embedart convert scrub replaygain lastgenre web lyrics
+plugins: fetchart embedart convert scrub replaygain lastgenre web lyrics duplicates
 directory: /music
 library: /config/beets/library.db
 art_filename: albumart
@@ -10,15 +10,20 @@ original_date: no
 per_disc_numbering: no
 
 convert:
+    auto: yes
     copy_album_art: yes
-    embed: no
+    delete_originals: yes
+    embed: yes
     never_convert_lossy_files: yes
-    dest: /music/
+    dest: /tmp/converted
     format: flac 
     formats:
         flac:
               command: ffmpeg -i $source -y -acodec flac $dest
               extension: flac
+
+duplicates:
+    delete: yes
 
 paths:
     default: $albumartist/$album%aunique{}/$track - $title

@@ -1,13 +1,3 @@
-configs:
-  requirements.txt:
-    file: $CONFIGDIR/config/beets-flask/requirements.txt
-  startup.sh:
-    file: $CONFIGDIR/config/beets-flask/startup.sh
-  beets-flask.config.yaml:
-    file: $CONFIGDIR/config/beets-flask/beets-flask-config.yaml
-  beets-config.yaml:
-    file: $CONFIGDIR/config/beets-flask/beets-config.yaml
-
 services:
   beets-flask:
     extends:
@@ -24,15 +14,12 @@ services:
       - $DATADIR/secrets/beets-secrets.yaml:/config/beets/secrets.yaml
       - $MEDIADIR/music:/music/
       - $MEDIADIR/ingest/music/:/downloads
-    configs:
-      - source: requirements.txt
-        target: /config/requirements.txt
-      - source: startup.sh
-        target: /config/startup.sh
-      - source: beets-flask.config.yaml
-        target: /config/beets-flask/config.yaml
-      - source: beets-config.yaml
-        target: /config/beets/config.yaml
+      # configs
+      - $CONFIGDIR/config/beets-flask/requirements.txt:/config/requirements.txt:ro
+      - $CONFIGDIR/config/beets-flask/startup.sh:/config/startup.sh:ro
+      - $CONFIGDIR/config/beets-flask/beets-flask-config.yaml:/config/beets-flask/config.yaml:ro
+      - $CONFIGDIR/config/beets-flask/beets-config.yaml:/config/beets/config.yaml:ro
+
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.beetsflask-rtr.entrypoints=internalsecure"
