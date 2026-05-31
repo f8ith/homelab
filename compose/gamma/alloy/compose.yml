@@ -3,6 +3,8 @@ networks:
     external: true
   internal:
     external: true
+  socket_proxy:
+    external: true
 
 configs:
   config.alloy:
