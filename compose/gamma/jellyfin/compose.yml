@@ -15,14 +15,6 @@ services:
     restart: unless-stopped
     networks:
       - web
-
-    #  ipvlan:
-    #    ipv4_address: 192.168.1.22
-    #  web: {}
-    
-    ports:
-      - "$INTERNAL_IP:8096:8096" # HTTP Port
-      - "$INTERNAL_IP:1900:1900/udp"
     
     volumes:
       - $DATADIR/appdata/jellyfin:/config
@@ -34,18 +26,9 @@ services:
     devices:
       - /dev/dri/renderD128:/dev/dri/renderD128
 
-    #runtime: nvidia
-    #deploy:
-    #  resources:
-    #    reservations:
-    #      devices:
-    #        - driver: nvidia
-    #          count: all
-    #          capabilities: [gpu]
-    
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.jellyfin-rtr.entrypoints=websecure,internalsecure"
+      - "traefik.http.routers.jellyfin-rtr.entrypoints=websecure"
       - "traefik.http.routers.jellyfin-rtr.rule=Host(`jellyfin.$DOMAINNAME_1`)"
       - "traefik.http.routers.jellyfin-rtr.service=jellyfin-svc"
       - 'traefik.http.routers.jellyfin-rtr.middlewares=jellyfin-mw'
