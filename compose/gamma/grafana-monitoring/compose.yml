@@ -9,11 +9,11 @@ networks:
 
 configs:
   datasources.yaml:
-    file: ./config/grafana-monitoring/grafana/datasources.yaml
+    file: ./config/grafana/datasources.yaml
   prometheus.yml:
-    file: ./config/grafana-monitoring/prometheus/prometheus.yml
+    file: ./config/prometheus/prometheus.yml
   loki-config.yml:
-    file: ./config/grafana-monitoring/loki/loki-config.yml
+    file: ./config/loki/loki-config.yml
 
 services:
   loki:
