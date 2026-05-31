@@ -3,8 +3,6 @@ networks:
     external: true
   internal:
     external: true
-
-networks:
   immich_net:
     name: immich_net
     driver: bridge
