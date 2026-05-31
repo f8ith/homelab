@@ -3,6 +3,12 @@ networks:
     external: true
   internal:
     external: true
+  qbittorrent:
+    name: qbittorrent
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 192.168.93.0/24
 
 services:
   qbittorrent:
@@ -28,12 +34,3 @@ services:
       - "traefik.docker.network=internal"
       - "logging=alloy"
       - "logging_jobname=containerlogs"
-
-
-networks:
-  qbittorrent:
-    name: qbittorrent
-    driver: bridge
-    ipam:
-      config:
-        - subnet: 192.168.93.0/24
