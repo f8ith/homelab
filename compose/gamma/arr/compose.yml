@@ -3,6 +3,8 @@ networks:
     external: true
   internal:
     external: true
+  qbittorrent:
+    external: true
   arr:
     name: arr
     driver: bridge
