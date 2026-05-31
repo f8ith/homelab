@@ -14,13 +14,13 @@ services:
     volumes:
       - ./config:/app/config
     environment:
-      HOMEPAGE_ALLOWED_HOSTS: homepage.jamietong.com
+      HOMEPAGE_ALLOWED_HOSTS: homepage.$DOMAINNAME_1
       PUID: 1000
       PGID: 1000
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.homepage-rtr.entrypoints=websecure"
-      - "traefik.http.routers.homepage-rtr.rule=host(`homepage.$domainname_1`)"
+      - "traefik.http.routers.homepage-rtr.rule=host(`homepage.$DOMAINNAME_1`)"
       - "traefik.http.routers.homepage-rtr.service=homepage-svc"
       - "traefik.http.services.homepage-svc.loadbalancer.server.port=3000"
       - "logging=alloy"
