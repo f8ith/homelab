@@ -1,7 +1,6 @@
 networks:
   socket_proxy:
-    name: socket_proxy
-    driver: bridge
+    external: true
 
 services:
   socket-proxy:
