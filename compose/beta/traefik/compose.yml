@@ -101,10 +101,8 @@ services:
       - $DATADIR/logs/${DOCKER_HOST_NAME}/traefik:/logs # Traefik logs
     environment:
       - TZ=$TZ
-      - CF_DNS_API_TOKEN_FILE=/run/secrets/cf_dns_api_token
+      - CF_DNS_API_TOKEN=[[CF_DNS_API_TOKEN]]
       - DOMAINNAME_1
-    secrets:
-      - cf_dns_api_token
     labels:
       #- "autoheal=true"
       - "traefik.enable=true"
