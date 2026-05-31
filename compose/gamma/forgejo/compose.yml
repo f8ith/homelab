@@ -1,0 +1,28 @@
+networks:
+  web:
+    external: true
+  internal:
+    external: true
+
+services:
+  forgejo:
+    extends:
+      file: ../common.yml
+      service: app
+    image: codeberg.org/forgejo/forgejo:11
+    container_name: forgejo
+    environment:
+      - USER_UID="${PUID}"
+      - USER_GID="${PGID}"
+    networks:
+      web: {}
+    volumes:
+      - $DATADIR/appdata/forgejo:/data
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.forgejo-rtr.entrypoints=websecure,internalsecure"
+      - "traefik.http.routers.forgejo-rtr.rule=Host(`forgejo.$DOMAINNAME_1`)"
+      - "traefik.http.routers.forgejo-rtr.service=forgejo-svc"
+      - "traefik.http.services.forgejo-svc.loadbalancer.server.port=3000"
