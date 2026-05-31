@@ -1,3 +1,15 @@
+networks:
+  web:
+    external: true
+  internal:
+    external: true
+  arr:
+    name: arr
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 192.168.92.0/24
+
 services:
   # Sonarr - TV Shows management
   sonarr:
@@ -106,11 +118,3 @@ services:
       - "traefik.http.routers.bazarr-rtr.service=bazarr-svc"
       - "traefik.http.services.bazarr-svc.loadbalancer.server.port=6767"
       - "traefik.docker.network=internal"
-
-networks:
-  arr:
-    name: arr
-    driver: bridge
-    ipam:
-      config:
-        - subnet: 192.168.92.0/24

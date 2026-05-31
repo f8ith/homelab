@@ -1,6 +1,12 @@
+networks:
+  web:
+    external: true
+  internal:
+    external: true
+
 configs:
   config.alloy:
-    file: $CONFIGDIR/config/grafana-monitoring/alloy/common/config.alloy
+    file: ../../common/alloy/config.alloy
 
 services:
   alloy:

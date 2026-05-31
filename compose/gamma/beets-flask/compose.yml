@@ -1,3 +1,9 @@
+networks:
+  web:
+    external: true
+  internal:
+    external: true
+
 services:
   beets-flask:
     extends:
@@ -15,10 +21,10 @@ services:
       - $MEDIADIR/music:/music/
       - $MEDIADIR/ingest/music/:/downloads
       # configs
-      - $CONFIGDIR/config/beets-flask/requirements.txt:/config/requirements.txt:ro
-      - $CONFIGDIR/config/beets-flask/startup.sh:/config/startup.sh:ro
-      - $CONFIGDIR/config/beets-flask/beets-flask-config.yaml:/config/beets-flask/config.yaml:ro
-      - $CONFIGDIR/config/beets-flask/beets-config.yaml:/config/beets/config.yaml:ro
+      - ./config/requirements.txt:/config/requirements.txt:ro
+      - ./config/startup.sh:/config/startup.sh:ro
+      - ./config/beets-flask-config.yaml:/config/beets-flask/config.yaml:ro
+      - ./config/beets-config.yaml:/config/beets/config.yaml:ro
 
     labels:
       - "traefik.enable=true"

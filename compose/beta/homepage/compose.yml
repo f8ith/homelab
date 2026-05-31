@@ -1,3 +1,9 @@
+networks:
+  web:
+    external: true
+  internal:
+    external: true
+
 services:
   homepage:
     image: ghcr.io/gethomepage/homepage:latest
@@ -6,7 +12,7 @@ services:
     networks:
       web: {}
     volumes:
-      - $CONFIGDIR/config/homepage/config:/app/config
+      - ./config:/app/config
     environment:
       HOMEPAGE_ALLOWED_HOSTS: homepage.jamietong.com
       PUID: 1000

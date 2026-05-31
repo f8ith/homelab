@@ -1,4 +1,8 @@
 networks:
+  web:
+    external: true
+  internal:
+    external: true
   paperless-ngx:
     driver: bridge
 

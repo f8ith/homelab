@@ -1,10 +1,16 @@
+networks:
+  web:
+    external: true
+  internal:
+    external: true
+
 configs:
   datasources.yaml:
-    file: $CONFIGDIR/config/grafana-monitoring/grafana/datasources.yaml
+    file: ./config/grafana-monitoring/grafana/datasources.yaml
   prometheus.yml:
-    file: $CONFIGDIR/config/grafana-monitoring/prometheus/prometheus.yml
+    file: ./config/grafana-monitoring/prometheus/prometheus.yml
   loki-config.yml:
-    file: $CONFIGDIR/config/grafana-monitoring/loki/loki-config.yml
+    file: ./config/grafana-monitoring/loki/loki-config.yml
 
 services:
   loki:
@@ -84,7 +90,7 @@ services:
   #    - socket_proxy
   #  volumes:
   #    - /var/log:/var/log
-  #    - $CONFIGDIR/config/grafana-monitoring/promtail/${DOCKER_HOST_NAME}/promtail-config.yml:/etc/promtail/promtail-config.yml
+  #    - ./config/grafana-monitoring/promtail/${DOCKER_HOST_NAME}/promtail-config.yml:/etc/promtail/promtail-config.yml
   #    - $DATADIR/appdata/grafana-monitoring/promtail:/etc/promtail
   #  restart: unless-stopped
   #  command: -config.file=/etc/promtail/promtail-config.yml -client.external-labels=hostname=$${HOSTNAME}

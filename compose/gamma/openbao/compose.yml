@@ -1,0 +1,12 @@
+services:
+  openbao:
+    image: openbao/openbao:latest
+    container_name: openbao-prod
+    ports:
+      - "8200:8200"
+    volumes:
+      - /config.hcl:/bao/config/config.hcl
+      - openbao_data:/openbao/file
+    command: server
+    cap_add:
+      - IPC_LOCK

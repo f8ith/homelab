@@ -1,3 +1,9 @@
+networks:
+  web:
+    external: true
+  internal:
+    external: true
+
 secrets:
   lldap_jwt_secret:
     file: $DATADIR/secrets/lldap_jwt_secret

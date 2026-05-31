@@ -1,6 +1,12 @@
+networks:
+  internal:
+    external: true
+  socket_proxy:
+    driver: bridge
+
 configs:
   config.alloy:
-    file: $CONFIGDIR/config/grafana-monitoring/alloy/common/config.alloy
+    file: ./config.alloy
 
 services:
   alloy:

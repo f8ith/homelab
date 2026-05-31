@@ -1,6 +1,12 @@
 networks:
   web:
     external: true
+  internal:
+    external: true
+
+networks:
+  web:
+    external: true
 
 services:
   octo-fiesta:

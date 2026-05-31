@@ -1,4 +1,10 @@
 networks:
+  web:
+    external: true
+  internal:
+    external: true
+
+networks:
   authelia:
     name: authelia
     external: true

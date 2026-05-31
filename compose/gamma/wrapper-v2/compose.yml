@@ -1,4 +1,6 @@
 networks:
+  web:
+    external: true
   internal:
     external: true
 

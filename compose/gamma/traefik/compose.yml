@@ -1,3 +1,9 @@
+networks:
+  web:
+    external: true
+  internal:
+    external: true
+
 services:
   traefik:
     container_name: traefik
@@ -105,7 +111,7 @@ services:
         mode: host
         host_ip: ${INTERNAL_IP}
     volumes:
-      - $CONFIGDIR/config/traefik3/rules/${DOCKER_HOST_NAME}:/rules # Dynamic File Provider directory
+      - ./rules:/rules # Dynamic File Provider directory
       # - /var/run/docker.sock:/var/run/docker.sock:ro # Enable if not using Socket Proxy
       - $DATADIR/appdata/traefik3/acme/acme.json:/acme.json # Certs File
       - $DATADIR/logs/${DOCKER_HOST_NAME}/traefik:/logs # Traefik logs

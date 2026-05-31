@@ -1,3 +1,9 @@
+networks:
+  web:
+    external: true
+  internal:
+    external: true
+
 services:
   reverse-proxy:
     extends: 

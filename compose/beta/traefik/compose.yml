@@ -1,4 +1,10 @@
 networks:
+  web:
+    external: true
+  internal:
+    external: true
+
+networks:
   authelia:
     name: authelia
     external: true
@@ -90,7 +96,7 @@ services:
         mode: host
         host_ip: ${INTERNAL_IP}
     volumes:
-      - $CONFIGDIR/config/traefik3/rules/${DOCKER_HOST_NAME}:/rules # Dynamic File Provider directory
+      - ./rules/${DOCKER_HOST_NAME}:/rules # Dynamic File Provider directory
       - $DATADIR/appdata/traefik3/acme/acme.json:/acme.json # Certs File
       - $DATADIR/logs/${DOCKER_HOST_NAME}/traefik:/logs # Traefik logs
     environment:
