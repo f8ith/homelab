@@ -31,8 +31,6 @@ services:
       - $MEDIADIR/paperless/media:/usr/src/paperless/media
       - $MEDIADIR/paperless/export:/usr/src/paperless/export
       - $MEDIADIR/paperless/consume:/usr/src/paperless/consume
-    env_file:
-      - paperless-ngx.env
     environment:
       PAPERLESS_REDIS: redis://paperless-ngx-redis:6379
     labels:
