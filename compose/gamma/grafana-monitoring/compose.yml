@@ -3,6 +3,9 @@ networks:
     external: true
   internal:
     external: true
+  grafana_monitoring:
+    name: grafana_monitoring
+    driver: bridge
 
 configs:
   datasources.yaml:
@@ -96,8 +99,3 @@ services:
   #  command: -config.file=/etc/promtail/promtail-config.yml -client.external-labels=hostname=$${HOSTNAME}
   #  depends_on:
   #    - loki
-
-networks:
-  grafana_monitoring:
-    name: grafana_monitoring
-    driver: bridge
