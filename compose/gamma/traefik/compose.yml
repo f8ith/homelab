@@ -3,6 +3,8 @@ networks:
     external: true
   internal:
     external: true
+  socket_proxy:
+    external: true 
 
 services:
   traefik:
@@ -117,12 +119,12 @@ services:
       - $DATADIR/logs/${DOCKER_HOST_NAME}/traefik:/logs # Traefik logs
     environment:
       - TZ=$TZ
-      - CF_DNS_API_TOKEN_FILE=/run/secrets/cf_dns_api_token
+      - CF_DNS_API_TOKEN=$CF_DNS_API_TOKEN
       #- HTPASSWD_FILE=/run/secrets/basic_auth_credentials
       - DOMAINNAME_1
       - EXTERNAL_IP
-    secrets:
-      - cf_dns_api_token
+    #secrets:
+      #- cf_dns_api_token
       #- basic_auth_credentials
     security_opt:
       - no-new-privileges:true
