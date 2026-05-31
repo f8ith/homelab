@@ -3,10 +3,10 @@ networks:
     external: true
   internal:
     external: true
-
-networks:
   authelia:
     name: authelia
+    external: true
+  socket_proxy:
     external: true
 
 services:
