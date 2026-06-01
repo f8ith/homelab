@@ -1,122 +1,271 @@
-[[stack]]
-name = "wrapper-v2"
+[[server]]
+name = "a1-beta"
+[server.config]
+enabled = true
 
-[stack.config]
-server = "gamma"
-run_directory = "compose/gamma/wrapper-v2"
-linked_repo = "homelab"
-file_paths = [ "compose.yml" ]
+##
 
-[[stack]]
-name = "traefik"
+[[server]]
+name = "gamma"
+[server.config]
+enabled = true
 
-[stack.config]
-server = "gamma"
-run_directory = "compose/gamma/traefik"
-linked_repo = "homelab"
-file_paths = [ "compose.yml" ]
+##
 
 [[stack]]
-name = "tachidesk"
-
+name = "alloy-beta"
 [stack.config]
-server = "gamma"
-run_directory = "compose/gamma/tachidesk"
+server = "a1-beta"
 linked_repo = "homelab"
-file_paths = [ "compose.yml" ]
+run_directory = "compose/beta/alloy"
+file_paths = ["compose.yml"]
+
+##
 
 [[stack]]
-name = "slskd"
-
+name = "alloy-gamma"
 [stack.config]
 server = "gamma"
-run_directory = "compose/gamma/slskd"
 linked_repo = "homelab"
-file_paths = [ "compose.yml" ]
+run_directory = "compose/gamma/alloy"
+file_paths = ["compose.yml"]
+
+##
 
 [[stack]]
-name = "recyclarr"
-
+name = "app"
+template = true
 [stack.config]
 server = "gamma"
-run_directory = "compose/gamma/recyclarr"
 linked_repo = "homelab"
-file_paths = [ "compose.yml" ]
+file_paths = ["compose.yml"]
+
+##
 
 [[stack]]
-name = "qbittorrent"
-
+name = "arr"
 [stack.config]
 server = "gamma"
-run_directory = "compose/gamma/qbittorrent"
 linked_repo = "homelab"
-file_paths = [ "compose.yml" ]
+run_directory = "compose/gamma/arr"
+file_paths = ["compose.yml"]
+
+##
 
 [[stack]]
-name = "postgres"
-
+name = "audiobookshelf"
 [stack.config]
 server = "gamma"
-run_directory = "compose/gamma/postgres"
 linked_repo = "homelab"
-file_paths = [ "compose.yml" ]
+run_directory = "compose/gamma/audiobookshelf"
+file_paths = ["compose.yml"]
+
+##
 
 [[stack]]
-name = "paperless-ngx"
-
+name = "authelia"
 [stack.config]
 server = "gamma"
-run_directory = "compose/gamma/paperless-ngx"
 linked_repo = "homelab"
-file_paths = [ "compose.yml" ]
+run_directory = "compose/gamma/authelia"
+file_paths = ["compose.yml"]
+
+##
+
+[[stack]]
+name = "authelia-beta"
+[stack.config]
+server = "a1-beta"
+linked_repo = "homelab"
+run_directory = "compose/beta/authelia"
+file_paths = ["compose.yml"]
+
+##
+
+[[stack]]
+name = "beets"
+[stack.config]
+server = "gamma"
+run_directory = "compose/gamma/beets"
+file_paths = ["compose.yml"]
+
+##
+
+[[stack]]
+name = "beets-flask"
+[stack.config]
+server = "gamma"
+linked_repo = "homelab"
+run_directory = "compose/gamma/beets-flask"
+file_paths = ["compose.yml"]
+
+##
+
+[[stack]]
+name = "gonic"
+[stack.config]
+server = "gamma"
+linked_repo = "homelab"
+run_directory = "compose/gamma/gonic"
+file_paths = ["compose.yml"]
+
+##
+
+[[stack]]
+name = "grafana-monitoring"
+[stack.config]
+server = "gamma"
+linked_repo = "homelab"
+run_directory = "compose/gamma/grafana-monitoring"
+file_paths = ["compose.yml"]
+
+##
+
+[[stack]]
+name = "homeassistant"
+[stack.config]
+server = "gamma"
+linked_repo = "homelab"
+run_directory = "compose/gamma/homeassistant"
+file_paths = ["compose.yml"]
+
+##
+
+[[stack]]
+name = "homepage"
+[stack.config]
+server = "a1-beta"
+linked_repo = "homelab"
+run_directory = "compose/beta/homepage"
+file_paths = ["compose.yml"]
+
+##
+
+[[stack]]
+name = "immich"
+[stack.config]
+server = "gamma"
+linked_repo = "homelab"
+run_directory = "compose/gamma/immich"
+file_paths = ["compose.yml"]
 environment = """
-###############################################################################
-# Paperless-ngx settings                                                      #
-###############################################################################
-
-# See http://docs.paperless-ngx.com/configuration/ for all available options.
-
-# The UID and GID of the user used to run paperless in the container. Set this
-# to your UID and GID on the host so that you have write access to the
-# consumption directory.
-USERMAP_UID=1000
-USERMAP_GID=1000
-
-# See the documentation linked above for all options. A few commonly adjusted settings
-# are provided below.
-
-# This is required if you will be exposing Paperless-ngx on a public domain
-# (if doing so please consider security measures such as reverse proxy)
-PAPERLESS_URL=https://paperless.jamietong.com
-
-# Adjust this key if you plan to make paperless available publicly. It should
-# be a very long sequence of random characters. You don't need to remember it.
-#PAPERLESS_SECRET_KEY=change-me
-
-# Use this variable to set a timezone for the Paperless Docker containers. Defaults to UTC.
-PAPERLESS_TIME_ZONE=Asia/Hong_Kong
-
-# The default language to use for OCR. Set this to the language most of your
-# documents are written in.
-PAPERLESS_OCR_LANGUAGE=eng+chi_tra
-
-# Additional languages to install for text recognition, separated by a whitespace.
-# Note that this is different from PAPERLESS_OCR_LANGUAGE (default=eng), which defines
-# the language used for OCR.
-# The container installs English, German, Italian, Spanish and French by default.
-# See https://packages.debian.org/search?keywords=tesseract-ocr-&searchon=names
-# for available languages.
-PAPERLESS_OCR_LANGUAGES=chi-tra
+DB_HOSTNAME="immich-postgres"
+DB_USERNAME="[[IMMICH_DB_USERNAME]]"
+DB_PASSWORD="[[IMMICH_DB_PASSWORD]]"
+DB_DATABASE_NAME=immich
+DB_DATA_LOCATION="${DATADIR}/appdata/immich_postgres/"
 """
+
+##
+
+[[stack]]
+name = "immich-public-proxy"
+[stack.config]
+server = "a1-beta"
+linked_repo = "homelab"
+run_directory = "compose/beta/immich-public-proxy"
+file_paths = ["compose.yml"]
+
+##
+
+[[stack]]
+name = "jellyfin"
+[stack.config]
+server = "gamma"
+linked_repo = "homelab"
+run_directory = "compose/gamma/jellyfin"
+file_paths = ["compose.yml"]
+
+##
+
+[[stack]]
+name = "kavita"
+[stack.config]
+server = "gamma"
+linked_repo = "homelab"
+run_directory = "compose/gamma/kavita"
+file_paths = ["compose.yml"]
+
+##
+
+[[stack]]
+name = "komodo-core"
+[stack.config]
+server = "gamma"
+project_name = "komodo"
+linked_repo = "homelab"
+run_directory = "compose/gamma/komodo"
+file_paths = ["compose.yml"]
+
+##
+
+[[stack]]
+name = "lldap"
+[stack.config]
+server = "gamma"
+linked_repo = "homelab"
+run_directory = "compose/gamma/lldap"
+file_paths = ["compose.yml"]
+
+##
+
+[[stack]]
+name = "lms"
+[stack.config]
+server = "gamma"
+linked_repo = "homelab"
+run_directory = "compose/gamma/lms"
+file_paths = ["compose.yml"]
+
+##
+
+[[stack]]
+name = "mc-smp"
+[stack.config]
+server = "gamma"
+linked_repo = "homelab"
+run_directory = "compose/beta/minecraft"
+file_paths = ["compose.yml"]
+
+##
+
+[[stack]]
+name = "musicassistant"
+[stack.config]
+server = "gamma"
+linked_repo = "homelab"
+run_directory = "compose/gamma/musicassistant"
+file_paths = ["compose.yml"]
+
+##
+
+[[stack]]
+name = "navidrome"
+[stack.config]
+server = "gamma"
+linked_repo = "homelab"
+run_directory = "compose/gamma/navidrome"
+file_paths = ["compose.yml"]
+
+##
+
+[[stack]]
+name = "nginx-proxy"
+[stack.config]
+server = "gamma"
+linked_repo = "homelab"
+run_directory = "compose/gamma/nginx-proxy"
+file_paths = ["compose.yml"]
+
+##
 
 [[stack]]
 name = "octo-fiesta"
-
 [stack.config]
 server = "gamma"
-run_directory = "compose/gamma/octo-fiesta"
 linked_repo = "homelab"
-file_paths = [ "compose.yml" ]
+run_directory = "compose/gamma/octo-fiesta"
+file_paths = ["compose.yml"]
 environment = """
 ###################################################################################
 # octo-fiesta
@@ -264,162 +413,234 @@ FOLDER_TEMPLATE={artist}/{album}/{track} {title}
 
 """
 
+##
 
 [[stack]]
-name = "nginx-proxy"
-
+name = "paperless-ngx"
 [stack.config]
 server = "gamma"
-run_directory = "compose/gamma/nginx-proxy"
 linked_repo = "homelab"
-file_paths = [ "compose.yml" ]
-
-[[stack]]
-name = "navidrome"
-
-[stack.config]
-server = "gamma"
-run_directory = "compose/gamma/navidrome"
-linked_repo = "homelab"
-file_paths = [ "compose.yml" ]
-
-[[stack]]
-name = "musicassistant"
-
-[stack.config]
-server = "gamma"
-run_directory = "compose/gamma/musicassistant"
-file_paths = [ "compose.yml" ]
-
-[[stack]]
-name = "lms"
-
-[stack.config]
-server = "gamma"
-run_directory = "compose/gamma/lms"
-linked_repo = "homelab"
-file_paths = [ "compose.yml" ]
-
-[[stack]]
-name = "lldap"
-
-[stack.config]
-server = "gamma"
-run_directory = "compose/gamma/lldap"
-linked_repo = "homelab"
-file_paths = [ "compose.yml" ]
-
-[[stack]]
-name = "kavita"
-
-[stack.config]
-server = "gamma"
-run_directory = "compose/gamma/kavita"
-linked_repo = "homelab"
-file_paths = [ "compose.yml" ]
-
-[[stack]]
-name = "jellyfin"
-
-[stack.config]
-server = "gamma"
-run_directory = "compose/gamma/jellyfin"
-linked_repo = "homelab"
-file_paths = [ "compose.yml" ]
-
-[[stack]]
-name = "immich"
-
-[stack.config]
-server = "gamma"
-run_directory = "compose/gamma/immich"
-linked_repo = "homelab"
-file_paths = [ "compose.yml" ]
+run_directory = "compose/gamma/paperless-ngx"
+file_paths = ["compose.yml"]
 environment = """
-DB_HOSTNAME=\"immich-postgres\"
-DB_USERNAME=\"${IMMICH_DB_USERNAME}\"
-DB_PASSWORD=\"${IMMICH_DB_PASSWORD}\"
-DB_DATABASE_NAME=immich
-DB_DATA_LOCATION=\"${DATADIR}/appdata/immich_postgres/\"
+###############################################################################
+# Paperless-ngx settings                                                      #
+###############################################################################
+
+# See http://docs.paperless-ngx.com/configuration/ for all available options.
+
+# The UID and GID of the user used to run paperless in the container. Set this
+# to your UID and GID on the host so that you have write access to the
+# consumption directory.
+USERMAP_UID=1000
+USERMAP_GID=1000
+
+# See the documentation linked above for all options. A few commonly adjusted settings
+# are provided below.
+
+# This is required if you will be exposing Paperless-ngx on a public domain
+# (if doing so please consider security measures such as reverse proxy)
+PAPERLESS_URL=https://paperless.jamietong.com
+
+# Adjust this key if you plan to make paperless available publicly. It should
+# be a very long sequence of random characters. You don't need to remember it.
+#PAPERLESS_SECRET_KEY=change-me
+
+# Use this variable to set a timezone for the Paperless Docker containers. Defaults to UTC.
+PAPERLESS_TIME_ZONE=Asia/Hong_Kong
+
+# The default language to use for OCR. Set this to the language most of your
+# documents are written in.
+PAPERLESS_OCR_LANGUAGE=eng+chi_tra
+
+# Additional languages to install for text recognition, separated by a whitespace.
+# Note that this is different from PAPERLESS_OCR_LANGUAGE (default=eng), which defines
+# the language used for OCR.
+# The container installs English, German, Italian, Spanish and French by default.
+# See https://packages.debian.org/search?keywords=tesseract-ocr-&searchon=names
+# for available languages.
+PAPERLESS_OCR_LANGUAGES=chi-tra
 """
 
-[[stack]]
-name = "homeassistant"
+##
 
+[[stack]]
+name = "postgres"
 [stack.config]
 server = "gamma"
-run_directory = "compose/gamma/homeassistant"
 linked_repo = "homelab"
-file_paths = [ "compose.yml" ]
+run_directory = "compose/gamma/postgres"
+file_paths = ["compose.yml"]
+
+##
 
 [[stack]]
-name = "grafana-monitoring"
-
+name = "qbittorrent"
 [stack.config]
 server = "gamma"
-run_directory = "compose/gamma/grafana-monitoring"
 linked_repo = "homelab"
-file_paths = [ "compose.yml" ]
+run_directory = "compose/gamma/qbittorrent"
+file_paths = ["compose.yml"]
+
+##
 
 [[stack]]
-name = "gonic"
-
+name = "recyclarr"
 [stack.config]
 server = "gamma"
-run_directory = "compose/gamma/gonic"
 linked_repo = "homelab"
-file_paths = [ "compose.yml" ]
+run_directory = "compose/gamma/recyclarr"
+file_paths = ["compose.yml"]
+
+##
 
 [[stack]]
-name = "beets-flask"
-
+name = "slskd"
 [stack.config]
 server = "gamma"
-run_directory = "compose/gamma/beets-flask"
 linked_repo = "homelab"
-file_paths = [ "compose.yml" ]
+run_directory = "compose/gamma/slskd"
+file_paths = ["compose.yml"]
+
+##
 
 [[stack]]
-name = "beets"
-
+name = "socket-proxy-beta"
 [stack.config]
-server = "gamma"
-run_directory = "compose/gamma/beets"
-file_paths = [ "compose.yml" ]
-
-[[stack]]
-name = "authelia"
-
-[stack.config]
-server = "gamma"
-run_directory = "compose/gamma/authelia"
+server = "a1-beta"
 linked_repo = "homelab"
-file_paths = [ "compose.yml" ]
+run_directory = "compose/common/socket-proxy"
+file_paths = ["compose.yml"]
+
+##
 
 [[stack]]
-name = "audiobookshelf"
-
+name = "socket-proxy-gamma"
 [stack.config]
 server = "gamma"
-run_directory = "compose/gamma/audiobookshelf"
 linked_repo = "homelab"
-file_paths = [ "compose.yml" ]
+run_directory = "compose/common/socket-proxy"
+file_paths = ["compose.yml"]
+
+##
 
 [[stack]]
-name = "arr"
-
+name = "syncyomi"
 [stack.config]
-server = "gamma"
-run_directory = "compose/gamma/arr"
+server = "a1-beta"
 linked_repo = "homelab"
-file_paths = [ "compose.yml" ]
+run_directory = "compose/beta/syncyomi"
+file_paths = ["compose.yml"]
+
+##
 
 [[stack]]
-name = "alloy"
-
+name = "tachidesk"
 [stack.config]
 server = "gamma"
-run_directory = "compose/gamma/alloy"
 linked_repo = "homelab"
-file_paths = [ "compose.yml" ]
+run_directory = "compose/gamma/tachidesk"
+file_paths = ["compose.yml"]
 
+##
+
+[[stack]]
+name = "traefik-beta"
+[stack.config]
+server = "a1-beta"
+linked_repo = "homelab"
+run_directory = "compose/beta/traefik"
+file_paths = ["compose.yml"]
+
+##
+
+[[stack]]
+name = "traefik-gamma"
+[stack.config]
+server = "gamma"
+linked_repo = "homelab"
+run_directory = "compose/gamma/traefik"
+file_paths = ["compose.yml"]
+
+##
+
+[[stack]]
+name = "wrapper-v2"
+[stack.config]
+server = "gamma"
+linked_repo = "homelab"
+run_directory = "compose/gamma/wrapper-v2"
+file_paths = ["compose.yml"]
+
+##
+
+[[repo]]
+name = "homelab"
+[repo.config]
+server = "gamma"
+builder = "gamma"
+git_account = "mail@jamietong.com"
+repo = "f8ith/homelab"
+branch = "master"
+
+##
+
+[[procedure]]
+name = "Backup Core Database"
+description = "Triggers the Core database backup at the scheduled time."
+tags = ["system"]
+config.schedule = "Every day at 01:00"
+
+[[procedure.config.stage]]
+name = "Stage 1"
+enabled = true
+executions = [
+  { execution.type = "BackupCoreDatabase", execution.params = {}, enabled = true }
+]
+
+##
+
+[[procedure]]
+name = "Global Auto Update"
+description = "Pulls and auto updates Stacks and Deployments using 'poll_for_updates' or 'auto_update'."
+tags = ["system"]
+config.schedule = "Every day at 03:00"
+
+[[procedure.config.stage]]
+name = "Stage 1"
+enabled = true
+executions = [
+  { execution.type = "GlobalAutoUpdate", execution.params.skip_auto_update = false, enabled = true }
+]
+
+##
+
+[[procedure]]
+name = "Rotate Server Keys"
+description = "Rotates all currently connected Server keys."
+tags = ["system"]
+config.schedule = "Every day at 06:00"
+
+[[procedure.config.stage]]
+name = "Stage 1"
+enabled = true
+executions = [
+  { execution.type = "RotateAllServerKeys", execution.params = {}, enabled = true }
+]
+
+##
+
+[[builder]]
+name = "gamma"
+[builder.config]
+type = "Server"
+params.server = "gamma"
+
+##
+
+[[resource_sync]]
+name = "homelab"
+[resource_sync.config]
+linked_repo = "homelab"
+resource_path = ["komodo/gamma/main.toml"]
+managed = true
