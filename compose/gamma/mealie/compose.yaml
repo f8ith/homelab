@@ -1,16 +1,29 @@
-## Add your compose file here
+networks:
+  web:
+    external: true
+
 services:
-  hello_world:
-    image: hello-world
-    # networks:
-    #   - default
-    # ports:
-    #   - 3000:3000
-    # volumes:
-    #   - data:/data
-
-# networks:
-#   default: {}
-
-# volumes:
-#   data:
+  mealie:
+    extends:
+      file: ../common.yml
+      service: app
+    image: ghcr.io/mealie-recipes/mealie:v3.19.2
+    container_name: mealie
+    networks:
+      web: {}
+    deploy:
+      resources:
+        limits:
+          memory: 1000M
+    volumes:
+      - $DATADIR/appdata/mealie/data:/app/data/
+    environment:
+      ALLOW_SIGNUP: "false"
+      BASE_URL: https://mealie.${DOMAINNAME_1}
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.mealie-rtr.entrypoints=websecure"
+      - "traefik.http.routers.mealie-rtr.rule=Host(`mealie.$DOMAINNAME_1`)"
+      - "traefik.http.routers.mealie-rtr.service=mealie-svc"
+      - "traefik.http.services.mealie-svc.loadbalancer.server.port=9000"
+    
