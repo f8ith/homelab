@@ -17,6 +17,7 @@ services:
       - UID=1000
       - GID=1000
       - LLDAP_JWT_SECRET=${LLDAP_JWT_SECRET}
+      - LLDAP_LDAP_USER_PASS=${LLDAP_LDAP_USER_PASS}
       - LLDAP_LDAP_BASE_DN=dc=jamietong,dc=com  
     labels:
       - "traefik.enable=true"
