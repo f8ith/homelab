@@ -23,7 +23,7 @@ services:
       - '$DATADIR/appdata/authelia/logs:/var/log/authelia/'
     labels:
       traefik.enable: 'true'
-      traefik.http.routers.authelia-rtr.rule: 'Host(`authelia.$DOMAINNAME_1`)'
+      traefik.http.routers.authelia-rtr.rule: 'Host(`auth.$DOMAINNAME_1`) || Host(`authelia.$DOMAINNAME_1`)'
       traefik.http.routers.authelia-rtr.entryPoints: 'websecure'
       traefik.http.routers.authelia-rtr.tls: 'true'
       traefik.http.routers.authelia-rtr.service: authelia-svc
