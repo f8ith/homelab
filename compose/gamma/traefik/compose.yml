@@ -59,6 +59,7 @@ services:
       - --entrypoints.websecure.http.tls.domains[0].main=$DOMAINNAME_1
       - --entrypoints.websecure.http.tls.domains[0].sans=*.$DOMAINNAME_1
 
+      - --entrypoints.internalsecure.http.middlewares=authelia@file
       - --entrypoints.internalsecure.http.tls=true
       - --entrypoints.internalsecure.http.tls.options=tls-opts@file
       - --entrypoints.internalsecure.http.tls.certresolver=dns-cloudflare
