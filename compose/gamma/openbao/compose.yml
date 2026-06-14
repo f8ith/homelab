@@ -14,24 +14,11 @@ services:
     cap_add:
       - IPC_LOCK
     environment:
-      # Local config overrides file requirements for standard single-node container deployment
-      BAO_LOCAL_CONFIG: |
-        {
-          "listener": {
-            "tcp": {
-              "address": "0.0.0.0:8200",
-              "tls_disable": "true"
-            }
-          },
-          "storage": {
-            "file": {
-              "path": "/openbao/data"
-            }
-          },
-          "ui": true
-        }
+      BAO_API_ADDR: "openbao.${DOMAINNAME_1}"
+    command: ["server", "-config=/openbao/openbao.hcl"]
     volumes:
       - $DATADIR/data/openbao/data:/openbao/data
+      - ./config/openbao.hcl:/openbao/openbao.hcl:ro
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.openbao.rule=Host(`openbao.${DOMAINNAME_1}`) || Host(`openbao.${DOCKER_HOST_NAME}.i.${DOMAINNAME_1}`)"
