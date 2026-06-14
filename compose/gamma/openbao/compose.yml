@@ -4,8 +4,8 @@ networks:
 
 services:
   openbao:
-    file:
-      extends: ../common.yml
+    extends:
+      file: ../common.yml
       service: core
     image: openbao/openbao:latest
     container_name: openbao
