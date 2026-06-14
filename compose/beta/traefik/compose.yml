@@ -33,6 +33,7 @@ services:
       - --entrypoints.internal.http.redirections.entrypoint.to=internalsecure
       - --entrypoints.internal.http.redirections.entrypoint.scheme=https
       - --entrypoints.internal.http.redirections.entrypoint.permanent=true
+      - --entryPoints.internal.http.middlewares=authelia@file
       - --api=true
       - --api.dashboard=true
       # - --api.insecure=true
