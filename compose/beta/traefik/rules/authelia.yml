@@ -1,16 +1,30 @@
-## Add your compose file here
-services:
-  hello_world:
-    image: hello-world
-    # networks:
-    #   - default
-    # ports:
-    #   - 3000:3000
-    # volumes:
-    #   - data:/data
-
-# networks:
-#   default: {}
-
-# volumes:
-#   data:
+http:
+  middlewares:
+    authelia:
+      forwardAuth:
+        address: 'http://authelia:9091/api/authz/forward-auth'
+        trustForwardHeader: true
+        maxResponseBodySize: 8192
+        authResponseHeaders:
+          - 'Remote-User'
+          - 'Remote-Groups'
+          - 'Remote-Email'
+          - 'Remote-Name'
+        tls:
+          ca: '/certificates/ca.public.crt'
+          cert: '/certificates/traefik.public.crt'
+          key: '/certificates/traefik.private.pem'
+    authelia-basic:
+      forwardAuth:
+        address: 'http://authelia:9091/api/verify?auth=basic'
+        trustForwardHeader: true
+        maxResponseBodySize: 8192
+        authResponseHeaders:
+          - 'Remote-User'
+          - 'Remote-Groups'
+          - 'Remote-Email'
+          - 'Remote-Name'
+        tls:
+          ca: '/certificates/ca.public.crt'
+          cert: '/certificates/traefik.public.crt'
+          key: '/certificates/traefik.private.pem'
