@@ -38,4 +38,4 @@ services:
       - "traefik.http.routers.openbao.entrypoints=internalsecure"
       - "traefik.http.routers.openbao.service=openbao-svc"
       - "traefik.http.services.openbao-svc.loadbalancer.server.port=8200"
-      - ""
+      - "traefik.docker.network=internal"
