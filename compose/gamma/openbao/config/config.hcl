@@ -1,16 +1,10 @@
-## Add your compose file here
-services:
-  hello_world:
-    image: hello-world
-    # networks:
-    #   - default
-    # ports:
-    #   - 3000:3000
-    # volumes:
-    #   - data:/data
+listener tcp {
+  address = "0.0.0.0:8200"
+  tls_disable =  "true"
+}
 
-# networks:
-#   default: {}
-
-# volumes:
-#   data:
+storage file {
+  path =  "/openbao/data"
+}
+  
+ui = true
