@@ -9,6 +9,8 @@ services:
       service: core
     image: openbao/openbao:latest
     container_name: openbao
+    networks:
+      internal: {}
     cap_add:
       - IPC_LOCK
     environment:
@@ -30,8 +32,6 @@ services:
         }
     volumes:
       - $DATADIR/data/openbao/data:/openbao/data
-    networks:
-      internal: true
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.openbao.rule=Host(`openbao.${DOMAINNAME_1}`) || Host(`openbao.${DOCKER_HOST_NAME}.i.${DOMAINNAME_1}`)"
