@@ -99,6 +99,7 @@ services:
       - ./rules:/rules # Dynamic File Provider directory
       - $DATADIR/appdata/traefik3/acme/acme.json:/acme.json # Certs File
       - $DATADIR/logs/${DOCKER_HOST_NAME}/traefik:/logs # Traefik logs
+      - $DATADIR/certificates:/certificates
     environment:
       - TZ=$TZ
       - CF_DNS_API_TOKEN=[[CF_DNS_API_TOKEN]]
