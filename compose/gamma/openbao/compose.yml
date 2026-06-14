@@ -13,8 +13,6 @@ services:
       internal: {}
     cap_add:
       - IPC_LOCK
-    environment:
-      BAO_API_ADDR: "openbao.${DOMAINNAME_1}"
     command: ["server", "-config=/openbao/openbao.hcl"]
     volumes:
       - $DATADIR/data/openbao/data:/openbao/data
