@@ -33,7 +33,6 @@ services:
       - --entrypoints.internal.http.redirections.entrypoint.to=internalsecure
       - --entrypoints.internal.http.redirections.entrypoint.scheme=https
       - --entrypoints.internal.http.redirections.entrypoint.permanent=true
-      - --entryPoints.internal.http.middlewares=authelia@file
       - --api=true
       - --api.dashboard=true
       # - --api.insecure=true
@@ -61,6 +60,7 @@ services:
       - --entrypoints.websecure.http.tls.certresolver=dns-cloudflare
       - --entrypoints.websecure.http.tls.domains[0].main=$DOMAINNAME_1
 
+      - --entryPoints.internalsecure.http.middlewares=authelia@file
       - --entrypoints.internalsecure.http.tls=true
       - --entrypoints.internalsecure.http.tls.options=tls-opts@file
       - --entrypoints.internalsecure.http.tls.certresolver=dns-cloudflare
