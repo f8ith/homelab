@@ -1,41 +1,13 @@
-networks:
-  internal:
-    external: true
-
 services:
-  openbao:
-    extends:
-      file: ../common.yml
-      service: core
-    image: quay.io/openbao/openbao:2.0
-    container_name: openbao
-    restart: unless-stopped
+  palworld-server:
+    image: 'nitrog0d/palworld-arm64:latest'
+    container_name: 'palworld-server'
+    ports:
+      - '8211:8211/udp'
     environment:
-      BAO_LOCAL_CONFIG: |
-        storage "file" {
-          path = "/openbao/data"
-        }
-        listener "tcp" {
-          address     = "0.0.0.0:8200"
-          tls_disable = "true"
-        }
-        ui = true
+      - ALWAYS_UPDATE_ON_START=true
+      - MULTITHREAD_ENABLED=true
+      - COMMUNITY_SERVER=false
+    restart: 'unless-stopped'
     volumes:
-      - $DATADIR/data/bao-data:/openbao/data
-    networks:
-      internal: {}
-    cap_add:
-      - IPC_LOCK
-    labels:
-      - "traefik.enable=true"
-      # HTTP Router & TLS Rules
-      - "traefik.http.routers.openbao.rule=Host(`openbao.$DOMAINNAME_1`) || Host(`openbao.${DOCKER_HOST_NAME}.i.$DOMAINNAME_1`)"
-      - "traefik.http.routers.openbao.entrypoints=internalsecure"
-      # Target backend port inside container
-      - "traefik.http.services.openbao.loadbalancer.server.port=8200"
-      # Recommended OpenBao Security Middlewares
-      - "traefik.http.routers.openbao.middlewares=bao-headers"
-      - "traefik.http.middlewares.bao-headers.headers.browserXSSFilter=true"
-      - "traefik.http.middlewares.bao-headers.headers.contentTypeNosniff=true"
-      - "traefik.http.middlewares.bao-headers.headers.stsSeconds=31536000"
-      - "traefik.docker.network=internal"
+      - './palworld:/palworld'
