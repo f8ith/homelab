@@ -1,8 +1,5 @@
 services:
    palworld:
-      extends:
-        file: ../common.yml
-        service: app
       image: thijsvanloef/palworld-server-docker:latest
       container_name: palworld-server
       stop_grace_period: 30s # Set to however long you are willing to wait for the container to gracefully stop
@@ -10,12 +7,14 @@ services:
         - 8211:8211/udp
         - 8212:8212/tcp  # REST API enabled port, enabled by default. DO NOT PORT FORWARD THIS.
       environment:
+         PUID: ${PUID}
+         PGID: ${PGID}
          PORT: 8211
          PLAYERS: 16
          SERVER_PASSWORD: ${SERVER_PASSWORD}
          REST_API_ENABLED: true
          REST_API_PORT: 8212
-         TZ: "UTC"
+         TZ: ${TZ}
          ADMIN_PASSWORD: ${SERVER_ADMIN_PASSWORD}
          COMMUNITY: false  # Enable this if you want your server to show up in the community servers tab, USE WITH SERVER_PASSWORD!
          SERVER_NAME: ${SERVER_NAME}
