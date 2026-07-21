@@ -15,7 +15,7 @@ services:
       internal: {}
       socket_proxy: {}
     environment:
-      - DOZZLE_REMOTE_HOSTS=ProductionServer|tcp://socket-proxy:2375
+      - DOZZLE_REMOTE_HOST=tcp://socket-proxy:2375
     volumes:
       - dozzle_data:/data
     labels:
