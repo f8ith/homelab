@@ -1,16 +1,28 @@
-## Add your compose file here
+networks:
+  internal:
+    external: true
+  socket_proxy:
+    external: true
+
 services:
-  hello_world:
-    image: hello-world
-    # networks:
-    #   - default
-    # ports:
-    #   - 3000:3000
-    # volumes:
-    #   - data:/data
-
-# networks:
-#   default: {}
-
-# volumes:
-#   data:
+  dozzle:
+    extends:
+      file: ../common.yml
+      service: core
+    container_name: dozzle
+    image: amir20/dozzle:latest
+    networks:
+      internal: {}
+      socket_proxy: {}
+    environment:
+      - DOZZLE_REMOTE_HOSTS=ProductionServer|tcp://socket-proxy:2375
+    volumes:
+      - dozzle_data:/data
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.dozzle-rtr.entrypoints=internalsecure"
+      - "traefik.http.routers.dozzle-rtr.rule=Host(`dozzle.$DOMAINNAME_1`) || Host(`dozzle.${DOCKER_HOSTNAME}.$DOMAINNAME_1`)"
+      - "traefik.http.routers.dozzle-rtr.service=dozzle-svc"
+      - "traefik.http.services.dozzle-svc.loadbalancer.server.port=8080"
+volumes:
+  dozzle_data:
