@@ -21,7 +21,7 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.dozzle-rtr.entrypoints=internalsecure"
-      - "traefik.http.routers.dozzle-rtr.rule=Host(`dozzle.$DOMAINNAME_1`) || Host(`dozzle.${DOCKER_HOSTNAME}.$DOMAINNAME_1`)"
+      - "traefik.http.routers.dozzle-rtr.rule=Host(`dozzle.$DOMAINNAME_1`) || Host(`dozzle.${DOCKER_HOST_NAME}.$DOMAINNAME_1`)"
       - "traefik.http.routers.dozzle-rtr.service=dozzle-svc"
       - "traefik.http.services.dozzle-svc.loadbalancer.server.port=8080"
 volumes:
