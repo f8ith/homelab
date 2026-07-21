@@ -1,13 +1,25 @@
 services:
-  palworld-server:
-    image: 'nitrog0d/palworld-arm64:latest'
-    container_name: 'palworld-server'
-    ports:
-      - '8211:8211/udp'
-    environment:
-      - ALWAYS_UPDATE_ON_START=true
-      - MULTITHREAD_ENABLED=true
-      - COMMUNITY_SERVER=false
-    restart: 'unless-stopped'
-    volumes:
-      - '$DATADIR/data/palworld:/palworld'
+   palworld:
+      extends:
+        file: ../common.yml
+        service: app
+      image: thijsvanloef/palworld-server-docker:latest
+      container_name: palworld-server
+      stop_grace_period: 30s # Set to however long you are willing to wait for the container to gracefully stop
+      ports:
+        - 8211:8211/udp
+        - 8212:8212/tcp  # REST API enabled port, enabled by default. DO NOT PORT FORWARD THIS.
+      environment:
+         PORT: 8211
+         PLAYERS: 16
+         SERVER_PASSWORD: ${SERVER_PASSWORD}
+         REST_API_ENABLED: true
+         REST_API_PORT: 8212
+         TZ: "UTC"
+         ADMIN_PASSWORD: ${SERVER_ADMIN_PASSWORD}
+         COMMUNITY: false  # Enable this if you want your server to show up in the community servers tab, USE WITH SERVER_PASSWORD!
+         SERVER_NAME: ${SERVER_NAME}
+         SERVER_DESCRIPTION: ${SERVER_DESCRIPTION}
+         CROSSPLAY_PLATFORMS: "(Steam,Xbox,PS5,Mac)"
+      volumes:
+         - $DATADIR/data/palworld:/palworld/
