@@ -6,6 +6,7 @@ services:
       ports:
         - 8211:8211/udp
         - 8212:8212/tcp  # REST API enabled port, enabled by default. DO NOT PORT FORWARD THIS.
+      restart: unless-stopped
       environment:
          PUID: ${PUID}
          PGID: ${PGID}
