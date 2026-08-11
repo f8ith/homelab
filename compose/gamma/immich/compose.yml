@@ -30,9 +30,9 @@ services:
       - immich-postgres
     restart: always
     environment:
-      DB_HOSTNAME: ${DB_HOSTNAME}
-      DB_PASSWORD: ${DB_PASSWORD}
-      DB_USER: ${DB_USERNAME}
+      DB_HOSTNAME: "${DB_HOSTNAME}"
+      DB_PASSWORD: "${DB_PASSWORD}"
+      DB_USERNAME: "${DB_USERNAME}"
     labels:
       - "traefik.enable=true"
       # HTTP Routers
