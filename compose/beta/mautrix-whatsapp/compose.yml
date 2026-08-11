@@ -1,16 +1,14 @@
-## Add your compose file here
+networks:
+  synapsenet:
+    external:
+      name: synapsenet
+
 services:
-  hello_world:
-    image: hello-world
-    # networks:
-    #   - default
-    # ports:
-    #   - 3000:3000
-    # volumes:
-    #   - data:/data
-
-# networks:
-#   default: {}
-
-# volumes:
-#   data:
+  mautrix-whatsapp:
+    container_name: mautrix-whatsapp
+    image: dock.mau.dev/mautrix/whatsapp:latest
+    restart: unless-stopped
+    volumes:
+    - $DATADIR/appdata/mautrix-whatsapp/data:/data
+    networks:
+    - synapsenet
