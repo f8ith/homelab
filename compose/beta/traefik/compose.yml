@@ -102,7 +102,7 @@ services:
       - $DATADIR/certificates:/certificates
     environment:
       - TZ=$TZ
-      - CF_DNS_API_TOKEN=[[CF_DNS_API_TOKEN]]
+      - CF_DNS_API_TOKEN=$CF_DNS_API_TOKEN
       - DOMAINNAME_1
     labels:
       #- "autoheal=true"
