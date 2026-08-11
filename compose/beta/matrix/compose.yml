@@ -3,13 +3,16 @@ networks:
     external: true
   internal:
     external: true
+  synapsenet:
+    name: synapsenet
+    driver: bridge
 
 services:
   matrix-synapse:
     container_name: matrix-synapse
     image: matrixdotorg/synapse:latest
     volumes:
-      - $DATADIR/appdata/matrix-synapse/config:/config
+      - $DATADIR/appdata/matrix-synapse/data:/data
     networks:
       web: {}
     restart: unless-stopped
