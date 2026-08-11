@@ -1,16 +1,23 @@
-## Add your compose file here
+networks:
+  web:
+    external: true
+  internal:
+    external: true
+
 services:
-  hello_world:
-    image: hello-world
-    # networks:
-    #   - default
-    # ports:
-    #   - 3000:3000
-    # volumes:
-    #   - data:/data
-
-# networks:
-#   default: {}
-
-# volumes:
-#   data:
+  matrix-synapse:
+    container_name: matrix-synapse
+    image: matrixdotorg/synapse:latest
+    volumes:
+      - $DATADIR/appdata/matrix-synapse/config:/config
+    networks:
+      web: {}
+    restart: unless-stopped
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.matrix-synapse-rtr.entrypoints=websecure"
+      - "traefik.http.routers.matrix-synapse-rtr.rule=Host(`matrix.$DOMAINNAME_1`)"
+      - "traefik.http.routers.matrix-synapse-rtr.service=matrix-synapse-svc"
+      - "traefik.http.services.matrix-synapse-svc.loadbalancer.server.port=8008"
+      - "logging=alloy"
+      - "logging_jobname=containerlogs"
