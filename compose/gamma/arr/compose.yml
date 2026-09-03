@@ -18,7 +18,7 @@ services:
     extends:
       file: ../common.yml
       service: app
-    image: lscr.io/linuxserver/sonarr:develop
+    image: lscr.io/linuxserver/sonarr:latest
     container_name: sonarr
     networks:
       - arr
@@ -41,7 +41,7 @@ services:
     extends:
       file: ../common.yml
       service: app
-    image: ghcr.io/linuxserver/prowlarr:develop
+    image: ghcr.io/linuxserver/prowlarr:latest
     container_name: prowlarr
     networks:
       - arr
