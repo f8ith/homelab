@@ -23,7 +23,7 @@ services:
       - "traefik.http.routers.qui-rtr.entrypoints=internalsecure"
       - "traefik.http.routers.qui-rtr.rule=Host(`qui.${DOCKER_HOST_NAME}.i.$DOMAINNAME_1`) || Host(`qui.$DOMAINNAME_1`)"
       - "traefik.http.routers.qui-rtr.service=qui-svc"
-      - "traefik.http.services.qui-svc.loadbalancer.server.port=8080"
+      - "traefik.http.services.qui-svc.loadbalancer.server.port=7476"
       - "traefik.docker.network=internal"
       - "logging=alloy"
       - "logging_jobname=containerlogs"
