@@ -46,7 +46,3 @@ services:
 
 volumes:
   autheliaredisdata: {}
-    external: true
-volumes:
-  autheliaredisdata:
-    name: authelia_autheliaredisdata
