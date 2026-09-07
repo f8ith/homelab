@@ -43,4 +43,4 @@ services:
       - autheliaredisdata:/data
 
 volumes:
-  - autheliaredisdata
+  autheliaredisdata: {}
