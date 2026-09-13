@@ -9,7 +9,7 @@ networks:
 services:
   traefik:
     container_name: traefik
-    image: traefik:3.0
+    image: traefik:3.7
     networks:
       - web
       - internal
@@ -19,10 +19,10 @@ services:
     command: # CLI arguments
       - --global.checkNewVersion=true
       - --global.sendAnonymousUsage=true
-      - --entrypoints.web.address=:80
-      - --entrypoints.internal.address=:81
-      - --entrypoints.websecure.address=:443
-      - --entrypoints.internalsecure.address=:444
+      - --entrypoints.web.address=:8088
+      - --entrypoints.internal.address=:80
+      - --entrypoints.websecure.address=:4434
+      - --entrypoints.internalsecure.address=:443
       # --entrypoints.traefik.address=:8080
       # - --entrypoints.ping.address=:8081
       - --entrypoints.web.http.redirections.entrypoint.to=websecure
@@ -93,25 +93,21 @@ services:
     #  interval: 5s
     #  retries: 3
     ports:
+      - target: 8088
+        published: 80
+        protocol: tcp
+        host_ip: ${EXTERNAL_IP}
+      - target: 4434
+        published: 443
+        protocol: tcp
+        host_ip: ${EXTERNAL_IP}
       - target: 80
         published: 80
         protocol: tcp
-        mode: host
-        host_ip: ${EXTERNAL_IP}
+        host_ip: ${INTERNAL_IP}
       - target: 443
         published: 443
         protocol: tcp
-        mode: host
-        host_ip: ${EXTERNAL_IP}
-      - target: 81
-        published: 80
-        protocol: tcp
-        mode: host
-        host_ip: ${INTERNAL_IP}
-      - target: 444
-        published: 443
-        protocol: tcp
-        mode: host
         host_ip: ${INTERNAL_IP}
     volumes:
       - ./rules:/rules # Dynamic File Provider directory
