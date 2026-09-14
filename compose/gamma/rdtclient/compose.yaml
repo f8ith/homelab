@@ -1,12 +1,17 @@
-version: '3.3'
+networks:
+  internal:
+    external: true
+
 services:
   rdtclient:
     image: rogerfar/rdtclient
     container_name: rdtclient
     environment:
-      - PUID=1000
-      - PGID=1000
+      - PUID=$PUID
+      - PGID=$PGID
       - TZ=$TZ
+    networks:
+      - internal
     volumes:
       - $DATADIR/appdata/rdtclient/db:/data/db
       - $MEDIADIR/@media:/data/media
@@ -14,6 +19,11 @@ services:
        driver: json-file
        options:
           max-size: 10m
-    ports:
-      - 6500:6500
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.rdtclient-rtr.entrypoints=internalsecure"
+      - "traefik.http.routers.rdtclient-rtr.rule=Host(`rdtclient.${DOCKER_HOST_NAME}.i.$DOMAINNAME_1`) || Host(`rdtclient.$DOMAINNAME_1`)"
+      - "traefik.http.routers.rdtclient-rtr.service=rdtclient-svc"
+      - "traefik.http.services.rdtclient-svc.loadbalancer.server.port=6500"
+      - "traefik.docker.network=internal"
     restart: unless-stopped
