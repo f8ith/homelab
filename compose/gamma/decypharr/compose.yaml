@@ -1,16 +1,20 @@
-## Add your compose file here
 services:
-  hello_world:
-    image: hello-world
-    # networks:
-    #   - default
-    # ports:
-    #   - 3000:3000
-    # volumes:
-    #   - data:/data
-
-# networks:
-#   default: {}
-
-# volumes:
-#   data:
+  decypharr:
+    image: cy01/blackhole:latest
+    container_name: decypharr
+    environment:
+      - PUID=$PUID
+      - PGID=$PGID
+      - TZ=$TZ
+    volumes:
+      - $DATADIR/decypharr/app:/app
+      - $MEDIADIR:/data
+      - $MEDIADIR/@media:/data/media 
+    restart: unless-stopped
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.decypharr-rtr.entrypoints=internalsecure"
+      - "traefik.http.routers.decypharr-rtr.rule=Host(`decypharr.${DOCKER_HOST_NAME}.i.$DOMAINNAME_1`) || Host(`decypharr.$DOMAINNAME_1`)"
+      - "traefik.http.routers.decypharr-rtr.service=decypharr-svc"
+      - "traefik.http.services.decypharr-svc.loadbalancer.server.port=8282"
+      - "traefik.docker.network=internal"
