@@ -1,3 +1,7 @@
+networks:
+  internal:
+    external: true
+
 services:
   decypharr:
     image: cy01/blackhole:latest
@@ -6,6 +10,8 @@ services:
       - PUID=$PUID
       - PGID=$PGID
       - TZ=$TZ
+    networks:
+      internal: {}
     volumes:
       - $DATADIR/decypharr/app:/app
       - $MEDIADIR:/data
