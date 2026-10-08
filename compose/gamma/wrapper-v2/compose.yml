@@ -10,7 +10,7 @@ services:
       file: ../common.yml
       service: app
     image: wrapper-v2:latest
-    pull: never
+    pull_policy: never
     container_name: wrapper-v2
     networks:
       internal: {}
