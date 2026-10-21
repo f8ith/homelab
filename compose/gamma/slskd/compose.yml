@@ -12,7 +12,7 @@ services:
     image: slskd/slskd
     container_name: slskd
     networks:
-      - web
+      internal: {}
     ports:
       - "60300:60300"
     environment:
@@ -29,5 +29,6 @@ services:
       - "traefik.http.routers.slskd-rtr.rule=Host(`slskd.$DOMAINNAME_1`) || Host(`slskd.${DOCKER_HOST_NAME}.i.$DOMAINNAME_1`)"
       - "traefik.http.routers.slskd-rtr.service=slskd-svc"
       - "traefik.http.services.slskd-svc.loadbalancer.server.port=5030"
+      - "traefik.docker.network=internal"
       - "logging=alloy"
       - "logging_jobname=containerlogs"
