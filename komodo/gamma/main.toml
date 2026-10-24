@@ -1,6 +1,7 @@
 [[server]]
 name = "a1-beta"
 [server.config]
+insecure_tls = false
 enabled = true
 
 ##
@@ -69,6 +70,10 @@ server = "gamma"
 linked_repo = "homelab"
 run_directory = "compose/gamma/authelia"
 file_paths = ["compose.yml"]
+environment = """
+  # VARIABLE = value
+AUTHELIA_LLDAP_PASSWORD = [[ AUTHELIA_LLDAP_PASSWORD ]]
+"""
 
 ##
 
@@ -79,6 +84,16 @@ server = "a1-beta"
 linked_repo = "homelab"
 run_directory = "compose/beta/authelia"
 file_paths = ["compose.yml"]
+environment = """
+  # VARIABLE = value
+AUTHELIA_JWT_SECRET = [[AUTHELIA_JWT_SECRET]]
+AUTHELIA_LDAP_PASSWORD = [[AUTHELIA_LDAP_PASSWORD]]
+AUTHELIA_STORAGE_ENCRYPTION_KEY = [[AUTHELIA_STORAGE_ENCRYPTION_KEY]]
+AUTHELIA_SESSION_SECRET = [[AUTHELIA_SESSION_SECRET]]
+AUTHELIA_OIDC_HMAC_SECRET = [[AUTHELIA_OIDC_HMAC_SECRET]]
+AUTHELIA_JWK_CERTIFICATE_CHAIN = [[AUTHELIA_JWK_CERTIFICATE_CHAIN]]
+ZOHO_MAIL_PASSWORD = [[ZOHO_MAIL_PASSWORD]]
+"""
 
 ##
 
@@ -97,6 +112,25 @@ name = "beets-flask"
 server = "gamma"
 linked_repo = "homelab"
 run_directory = "compose/gamma/beets-flask"
+file_paths = ["compose.yml"]
+
+##
+
+[[stack]]
+name = "decypharr"
+[stack.config]
+server = "gamma"
+linked_repo = "homelab"
+run_directory = "compose/gamma/decypharr"
+
+##
+
+[[stack]]
+name = "dozzle"
+[stack.config]
+server = "gamma"
+linked_repo = "homelab"
+run_directory = "compose/gamma/dozzle"
 file_paths = ["compose.yml"]
 
 ##
@@ -150,10 +184,10 @@ run_directory = "compose/gamma/immich"
 file_paths = ["compose.yml"]
 environment = """
 DB_HOSTNAME="immich-postgres"
-DB_USERNAME="[[IMMICH_DB_USERNAME]]"
-DB_PASSWORD="[[IMMICH_DB_PASSWORD]]"
+DB_USERNAME=[[IMMICH_DB_USERNAME]]
+DB_PASSWORD=[[IMMICH_DB_PASSWORD]]
 DB_DATABASE_NAME=immich
-DB_DATA_LOCATION="${DATADIR}/appdata/immich_postgres/"
+DB_STORAGE_TYPE='HDD'
 """
 
 ##
@@ -226,6 +260,15 @@ server = "gamma"
 linked_repo = "homelab"
 run_directory = "compose/beta/minecraft"
 file_paths = ["compose.yml"]
+
+##
+
+[[stack]]
+name = "mealie"
+[stack.config]
+server = "gamma"
+linked_repo = "homelab"
+run_directory = "compose/gamma/mealie"
 
 ##
 
@@ -416,6 +459,39 @@ FOLDER_TEMPLATE={artist}/{album}/{track} {title}
 ##
 
 [[stack]]
+name = "openbao"
+[stack.config]
+server = "gamma"
+linked_repo = "homelab"
+run_directory = "compose/gamma/openbao"
+file_paths = ["compose.yml"]
+config_files = [
+  { path = "config/openbao.hcl", services = ["openbao"], requires = "Restart" }
+]
+
+##
+
+[[stack]]
+name = "palworld"
+[stack.config]
+server = "a1-beta"
+linked_repo = "homelab"
+run_directory = "compose/beta/palworld"
+file_paths = ["compose.yml"]
+environment = """
+# VARIABLE = value
+PUID                    = 1001
+PGID                    = 1001
+TZ                      = "Asia/Hong_Kong"
+SERVER_PASSWORD         = [[PALWORLD_SERVER_PASSWORD]]
+SERVER_ADMIN_PASSWORD   = [[PALWORLD_ADMIN_PASSWORD]]
+SERVER_NAME             = "niang pao gang"
+SERVER_DESCRIPTION      = ""
+"""
+
+##
+
+[[stack]]
 name = "paperless-ngx"
 [stack.config]
 server = "gamma"
@@ -481,6 +557,15 @@ server = "gamma"
 linked_repo = "homelab"
 run_directory = "compose/gamma/qbittorrent"
 file_paths = ["compose.yml"]
+
+##
+
+[[stack]]
+name = "qui"
+[stack.config]
+server = "gamma"
+linked_repo = "homelab"
+run_directory = "compose/gamma/qui"
 
 ##
 
@@ -551,6 +636,16 @@ server = "a1-beta"
 linked_repo = "homelab"
 run_directory = "compose/beta/traefik"
 file_paths = ["compose.yml"]
+config_files = [
+  { path = "rules/chain-no-auth.yml", services = ["traefik"], requires = "Restart" },
+  { path = "rules/middlewares-secure-headers.yml", services = ["traefik"], requires = "Restart" },
+  { path = "rules/tls-opts.yml", services = ["traefik"], requires = "Restart" },
+  { path = "rules/authelia.yml", services = ["traefik"], requires = "Restart" }
+]
+environment = """
+  # VARIABLE = value
+CF_DNS_API_TOKEN=[[BETA_CF_DNS_API_TOKEN]]
+"""
 
 ##
 
@@ -561,6 +656,9 @@ server = "gamma"
 linked_repo = "homelab"
 run_directory = "compose/gamma/traefik"
 file_paths = ["compose.yml"]
+environment = """
+CF_DNS_API_TOKEN=[[GAMMA_CF_DNS_API_TOKEN]]
+"""
 
 ##
 
@@ -571,6 +669,13 @@ server = "gamma"
 linked_repo = "homelab"
 run_directory = "compose/gamma/wrapper-v2"
 file_paths = ["compose.yml"]
+
+##
+
+[[build]]
+name = "wrapper"
+[build.config]
+builder = "gamma"
 
 ##
 
@@ -616,6 +721,46 @@ executions = [
 ##
 
 [[procedure]]
+name = "Palworld Backup"
+config.schedule = "Every 4 hours"
+
+[[procedure.config.stage]]
+name = "Stage 1"
+enabled = true
+executions = [
+  { execution.type = "RunAction", execution.params.action = "palworld backup", execution.params.args = {}, enabled = true }
+]
+
+##
+
+[[procedure]]
+name = "Palworld Daily Restart"
+config.schedule = "Every day at 03:00"
+
+[[procedure.config.stage]]
+name = "Stage 1"
+enabled = true
+executions = [
+  { execution.type = "StopStack", execution.params.stack = "palworld", execution.params.services = [], enabled = true }
+]
+
+[[procedure.config.stage]]
+name = "Stage 2"
+enabled = true
+executions = [
+  { execution.type = "RunAction", execution.params.action = "palworld backup", execution.params.args = {}, enabled = true }
+]
+
+[[procedure.config.stage]]
+name = "Stage 3"
+enabled = true
+executions = [
+  { execution.type = "DeployStack", execution.params.stack = "palworld", execution.params.services = [], enabled = true }
+]
+
+##
+
+[[procedure]]
 name = "Rotate Server Keys"
 description = "Rotates all currently connected Server keys."
 tags = ["system"]
@@ -627,6 +772,33 @@ enabled = true
 executions = [
   { execution.type = "RotateAllServerKeys", execution.params = {}, enabled = true }
 ]
+
+##
+
+[[action]]
+name = "palworld backup"
+[action.config]
+file_contents = """
+var rsyncCommand = "sudo -iu gamma rsync -avr -e 'ssh -i /home/gamma/.ssh/beta_gamma' ubuntu@beta.jamietong.com:/opt/docker/data/palworld/Pal/Saved/SaveGames /mnt/media-server/palworld-save";
+komodo.execute_terminal(  {
+    target: {
+      type: "Server",
+      params: {
+        server: "gamma"
+      }
+    },
+    terminal: "palworld-backup",
+    command: rsyncCommand,
+    init: {
+      command: "bash",
+      recreate: Types.TerminalRecreateMode.Always
+    }
+  },
+  {
+    onLine: (line) => console.log(line),
+    onFinish: (code) => console.log("Finished:", code),
+  });
+"""
 
 ##
 
