@@ -1,6 +1,5 @@
 networks:
-  internal:
-    external: true
+
   socket_proxy:
     driver: bridge
 

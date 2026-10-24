@@ -1,8 +1,6 @@
 networks:
   web:
     external: true
-  internal:
-    external: true
 
 services:
   wrapper-v2:
@@ -13,7 +11,7 @@ services:
     pull_policy: never
     container_name: wrapper-v2
     networks:
-      internal: {}
+      web: {}
     ports:
       - "127.0.0.1:${DECRYPT_PORT:-10020}:10020"
     cap_add:

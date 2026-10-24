@@ -1,8 +1,6 @@
 networks:
   web:
     external: true
-  internal:
-    external: true
   socket_proxy:
     external: true
 

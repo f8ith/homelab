@@ -1,8 +1,7 @@
 networks:
   web:
     external: true
-  internal:
-    external: true
+
   minecraft:
     name: minecraft
     driver: bridge
@@ -12,7 +11,7 @@ services:
     image: itzg/rcon
     container_name: rcon-web
     networks:
-      - internal
+      
       - minecraft
     env_file:
       - .env

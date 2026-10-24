@@ -1,8 +1,7 @@
 networks:
   web:
     external: true
-  internal:
-    external: true
+
   qbittorrent:
     name: qbittorrent
     driver: bridge
@@ -27,7 +26,7 @@ services:
       - /mnt:/mnt
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.qbittorrent-rtr.entrypoints=websecure,internalsecure,internalsecure"
+      - "traefik.http.routers.qbittorrent-rtr.entrypoints=internalsecure"
       - "traefik.http.routers.qbittorrent-rtr.rule=Host(`qbittorrent.${DOCKER_HOST_NAME}.i.$DOMAINNAME_1`) || Host(`qbittorrent.$DOMAINNAME_1`)"
       - "traefik.http.routers.qbittorrent-rtr.service=qbittorrent-svc"
       - "traefik.http.services.qbittorrent-svc.loadbalancer.server.port=8080"

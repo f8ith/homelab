@@ -1,8 +1,6 @@
 networks:
   web:
     external: true
-  internal:
-    external: true
   socket_proxy:
     external: true 
 
@@ -12,7 +10,6 @@ services:
     image: traefik:3.7
     networks:
       - web
-      - internal
       - socket_proxy
     extra_hosts:
       - "host.docker.internal:host-gateway"
@@ -20,9 +17,9 @@ services:
       - --global.checkNewVersion=true
       - --global.sendAnonymousUsage=true
       - --entrypoints.web.address=:8088
-      - --entrypoints.internal.address=:80
+      - --entrypoints.internal.address=${INTERNAL_IP}:80
       - --entrypoints.websecure.address=:4434
-      - --entrypoints.internalsecure.address=:443
+      - --entrypoints.internalsecure.address=${INTERNAL_IP}:443
       # --entrypoints.traefik.address=:8080
       # - --entrypoints.ping.address=:8081
       - --entrypoints.web.http.redirections.entrypoint.to=websecure
@@ -95,11 +92,9 @@ services:
       - target: 8088
         published: 80
         protocol: tcp
-        host_ip: ${EXTERNAL_IP}
       - target: 4434
         published: 443
         protocol: tcp
-        host_ip: ${EXTERNAL_IP}
       - target: 80
         published: 80
         protocol: tcp

@@ -1,6 +1,4 @@
 networks:
-  internal:
-    external: true
   socket_proxy:
     external: true
 
@@ -12,7 +10,6 @@ services:
     container_name: dozzle
     image: amir20/dozzle:latest
     networks:
-      internal: {}
       socket_proxy: {}
     environment:
       - DOZZLE_REMOTE_HOST=tcp://socket-proxy:2375

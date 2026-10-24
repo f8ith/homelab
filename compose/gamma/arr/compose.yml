@@ -1,8 +1,6 @@
 networks:
   web:
     external: true
-  internal:
-    external: true
   qbittorrent:
     external: true
   arr:
@@ -22,7 +20,6 @@ services:
     container_name: sonarr
     networks:
       - arr
-      - internal
       - qbittorrent
     volumes:
       - $DATADIR/appdata/sonarr:/config
@@ -35,7 +32,6 @@ services:
       - "traefik.http.routers.sonarr-rtr.rule=Host(`sonarr.${DOCKER_HOST_NAME}.i.$DOMAINNAME_1`) || Host(`sonarr.$DOMAINNAME_1`)"
       - "traefik.http.routers.sonarr-rtr.service=sonarr-svc"
       - "traefik.http.services.sonarr-svc.loadbalancer.server.port=8989"
-      - "traefik.docker.network=internal"
 
   prowlarr: #indexer manager for Sonarr & Radarr
     extends:
@@ -45,7 +41,6 @@ services:
     container_name: prowlarr
     networks:
       - arr
-      - internal
     volumes:
       - $DATADIR/appdata/prowlarr:/config
     labels:
@@ -54,7 +49,6 @@ services:
       - "traefik.http.routers.prowlarr-rtr.rule=Host(`prowlarr.${DOCKER_HOST_NAME}.i.$DOMAINNAME_1`) || Host(`prowlarr.$DOMAINNAME_1`)"
       - "traefik.http.routers.prowlarr-rtr.service=prowlarr-svc"
       - "traefik.http.services.prowlarr-svc.loadbalancer.server.port=9696"
-      - "traefik.docker.network=internal"
 
   radarr: #movie search agent
     extends:
@@ -64,8 +58,6 @@ services:
     container_name: radarr
     networks:
       - arr
-      - internal
-      - qbittorrent
     volumes:
       - $DATADIR/appdata/radarr:/config
       - $MEDIADIR:/data
@@ -101,10 +93,9 @@ services:
       retries: 3
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.seerr-rtr.entrypoints=websecure,internalsecure"
+      - "traefik.http.routers.seerr-rtr.entrypoints=websecure"
       - "traefik.http.routers.seerr-rtr.rule=Host(`seerr.$DOMAINNAME_1`)"
       - "traefik.http.routers.seerr-rtr.service=seerr-svc"
-      - "traefik.http.services.seerr-svc.loadbalancer.server.port=5055"
 
   # subtitles
   bazarr:
@@ -115,7 +106,6 @@ services:
     container_name: bazarr
     networks:
       - arr
-      - internal
     volumes:
       - $DATADIR/appdata/bazarr:/config
       - $MEDIADIR/@media:/data/media
@@ -126,4 +116,3 @@ services:
       - "traefik.http.routers.bazarr-rtr.rule=Host(`bazarr.${DOCKER_HOST_NAME}.i.$DOMAINNAME_1`) || Host(`bazarr.$DOMAINNAME_1`)"
       - "traefik.http.routers.bazarr-rtr.service=bazarr-svc"
       - "traefik.http.services.bazarr-svc.loadbalancer.server.port=6767"
-      - "traefik.docker.network=internal"

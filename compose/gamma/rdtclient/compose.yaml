@@ -1,6 +1,5 @@
 networks:
-  internal:
-    external: true
+
 
 services:
   rdtclient:

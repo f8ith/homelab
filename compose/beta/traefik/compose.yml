@@ -1,8 +1,6 @@
 networks:
   web:
     external: true
-  internal:
-    external: true
   authelia:
     name: authelia
     external: true
@@ -15,7 +13,6 @@ services:
     image: traefik:3.6
     networks:
       - web
-      - internal
       - socket_proxy
       - authelia
     command: # CLI arguments

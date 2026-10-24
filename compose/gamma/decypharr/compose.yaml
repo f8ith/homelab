@@ -1,5 +1,5 @@
 networks:
-  internal:
+  web:
     external: true
 
 services:
@@ -11,7 +11,7 @@ services:
       - PGID=$PGID
       - TZ=$TZ
     networks:
-      internal: {}
+      web: {}
     volumes:
       - $DATADIR/decypharr/app:/app
       - $MEDIADIR:/data

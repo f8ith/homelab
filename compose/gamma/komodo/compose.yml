@@ -1,14 +1,8 @@
 networks:
   web:
     external: true
-  internal:
-    external: true
-
-networks:
   komodo:
     driver: bridge 
-  internal:
-    external: true
 
 services:
   komodo-postgres:
@@ -56,7 +50,7 @@ services:
       - ferretdb
     networks:
       komodo: {}
-      internal: {}
+      web: {}
     env_file: ./komodo.env
     environment:
       KOMODO_DATABASE_ADDRESS: "ferretdb:27017"
@@ -75,7 +69,6 @@ services:
       - "traefik.http.routers.komodo-rtr.rule=Host(`komodo.$DOMAINNAME_1`) || Host(`komodo.${DOCKER_HOST_NAME}.i.$DOMAINNAME_1`)"
       - "traefik.http.routers.komodo-rtr.service=komodo-svc"
       - "traefik.http.services.komodo-svc.loadbalancer.server.port=9120"
-      - "traefik.docker.network=internal"
 
 volumes:
   ferretdb-state:
