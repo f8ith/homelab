@@ -1,5 +1,4 @@
 networks:
-
   socket_proxy:
     driver: bridge
 

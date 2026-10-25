@@ -1,0 +1,28 @@
+volumes:
+  bao_shared:
+
+services:
+  openbao-agent:
+    image: ghcr.io/openbao/openbao:latest
+    entrypoint: ["bao", "agent", "-config=/bao/bao-agent.hcl"]
+    volumes:
+      - ./bao-agent.hcl:/bao/bao-agent.hcl:ro
+      - $DATADIR/secrets/bao/role_id:/bao/role_id:ro
+      - $DATADIR/secrets/bao/secret_id:/bao/secret_id:ro
+      - bao_shared:/bao-shared
+  doco-cd:
+    extends:
+      file: ../../common/doco-cd/compose.yaml
+      service: doco-cd
+    env_file:
+    volumes:
+      - bao_shared:/bao-shared:ro
+    environment:
+      SECRET_PROVIDER: openbao
+      SECRET_PROVIDER_ACCESS_TOKEN_FILE: /bao-shared/.openbao-token
+      POLL_CONFIG: |
+        - url: https://github.com/f8ith/homelab.git
+          reference: doco
+          interval: 30
+          target: beta
+

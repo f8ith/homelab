@@ -1,0 +1,20 @@
+services:
+  doco-cd:
+    image: ghcr.io/kimdre/doco-cd:0.125.1@sha256:38198abbda1b55da7a7f37a7924b2ccdcc0583bd24466b7c2103ef6cd2ffc828
+    restart: unless-stopped
+
+    environment:
+      TZ: Asia/Hong_Kong
+      SELF_UPDATE_ENABLED: "true"
+      SELF_UPDATE_STRATEGY: auto
+
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - $DATADIR/doco-cd:/data
+
+    healthcheck:
+      interval: 10s
+      timeout: 5s
+      start_period: 15s
+      retries: 3
+
