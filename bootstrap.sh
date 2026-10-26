@@ -10,7 +10,7 @@ POLL_CONFIG="
 "
 
 if [ -n $DOCO_TARGET ]; then
-  POLL_CONFIG+=$'\n'"target: $1"
+  POLL_CONFIG+=$'\n'"target: $DOCO_TARGET"
 fi
 
 
