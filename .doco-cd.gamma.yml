@@ -5,49 +5,49 @@ working_dir: compose/gamma/alloy
 reconciliation:
   events: [unhealthy]
 env_files:
-  - gamma.env
+  - ../../../gamma.env
 ---
 name: arr
 working_dir: compose/gamma/arr
 reconciliation:
   events: [unhealthy]
 env_files:
-  - gamma.env
+  - ../../../gamma.env
 ---
 name: dozzle
 working_dir: compose/gamma/dozzle
 reconciliation:
   events: [unhealthy]
 env_files:
-  - gamma.env
+  - ../../../gamma.env
 ---
 name: grafana-monitoring
 working_dir: compose/gamma/grafana-monitoring
 reconciliation:
   events: [unhealthy]
 env_files:
-  - gamma.env
+  - ../../../gamma.env
 ---
 name: homeassistant
 working_dir: compose/gamma/homeassistant
 reconciliation:
   events: [unhealthy]
 env_files:
-  - gamma.env
+  - ../../../gamma.env
 ---
 name: immich
 working_dir: compose/gamma/immich
 reconciliation:
   events: [unhealthy]
 env_files:
-  - gamma.env
+  - ../../../gamma.env
 ---
 name: navidrome
 working_dir: compose/gamma/navidrome
 reconciliation:
   events: [unhealthy]
 env_files:
-  - gamma.env
+  - ../../../gamma.env
 ---
 name: traefik
 working_dir: compose/gamma/traefik
@@ -56,4 +56,4 @@ external_secrets:
 reconciliation:
   events: [unhealthy]
 env_files:
-  - gamma.env
+  - ../../../gamma.env
