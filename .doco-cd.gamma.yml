@@ -1,5 +1,12 @@
 # yaml-language-server: $schema=https://doco.cd/latest/schemas/deploy.schema.json
 
+name: doco
+working_dir: compose/common/doco-cd
+reconciliation:
+  events: [unhealthy]
+env_files:
+  - ../../../gamma.env
+---
 name: alloy
 working_dir: compose/gamma/alloy
 reconciliation:
