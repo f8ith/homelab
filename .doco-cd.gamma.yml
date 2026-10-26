@@ -57,3 +57,12 @@ reconciliation:
   events: [unhealthy]
 env_files:
   - ../../../gamma.env
+---
+name: socket-proxy
+working_dir: compose/common/socket-proxy
+external_secrets:
+  CF_DNS_API_TOKEN: kv:gamma:cloudflare:api:api_token
+reconciliation:
+  events: [unhealthy]
+env_files:
+  - ../../../gamma.env
