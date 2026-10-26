@@ -4,41 +4,40 @@ name: alloy
 working_dir: compose/gamma/alloy
 reconciliation:
   events: [unhealthy]
-
+---
 name: arr
 working_dir: compose/gamma/arr
 reconciliation:
   events: [unhealthy]
-
+---
 name: dozzle
 working_dir: compose/gamma/dozzle
 reconciliation:
   events: [unhealthy]
-
+---
 name: grafana-monitoring
 working_dir: compose/gamma/grafana-monitoring
 reconciliation:
   events: [unhealthy]
-
+---
 name: homeassistant
 working_dir: compose/gamma/homeassistant
 reconciliation:
   events: [unhealthy]
-
+---
 name: immich
 working_dir: compose/gamma/immich
 reconciliation:
   events: [unhealthy]
-
+---
 name: navidrome
 working_dir: compose/gamma/navidrome
 reconciliation:
   events: [unhealthy]
-
+---
 name: traefik
 working_dir: compose/gamma/traefik
 external_secrets:
   CF_DNS_API_TOKEN: kv:gamma:cloudflare:api:api_token
 reconciliation:
   events: [unhealthy]
-
