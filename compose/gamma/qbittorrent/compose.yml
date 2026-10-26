@@ -17,7 +17,7 @@ services:
     container_name: qbittorrent
     image: ghcr.io/hotio/qbittorrent
     networks:
-      - internal
+      - web
       - qbittorrent
     volumes:
       - $DATADIR/appdata/qbittorrent/config:/config

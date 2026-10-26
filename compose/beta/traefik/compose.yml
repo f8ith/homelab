@@ -18,10 +18,10 @@ services:
     command: # CLI arguments
       - --global.checkNewVersion=true
       - --global.sendAnonymousUsage=true
-      - --entrypoints.web.address=:80
-      - --entrypoints.internal.address=:81
-      - --entrypoints.websecure.address=:443
-      - --entrypoints.internalsecure.address=:444
+      - --entrypoints.web.address=:8800
+      - --entrypoints.websecure.address=:4443
+      - --entrypoints.internal.address=:8801
+      - --entrypoints.internalsecure.address=:4444
       # - --entrypoints.traefik.address=:8080
       # - --entrypoints.ping.address=:8081
       - --entrypoints.web.http.redirections.entrypoint.to=websecure
@@ -72,22 +72,22 @@ services:
       - --certificatesResolvers.dns-cloudflare.acme.dnsChallenge.resolvers=1.1.1.1:53,1.0.0.1:53
       - --certificatesResolvers.dns-cloudflare.acme.dnsChallenge.delayBeforeCheck=90 # To delay DNS check and reduce LE hitrate
     ports:
-      - target: 80
+      - target: 8800
         published: 80
         protocol: tcp
         mode: host
         host_ip: ${EXTERNAL_IP}
-      - target: 443
+      - target: 4443
         published: 443
         protocol: tcp
         mode: host
         host_ip: ${EXTERNAL_IP}
-      - target: 81
+      - target: 8801
         published: 80
         protocol: tcp
         mode: host
         host_ip: ${INTERNAL_IP}
-      - target: 444
+      - target: 4444
         published: 443
         protocol: tcp
         mode: host

@@ -15,7 +15,7 @@ services:
     image: ghcr.io/immich-app/immich-server:${IMMICH_VERSION:-release}
     networks:
       - web
-      - internal
+      - web
       - immich_net
     # extends:
     #   file: hwaccel.transcoding.yml

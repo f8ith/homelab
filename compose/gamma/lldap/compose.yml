@@ -7,7 +7,7 @@ services:
   lldap:
     image: nitnelave/lldap:stable
     networks:
-      - internal
+      - web
     ports:
       - "$INTERNAL_IP:3890:3890"
     volumes:

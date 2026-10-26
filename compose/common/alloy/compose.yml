@@ -1,4 +1,6 @@
 networks:
+  web:
+    external: true
   socket_proxy:
     driver: bridge
 
@@ -23,7 +25,7 @@ services:
         target: /etc/alloy/config.alloy
     command: run --server.http.listen-addr=0.0.0.0:12345 --storage.path=/var/lib/alloy/data --disable-reporting /etc/alloy/config.alloy
     networks:
-      internal:
+      web:
       socket_proxy:
     environment:
       - DOCKER_HOST_NAME=${DOCKER_HOST_NAME}

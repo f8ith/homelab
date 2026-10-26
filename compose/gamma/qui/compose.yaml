@@ -1,6 +1,5 @@
 networks:
-  internal:
-    name: internal
+  web:
     external: true
   qbittorrent:
     name: qbittorrent
@@ -14,7 +13,7 @@ services:
     container_name: qui
     image: ghcr.io/autobrr/qui:latest
     networks:
-      - internal
+      - web
       - qbittorrent
     volumes:
       - $DATADIR/appdata/qui/config:/config
