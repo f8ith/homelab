@@ -4,36 +4,50 @@ name: alloy
 working_dir: compose/gamma/alloy
 reconciliation:
   events: [unhealthy]
+env_files:
+  - .env
 ---
 name: arr
 working_dir: compose/gamma/arr
 reconciliation:
   events: [unhealthy]
+env_files:
+  - .env
 ---
 name: dozzle
 working_dir: compose/gamma/dozzle
 reconciliation:
   events: [unhealthy]
+env_files:
+  - .env
 ---
 name: grafana-monitoring
 working_dir: compose/gamma/grafana-monitoring
 reconciliation:
   events: [unhealthy]
+env_files:
+  - .env
 ---
 name: homeassistant
 working_dir: compose/gamma/homeassistant
 reconciliation:
   events: [unhealthy]
+env_files:
+  - .env
 ---
 name: immich
 working_dir: compose/gamma/immich
 reconciliation:
   events: [unhealthy]
+env_files:
+  - .env
 ---
 name: navidrome
 working_dir: compose/gamma/navidrome
 reconciliation:
   events: [unhealthy]
+env_files:
+  - .env
 ---
 name: traefik
 working_dir: compose/gamma/traefik

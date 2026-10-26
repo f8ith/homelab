@@ -1,6 +1,118 @@
-# ------------------------------------------------------------------------------------ #
+# env_files:
+    - .env
+---env_files:
+    - .env
+---env_files:
+    - .env
+---env_files:
+    - .env
+---env_files:
+    - .env
+---env_files:
+    - .env
+---env_files:
+    - .env
+---env_files:
+    - .env
+---env_files:
+    - .env
+---env_files:
+    - .env
+---env_files:
+    - .env
+---env_files:
+    - .env
+---env_files:
+    - .env
+---env_files:
+    - .env
+---env_files:
+    - .env
+---env_files:
+    - .env
+---env_files:
+    - .env
+---env_files:
+    - .env
+---env_files:
+    - .env
+---env_files:
+    - .env
+---env_files:
+    - .env
+---env_files:
+    - .env
+---env_files:
+    - .env
+---env_files:
+    - .env
+---env_files:
+    - .env
+---env_files:
+    - .env
+---env_files:
+    - .env
+---env_files:
+    - .env
+--- #
 #                                   BEETS GUI CONFIG                                   #
-# ------------------------------------------------------------------------------------ #
+# env_files:
+    - .env
+---env_files:
+    - .env
+---env_files:
+    - .env
+---env_files:
+    - .env
+---env_files:
+    - .env
+---env_files:
+    - .env
+---env_files:
+    - .env
+---env_files:
+    - .env
+---env_files:
+    - .env
+---env_files:
+    - .env
+---env_files:
+    - .env
+---env_files:
+    - .env
+---env_files:
+    - .env
+---env_files:
+    - .env
+---env_files:
+    - .env
+---env_files:
+    - .env
+---env_files:
+    - .env
+---env_files:
+    - .env
+---env_files:
+    - .env
+---env_files:
+    - .env
+---env_files:
+    - .env
+---env_files:
+    - .env
+---env_files:
+    - .env
+---env_files:
+    - .env
+---env_files:
+    - .env
+---env_files:
+    - .env
+---env_files:
+    - .env
+---env_files:
+    - .env
+--- #
 # Example file, this file was automatically copied to /config/beets-flask/config.yaml.
 # Feel free to edit this file to customize the gui configuration.
 # Especially the `folders` section in the `inbox` section are important to set up your inbox
@@ -18,7 +130,49 @@ gui:
 
     inbox:
         folders:
-            # --------------------------------- README -------------------------------- #
+            # env_files:
+    - .env
+---env_files:
+    - .env
+---env_files:
+    - .env
+---env_files:
+    - .env
+---env_files:
+    - .env
+---env_files:
+    - .env
+---env_files:
+    - .env
+---env_files:
+    - .env
+---env_files:
+    - .env
+---env_files:
+    - .env
+---env_files:
+    - .env
+--- README env_files:
+    - .env
+---env_files:
+    - .env
+---env_files:
+    - .env
+---env_files:
+    - .env
+---env_files:
+    - .env
+---env_files:
+    - .env
+---env_files:
+    - .env
+---env_files:
+    - .env
+---env_files:
+    - .env
+---env_files:
+    - .env
+----- #
             # Before using the inbox feature, you need to create the folders
             # and decide on an inbox type. Have a look at the examples below.
 
