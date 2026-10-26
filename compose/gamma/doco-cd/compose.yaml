@@ -15,6 +15,7 @@ services:
       file: ../../common/doco-cd/compose.yaml
       service: doco-cd
     env_file:
+      - $DATADIR/doco.env
     volumes:
       - bao_shared:/bao-shared:ro
     environment:
