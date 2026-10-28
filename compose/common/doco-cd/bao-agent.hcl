@@ -12,12 +12,9 @@ auto_auth {
       secret_id_file_path = "/bao/secret_id"
     }
   }
+}
 
-  sink {
-    type = "file"
-
-    config = {
-      path = "/bao/shared/.openbao-token"
-    }
-  }
+listener "tcp" {
+  address = "0.0.0.0:8100"
+  tls_disable = true
 }
