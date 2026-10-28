@@ -48,6 +48,12 @@ reconciliation:
   events: [unhealthy]
 env_files:
   - ../../../gamma.env
+environment:
+  DB_HOSTNAME: "immich-postgres"
+  DB_USERNAME: kv:gamma:immich:db_username
+  DB_PASSWORD: kv:gamma:immich:db_password
+  DB_DATABASE_NAME: immich
+  DB_STORAGE_TYPE: "HDD"
 ---
 name: navidrome
 working_dir: compose/gamma/navidrome

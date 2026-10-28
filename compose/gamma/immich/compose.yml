@@ -1,7 +1,6 @@
 networks:
   web:
     external: true
-
   immich_net:
     name: immich_net
     driver: bridge
