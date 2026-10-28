@@ -3,6 +3,7 @@ volumes:
 
 services:
   openbao-agent:
+    container_name: doco-openbao-agent
     image: ghcr.io/openbao/openbao:latest
     entrypoint: ["bao", "agent", "-config=/bao/bao-agent.hcl"]
     volumes:
