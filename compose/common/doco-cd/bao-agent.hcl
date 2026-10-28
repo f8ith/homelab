@@ -17,7 +17,7 @@ auto_auth {
     type = "file"
 
     config = {
-      path = "/bao-shared/.openbao-token"
+      path = "/bao/shared/.openbao-token"
     }
   }
 }
