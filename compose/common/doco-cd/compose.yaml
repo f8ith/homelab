@@ -2,6 +2,12 @@ networks:
   openbao-internal:
     driver: bridge
 
+secrets:
+  bao_role_id:
+    file: $DATADIR/secrets/bao/role_id
+  bao_secret_id:
+    file: $DATADIR/secrets/bao/secret_id
+
 services:
   openbao-agent:
     container_name: doco-openbao-agent
@@ -11,8 +17,9 @@ services:
       openbao-internal: {}
     volumes:
       - ./bao-agent.hcl:/bao/bao-agent.hcl:ro
-      - $DATADIR/secrets/bao/role_id:/bao/role_id:ro
-      - $DATADIR/secrets/bao/secret_id:/bao/secret_id:ro
+    secrets:
+      - bao_role_id
+      - bao_secret_id
   doco-cd:
     image: ghcr.io/kimdre/doco-cd:0.125.1@sha256:38198abbda1b55da7a7f37a7924b2ccdcc0583bd24466b7c2103ef6cd2ffc828
     restart: unless-stopped
