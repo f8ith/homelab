@@ -14,6 +14,10 @@ auto_auth {
   }
 }
 
+api_proxy {
+  use_auto_auth_token = true
+}
+
 listener "tcp" {
   address = "0.0.0.0:8100"
   tls_disable = true
