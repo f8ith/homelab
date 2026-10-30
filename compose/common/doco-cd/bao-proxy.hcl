@@ -5,11 +5,11 @@ vault {
 auto_auth {
   method {
     type      = "approle"
-    namespace = "admin"
 
     config = {
       role_id_file_path   = "/bao/role_id"
       secret_id_file_path = "/bao/secret_id"
+      remove_secret_id_file_after_reading = false
     }
   }
 }
