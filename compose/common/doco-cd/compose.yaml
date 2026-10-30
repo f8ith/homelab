@@ -9,17 +9,25 @@ secrets:
     file: $DATADIR/secrets/bao/secret_id
 
 services:
-  openbao-agent:
-    container_name: doco-openbao-agent
+  openbao-proxy:
+    container_name: doco-openbao-proxy
     image: ghcr.io/openbao/openbao:latest
-    entrypoint: ["bao", "agent", "-config=/bao/bao-agent.hcl"]
+    entrypoint: ["bao", "proxy", "-config=/bao/bao-proxy.hcl"]
     networks:
       openbao-internal: {}
     volumes:
-      - ./bao-agent.hcl:/bao/bao-agent.hcl:ro
+      - ./bao-proxy.hcl:/bao/bao-proxy.hcl:ro
     secrets:
-      - bao_role_id
-      - bao_secret_id
+      - source: bao_role_id
+        target: role_id
+        uid: "1102"
+        gid: "1102"
+        mode: 0440 
+      - source: bao_secret_id
+        target: secret_id
+        uid: "1102"
+        gid: "1102"
+        mode: 0440 
   doco-cd:
     image: ghcr.io/kimdre/doco-cd:0.125.1@sha256:38198abbda1b55da7a7f37a7924b2ccdcc0583bd24466b7c2103ef6cd2ffc828
     restart: unless-stopped
@@ -31,7 +39,7 @@ services:
       SELF_UPDATE_ENABLED: "true"
       SELF_UPDATE_STRATEGY: auto
       SECRET_PROVIDER: openbao
-      SECRET_PROVIDER_SITE_URL: http://openbao-agent:8100
+      SECRET_PROVIDER_SITE_URL: http://openbao-proxy:8100
       SECRET_PROVIDER_ACCESS_TOKEN: "notoken"
       POLL_CONFIG: |
         - url: https://github.com/f8ith/homelab.git
