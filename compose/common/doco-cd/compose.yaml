@@ -2,12 +2,6 @@ networks:
   openbao-internal:
     driver: bridge
 
-secrets:
-  bao_role_id:
-    file: $DATADIR/secrets/bao/role_id
-  bao_secret_id:
-    file: $DATADIR/secrets/bao/secret_id
-
 services:
   openbao-proxy:
     container_name: doco-openbao-proxy
@@ -17,17 +11,8 @@ services:
       openbao-internal: {}
     volumes:
       - ./bao-proxy.hcl:/bao/bao-proxy.hcl:ro
-    secrets:
-      - source: bao_role_id
-        target: role_id
-        uid: "1102"
-        gid: "1102"
-        mode: 0440 
-      - source: bao_secret_id
-        target: secret_id
-        uid: "1102"
-        gid: "1102"
-        mode: 0440 
+      - $DATADIR/secrets/bao/role_id:/bao/role_id:ro
+      - $DATADIR/secrets/bao/secret_id:/bao/secret_id:ro
   doco-cd:
     image: ghcr.io/kimdre/doco-cd:0.125.1@sha256:38198abbda1b55da7a7f37a7924b2ccdcc0583bd24466b7c2103ef6cd2ffc828
     restart: unless-stopped

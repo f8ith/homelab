@@ -8,8 +8,8 @@ auto_auth {
     namespace = "admin"
 
     config = {
-      role_id_file_path   = "/run/secrets/role_id"
-      secret_id_file_path = "/run/secrets/secret_id"
+      role_id_file_path   = "/bao/role_id"
+      secret_id_file_path = "/bao/secret_id"
     }
   }
 }
