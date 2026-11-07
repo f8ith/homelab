@@ -50,10 +50,11 @@ env_files:
   - ../../../gamma.env
 environment:
   DB_HOSTNAME: "immich-postgres"
-  DB_USERNAME: kv:gamma:immich:db_username
-  DB_PASSWORD: kv:gamma:immich:db_password
   DB_DATABASE_NAME: immich
   DB_STORAGE_TYPE: "HDD"
+external_secrets:
+  DB_USERNAME: kv:gamma:immich:db_username
+  DB_PASSWORD: kv:gamma:immich:db_password
 ---
 name: navidrome
 working_dir: compose/gamma/navidrome
@@ -77,5 +78,10 @@ external_secrets:
   CF_DNS_API_TOKEN: kv:gamma:cloudflare:api:api_token
 reconciliation:
   events: [unhealthy]
+env_files:
+  - ../../../gamma.env
+---
+name: wrapper-v2
+working_dir: compose/gamma/wrapper-v2
 env_files:
   - ../../../gamma.env
