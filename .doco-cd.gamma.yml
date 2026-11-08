@@ -66,7 +66,7 @@ env_files:
 name: traefik
 working_dir: compose/gamma/traefik
 external_secrets:
-  CF_DNS_API_TOKEN: kv:gamma:cloudflare:api:api_token
+  CF_DNS_API_TOKEN: kv:gamma:cloudflare/api:api_token
 reconciliation:
   events: [unhealthy]
 env_files:
@@ -75,7 +75,7 @@ env_files:
 name: socket-proxy
 working_dir: compose/common/socket-proxy
 external_secrets:
-  CF_DNS_API_TOKEN: kv:gamma:cloudflare:api:api_token
+  CF_DNS_API_TOKEN: kv:gamma:cloudflare/api:api_token
 reconciliation:
   events: [unhealthy]
 env_files:
@@ -83,5 +83,50 @@ env_files:
 ---
 name: wrapper-v2
 working_dir: compose/gamma/wrapper-v2
+env_files:
+  - ../../../gamma.env
+---
+name: jellyfin
+working_dir: compose/gamma/jellyfin
+env_files:
+  - ../../../gamma.env
+---
+name: kavita
+working_dir: compose/gamma/kavita
+env_files:
+  - ../../../gamma.env
+---
+name: lms
+working_dir: compose/gamma/lms
+env_files:
+  - ../../../gamma.env
+---
+name: mealie
+working_dir: compose/gamma/mealie
+env_files:
+  - ../../../gamma.env
+---
+name: musicassistant
+working_dir: compose/gamma/musicassistant
+env_files:
+  - ../../../gamma.env
+---
+name: paperless-ngx
+working_dir: compose/gamma/paperless-ngx
+env_files:
+  - ../../../gamma.env
+---
+name: qbittorrent
+working_dir: compose/gamma/qbittorrent
+env_files:
+  - ../../../gamma.env
+---
+name: qui
+working_dir: compose/gamma/qui
+env_files:
+  - ../../../gamma.env
+---
+name: slskd
+working_dir: compose/gamma/slskd
 env_files:
   - ../../../gamma.env

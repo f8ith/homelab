@@ -32,6 +32,8 @@ services:
       - $MEDIADIR/paperless/consume:/usr/src/paperless/consume
     environment:
       PAPERLESS_REDIS: redis://paperless-ngx-redis:6379
+    env_file:
+      - paperless-ngx.env
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.paperlessngx-rtr.entrypoints=websecure"
