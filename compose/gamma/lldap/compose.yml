@@ -24,6 +24,5 @@ services:
       - "traefik.http.routers.lldap-rtr.rule=Host(`lldap.${DOCKER_HOST_NAME}.i.$DOMAINNAME_1`) || Host(`lldap.$DOMAINNAME_1`)"
       - "traefik.http.routers.lldap-rtr.service=lldap-svc"
       - "traefik.http.services.lldap-svc.loadbalancer.server.port=17170"
-      - "traefik.docker.network=internal"
       - "logging=alloy"
       - "logging_jobname=containerlogs"

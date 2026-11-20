@@ -68,7 +68,6 @@ services:
       - "traefik.http.routers.radarr-rtr.rule=Host(`radarr.${DOCKER_HOST_NAME}.i.$DOMAINNAME_1`) || Host(`radarr.$DOMAINNAME_1`)"
       - "traefik.http.routers.radarr-rtr.service=radarr-svc"
       - "traefik.http.services.radarr-svc.loadbalancer.server.port=7878"
-      - "traefik.docker.network=internal"
 
   seerr:
     extends:
@@ -96,6 +95,7 @@ services:
       - "traefik.http.routers.seerr-rtr.entrypoints=websecure"
       - "traefik.http.routers.seerr-rtr.rule=Host(`seerr.$DOMAINNAME_1`)"
       - "traefik.http.routers.seerr-rtr.service=seerr-svc"
+      - "traefik.http.services.seerr-svc.loadbalancer.server.port=5055"
 
   # subtitles
   bazarr:

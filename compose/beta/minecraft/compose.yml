@@ -28,7 +28,6 @@ services:
       - "traefik.http.routers.rcon-web-wss-rtr.rule=Host(`rcon-web.${DOCKER_HOST_NAME}.i.$DOMAINNAME_1`) && Header(`Connection`, `Upgrade`) && Header(`Upgrade`, `websocket`)"
       - "traefik.http.routers.rcon-web-wss-rtr.service=rcon-web-wss-svc"
       - "traefik.http.services.rcon-web-wss-svc.loadbalancer.server.port=4327"
-      - "traefik.docker.network=internal"
       - "logging=alloy"
       - "logging_jobname=containerlogs"
 

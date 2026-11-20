@@ -25,5 +25,4 @@ services:
       - "traefik.http.routers.rdtclient-rtr.rule=Host(`rdtclient.${DOCKER_HOST_NAME}.i.$DOMAINNAME_1`) || Host(`rdtclient.$DOMAINNAME_1`)"
       - "traefik.http.routers.rdtclient-rtr.service=rdtclient-svc"
       - "traefik.http.services.rdtclient-svc.loadbalancer.server.port=6500"
-      - "traefik.docker.network=internal"
     restart: unless-stopped

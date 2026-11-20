@@ -19,4 +19,3 @@ services:
       - "traefik.http.routers.alloy-rtr.rule=Host(`alloy.${DOCKER_HOST_NAME}.i.$DOMAINNAME_1`)"
       - "traefik.http.routers.alloy-rtr.service=alloy-svc"
       - "traefik.http.services.alloy-svc.loadbalancer.server.port=12345"
-      - "traefik.docker.network=internal"

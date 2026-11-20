@@ -38,7 +38,6 @@ services:
       - "traefik.http.routers.loki-rtr.service=loki-svc"
       - "traefik.http.routers.loki-rtr.tls=true"
       - "traefik.http.services.loki-svc.loadbalancer.server.port=3100"
-      - "traefik.docker.network=internal"
   grafana:
     container_name: grafana
     image: grafana/grafana-oss:main-ubuntu
@@ -61,7 +60,6 @@ services:
       - "traefik.http.routers.grafana-rtr.service=grafana-svc"
       - "traefik.http.routers.grafana-rtr.tls=true"
       - "traefik.http.services.grafana-svc.loadbalancer.server.port=3000"
-      - "traefik.docker.network=internal"
   prometheus:
     container_name: prometheus
     image: prom/prometheus
@@ -82,7 +80,6 @@ services:
       - "traefik.http.routers.prometheus-rtr.service=prometheus-svc"
       - "traefik.http.routers.prometheus-rtr.tls=true"
       - "traefik.http.services.prometheus-svc.loadbalancer.server.port=9090"
-      - "traefik.docker.network=internal"
   #promtail:
   #  container_name: promtail
   #  image: grafana/promtail:main

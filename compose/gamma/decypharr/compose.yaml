@@ -23,4 +23,3 @@ services:
       - "traefik.http.routers.decypharr-rtr.rule=Host(`decypharr.${DOCKER_HOST_NAME}.i.$DOMAINNAME_1`) || Host(`decypharr.$DOMAINNAME_1`)"
       - "traefik.http.routers.decypharr-rtr.service=decypharr-svc"
       - "traefik.http.services.decypharr-svc.loadbalancer.server.port=8282"
-      - "traefik.docker.network=internal"
