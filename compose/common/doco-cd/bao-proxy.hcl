@@ -15,7 +15,7 @@ auto_auth {
 }
 
 api_proxy {
-  use_auto_auth_token = true
+  use_auto_auth_token = "force"
 }
 
 listener "tcp" {
