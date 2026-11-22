@@ -1,0 +1,36 @@
+# yaml-language-server: $schema=https://doco.cd/latest/schemas/deploy.schema.json
+
+name: doco
+working_dir: compose/common/doco-cd
+reconciliation:
+  events: [unhealthy]
+env_files:
+  - ../../../beta.env
+---
+name: alloy
+working_dir: compose/beta/alloy
+reconciliation:
+  events: [unhealthy]
+env_files:
+  - ../../../beta.env
+---
+name: immich-public-proxy
+working_dir: compose/beta/immich-public-proxy
+reconciliation:
+  events: [unhealthy]
+env_files:
+  - ../../../beta.env
+---
+name: socket-proxy
+working_dir: compose/common/socket-proxy
+reconciliation:
+  events: [unhealthy]
+env_files:
+  - ../../../beta.env
+---
+name: syncyomi
+working_dir: compose/beta/syncyomi
+reconciliation:
+  events: [unhealthy]
+env_files:
+  - ../../../beta.env
