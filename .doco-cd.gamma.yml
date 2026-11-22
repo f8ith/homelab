@@ -111,6 +111,8 @@ env_files:
 ---
 name: paperless-ngx
 working_dir: compose/gamma/paperless-ngx
+external_secrets:
+  PAPERLESS_SECRET_KEY: kv:root:gamma:paperless:secret_key
 env_files:
   - ../../../gamma.env
 ---

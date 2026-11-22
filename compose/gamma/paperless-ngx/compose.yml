@@ -32,6 +32,7 @@ services:
       - $MEDIADIR/paperless/consume:/usr/src/paperless/consume
     environment:
       PAPERLESS_REDIS: redis://paperless-ngx-redis:6379
+      PAPERLESS_SECRET_KEY: $PAPERLESS_SECRET_KEY
     env_file:
       - paperless-ngx.env
     labels:
